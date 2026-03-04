@@ -16,4 +16,4 @@ CREATE TABLE users (
 INSERT INTO users VALUES
     ('user1', 'Nombre1', 'Apellido1', SHA2('1234', 512), 'correo1@email.com', 'admin',       1, 'male',     NOW(), NOW()),
     ('user2', 'Nombre2', 'Apellido1', SHA2('1234', 512), 'correo2@email.com', 'sponsor',     1, 'female',   NOW(), NOW()),
-    ('user3', 'Nombre3', 'Apellido1', SHA2('1234', 512), 'correo3@email.com', 'organizador', 1, 'unknown',  NOW(), NOW());
+    ('user3', 'Nombre3', 'Apellido1', SHA2('1234', 512), 'correo3@email.com', 'organizer',   1, 'unknown',  NOW(), NOW());
