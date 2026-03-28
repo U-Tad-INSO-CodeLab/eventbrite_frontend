@@ -1,0 +1,105 @@
+.home-page {
+  min-height: 100svh;
+  background: #f7f7f8;
+  color: #151517;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #fff;
+  border-bottom: 1px solid #e8e8ec;
+}
+
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.home-brand-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.home-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-link {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ff7a00;
+  text-decoration: none;
+}
+
+.home-link:hover {
+  text-decoration: underline;
+}
+
+.home-btn-primary {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  background: #ff7a00;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.home-btn-primary:hover {
+  background: #e86e00;
+}
+
+.home-btn-ghost {
+  font-size: 14px;
+  font-weight: 600;
+  color: #55555b;
+  background: #f1f1f2;
+  border: 1px solid #e6e6ea;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.home-btn-ghost:hover {
+  background: #e8e8ec;
+}
+
+.home-user {
+  font-size: 14px;
+  color: #6e6e74;
+}
+
+.home-main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.home-main h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: #151517;
+}
+
+.home-main p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #6e6e74;
+}
+
+.home-main code {
+  font-size: 14px;
+  padding: 2px 6px;
+  background: #efeff2;
+  border-radius: 4px;
+  color: #3f3f45;
+}
