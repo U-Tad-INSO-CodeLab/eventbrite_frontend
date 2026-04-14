@@ -16,7 +16,8 @@ export type MockEvent = {
   industry: string;
   expectedAttendance: number;
   tags: string[];
-  coverImageDataUrl: string | null;
+  /** Data URL from upload, or remote placeholder URL (e.g. Picsum). */
+  coverImageDataUrl: string;
   createdAt: string;
   status: MockEventStatus;
   /** Shown in My Events footer when > 0 */
@@ -44,8 +45,19 @@ function delay(ms: number) {
 }
 
 function withEventDefaults(partial: MockEvent): MockEvent {
+  const id = String(partial.id ?? '');
+  const rawCover = partial.coverImageDataUrl;
+  const coverImageDataUrl =
+    rawCover && String(rawCover).length > 0
+      ? String(rawCover)
+      : id
+        ? eventCoverPlaceholderUrl(id)
+        : '';
+
   return {
     ...partial,
+    id,
+    coverImageDataUrl,
     status: partial.status === 'draft' ? 'draft' : 'active',
     sponsorshipTierCount:
       typeof partial.sponsorshipTierCount === 'number'
@@ -93,7 +105,9 @@ export async function createMockEvent(
   const events = readEvents();
   const id = crypto.randomUUID();
   const coverImageDataUrl =
-    input.coverImageDataUrl ?? eventCoverPlaceholderUrl(id, 800, 450);
+    input.coverImageDataUrl && input.coverImageDataUrl.length > 0
+      ? input.coverImageDataUrl
+      : eventCoverPlaceholderUrl(id, 800, 450);
   const event: MockEvent = {
     id,
     creatorId: creator.id,
@@ -135,22 +149,6 @@ export function setMockEventStatus(
   events[index] = { ...events[index], status };
   writeEvents(events);
   return true;
-}
-
-export function formatMockEventDate(iso: string): string {
-  if (!iso) return '—';
-  const parts = iso.split('-').map(Number);
-  if (parts.length !== 3 || parts.some((n) => Number.isNaN(n))) return iso;
-  const [y, m, d] = parts;
-  try {
-    return new Date(y, m - 1, d).toLocaleDateString(undefined, {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    });
-  } catch {
-    return iso;
-  }
 }
 
 export function formatUsdCompact(amount: number): string {

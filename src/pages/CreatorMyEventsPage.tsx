@@ -1,15 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import CreatorSideMenu from '../components/CreatorSideMenu';
+import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getMockSession } from '../lib/mockAuth';
+import { formatIsoDate } from '../lib/formatIsoDate';
 import {
-  clearMockSession,
-  getHomePathForRole,
-  getMockSession,
-  MOCK_SESSION_KEY,
-} from '../lib/mockAuth';
-import { eventCoverPlaceholderUrl } from '../lib/eventCoverPlaceholder';
-import {
-  formatMockEventDate,
   formatUsdCompact,
   getMockEventsByCreator,
   setMockEventStatus,
@@ -33,15 +26,7 @@ function EventCard({
   return (
     <article className="my-events-card">
       <div className="my-events-card-media">
-        {event.coverImageDataUrl ? (
-          <img src={event.coverImageDataUrl} alt="" />
-        ) : (
-          <img
-            src={eventCoverPlaceholderUrl(event.id, 800, 450)}
-            alt=""
-            loading="lazy"
-          />
-        )}
+        <img src={event.coverImageDataUrl} alt="" loading="lazy" />
         <span className={`my-events-chip my-events-chip--${event.status}`}>
           {isActive ? 'Active' : 'Draft'}
         </span>
@@ -54,7 +39,7 @@ function EventCard({
             <span className="material-symbols-outlined" aria-hidden="true">
               calendar_today
             </span>
-            {event.date ? formatMockEventDate(event.date) : '—'}
+            {formatIsoDate(event.date, '—')}
           </li>
           <li>
             <span className="material-symbols-outlined" aria-hidden="true">
@@ -101,104 +86,61 @@ function EventCard({
 }
 
 export default function CreatorMyEventsPage() {
-  const navigate = useNavigate();
   const session = getMockSession();
-  const [listVersion, setListVersion] = useState(0);
-  const refresh = useCallback(() => setListVersion((v) => v + 1), []);
+  const [, setRefresh] = useState(0);
+  const refresh = useCallback(() => setRefresh((v) => v + 1), []);
 
-  const events = useMemo(() => {
-    if (!session) return [];
-    void listVersion;
-    return getMockEventsByCreator(session.id);
-  }, [session, listVersion]);
+  if (!session || session.role !== 'creator') return null;
 
-  if (!session) {
-    return (
-      <div className="dash-page">
-        <p className="dash-gate">
-          <Link to="/login">Sign in</Link> to view your events.
-        </p>
-      </div>
-    );
-  }
-
-  if (session.role !== 'creator') {
-    return (
-      <div className="dash-page">
-        <p className="dash-gate">
-          This account is a sponsor.{' '}
-          <Link to={getHomePathForRole('sponsor')}>Go to sponsor dashboard</Link>
-        </p>
-      </div>
-    );
-  }
-
+  const events = getMockEventsByCreator(session.id);
   const activeEvents = events.filter((e) => e.status === 'active');
   const draftEvents = events.filter((e) => e.status === 'draft');
   const activeCount = activeEvents.length;
 
   return (
-    <div className="creator-shell">
-      <CreatorSideMenu
-        active="my-events"
-        onLogout={() => {
-          clearMockSession();
-          localStorage.removeItem(MOCK_SESSION_KEY);
-          navigate('/', { replace: true });
-        }}
-      />
-      <div className="creator-content my-events-page">
-        <header className="my-events-header">
-          <div>
-            <h1>My Events</h1>
-            <p className="my-events-subtitle">
-              {events.length} event{events.length === 1 ? '' : 's'} · {activeCount}{' '}
-              active
-            </p>
+    <div className="my-events-page">
+      <header className="my-events-header">
+        <div>
+          <h1>My Events</h1>
+          <p className="my-events-subtitle">
+            {events.length} event{events.length === 1 ? '' : 's'} · {activeCount}{' '}
+            active
+          </p>
+        </div>
+        <Link to="/creator/create-event" className="my-events-create-btn">
+          + Create Event
+        </Link>
+      </header>
+
+      <section className="my-events-section" aria-labelledby="active-events-heading">
+        <h2 id="active-events-heading" className="my-events-section-title">
+          Active events
+        </h2>
+        {activeEvents.length === 0 ? (
+          <p className="my-events-empty">No active events.</p>
+        ) : (
+          <div className="my-events-grid">
+            {activeEvents.map((event) => (
+              <EventCard key={event.id} event={event} onStatusChange={refresh} />
+            ))}
           </div>
-          <Link to="/creator/create-event" className="my-events-create-btn">
-            + Create Event
-          </Link>
-        </header>
+        )}
+      </section>
 
-        <section className="my-events-section" aria-labelledby="active-events-heading">
-          <h2 id="active-events-heading" className="my-events-section-title">
-            Active events
-          </h2>
-          {activeEvents.length === 0 ? (
-            <p className="my-events-empty">No active events.</p>
-          ) : (
-            <div className="my-events-grid">
-              {activeEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  onStatusChange={refresh}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-
-        <section className="my-events-section" aria-labelledby="drafts-heading">
-          <h2 id="drafts-heading" className="my-events-section-title">
-            Drafts
-          </h2>
-          {draftEvents.length === 0 ? (
-            <p className="my-events-empty">No drafts.</p>
-          ) : (
-            <div className="my-events-grid">
-              {draftEvents.map((event) => (
-                <EventCard
-                  key={event.id}
-                  event={event}
-                  onStatusChange={refresh}
-                />
-              ))}
-            </div>
-          )}
-        </section>
-      </div>
+      <section className="my-events-section" aria-labelledby="drafts-heading">
+        <h2 id="drafts-heading" className="my-events-section-title">
+          Drafts
+        </h2>
+        {draftEvents.length === 0 ? (
+          <p className="my-events-empty">No drafts.</p>
+        ) : (
+          <div className="my-events-grid">
+            {draftEvents.map((event) => (
+              <EventCard key={event.id} event={event} onStatusChange={refresh} />
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

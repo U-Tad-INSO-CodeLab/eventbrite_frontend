@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import EventLinkLogo from './EventLinkLogo';
 import './CreatorSideMenu.css';
 
+export type CreatorNavActive = 'dashboard' | 'my-events' | 'create-event';
+
 type CreatorSideMenuProps = {
-  active: 'dashboard' | 'my-events' | 'create-event';
+  active: CreatorNavActive;
   onLogout: () => void;
 };
 
