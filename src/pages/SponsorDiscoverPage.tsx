@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { getMockSession } from '../lib/mockAuth';
 import { formatIsoDate } from '../lib/formatIsoDate';
 import { getDiscoverMockEvents, type MockEvent } from '../lib/mockEvents';
@@ -72,10 +73,15 @@ function DiscoverCard({ event }: { event: MockEvent }) {
 }
 
 export default function SponsorDiscoverPage() {
+  const [search, setSearch] = useState('');
   const session = getMockSession();
   if (!session || session.role !== 'sponsor') return null;
 
   const events = getDiscoverMockEvents();
+  const q = search.trim().toLowerCase();
+  const filteredEvents = q
+    ? events.filter((e) => e.title.toLowerCase().includes(q))
+    : events;
 
   return (
     <div className="discover-page">
@@ -84,13 +90,29 @@ export default function SponsorDiscoverPage() {
         <p className="discover-subtitle">
           Find the perfect sponsorship opportunity for your brand.
         </p>
+        <label className="discover-search">
+          <span className="material-symbols-outlined discover-search-icon" aria-hidden="true">
+            search
+          </span>
+          <input
+            type="search"
+            className="discover-search-input"
+            placeholder="Search events..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            aria-label="Search events by name"
+            autoComplete="off"
+          />
+        </label>
       </header>
 
       {events.length === 0 ? (
         <p className="discover-empty">No events to show yet.</p>
+      ) : filteredEvents.length === 0 ? (
+        <p className="discover-empty">No events match your search.</p>
       ) : (
         <div className="discover-grid">
-          {events.map((event) => (
+          {filteredEvents.map((event) => (
             <DiscoverCard key={event.id} event={event} />
           ))}
         </div>

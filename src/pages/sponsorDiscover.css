@@ -23,6 +23,51 @@
   line-height: 1.5;
 }
 
+.discover-search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 14px;
+  background: #f7f7f8;
+  border: 1px solid #dadade;
+  border-radius: 12px;
+}
+
+.discover-search:focus-within {
+  border-color: #fdba74;
+  box-shadow: 0 0 0 3px rgba(255, 122, 0, 0.12);
+}
+
+.discover-search-icon {
+  font-size: 22px;
+  color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.discover-search-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  padding: 12px 0;
+  font-size: 15px;
+  font-family: inherit;
+  color: #111827;
+  outline: none;
+}
+
+.discover-search-input::placeholder {
+  color: #9ca3af;
+}
+
+.discover-search-input::-webkit-search-decoration,
+.discover-search-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
 .discover-empty {
   margin: 0;
   color: #6b7280;
