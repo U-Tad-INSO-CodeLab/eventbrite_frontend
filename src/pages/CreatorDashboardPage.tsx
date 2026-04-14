@@ -53,25 +53,15 @@ export default function CreatorDashboardPage() {
             localStorage.
           </p>
           <section className="dash-events">
-            <h2>Mis eventos</h2>
-            {creatorEvents.length === 0 ? (
-              <p className="dash-events-empty">
-                Todavía no has publicado eventos. Ve a Create Event desde el
-                menú lateral.
-              </p>
-            ) : (
-              <ul className="dash-events-list">
-                {creatorEvents.map((event) => (
-                  <li key={event.id} className="dash-event-card">
-                    <strong>{event.title}</strong>
-                    <span>
-                      {event.location || 'Ubicación pendiente'} ·{' '}
-                      {event.date || 'Fecha pendiente'}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            )}
+            <h2>Quick overview</h2>
+            <p className="dash-events-empty">
+              Manage listings on{' '}
+              <Link to="/creator/my-events" className="dash-link-muted">
+                My Events
+              </Link>
+              . You have {creatorEvents.length} event
+              {creatorEvents.length === 1 ? '' : 's'} in mock storage.
+            </p>
           </section>
         </main>
       </div>

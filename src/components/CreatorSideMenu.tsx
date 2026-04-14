@@ -3,7 +3,7 @@ import EventLinkLogo from './EventLinkLogo';
 import './CreatorSideMenu.css';
 
 type CreatorSideMenuProps = {
-  active: 'dashboard' | 'create-event';
+  active: 'dashboard' | 'my-events' | 'create-event';
   onLogout: () => void;
 };
 
@@ -26,6 +26,15 @@ export default function CreatorSideMenu({
             dashboard
           </span>
           Dashboard
+        </Link>
+        <Link
+          to="/creator/my-events"
+          className={active === 'my-events' ? 'is-active' : ''}
+        >
+          <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
+            calendar_month
+          </span>
+          My Events
         </Link>
         <Link
           to="/creator/create-event"
