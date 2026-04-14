@@ -1,11 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
-import EventLinkLogo from '../components/EventLinkLogo';
+import CreatorSideMenu from '../components/CreatorSideMenu';
 import {
   clearMockSession,
   getHomePathForRole,
   getMockSession,
   MOCK_SESSION_KEY,
 } from '../lib/mockAuth';
+import { getMockEventsByCreator } from '../lib/mockEvents';
 import './dashboard.css';
 
 export default function CreatorDashboardPage() {
@@ -32,37 +33,48 @@ export default function CreatorDashboardPage() {
       </div>
     );
   }
+  const creatorEvents = getMockEventsByCreator(session.id);
 
   return (
-    <div className="dash-page">
-      <header className="dash-header">
-        <div className="dash-brand">
-          <EventLinkLogo variant="header" />
-          <span className="dash-brand-name">EventLink</span>
-          <span className="dash-pill dash-pill-creator">Creator</span>
-        </div>
-        <nav className="dash-nav">
-          <span className="dash-user">{session.fullName}</span>
-          <button
-            type="button"
-            className="dash-btn-ghost"
-            onClick={() => {
-              clearMockSession();
-              localStorage.removeItem(MOCK_SESSION_KEY);
-              navigate('/', { replace: true });
-            }}
-          >
-            Cerrar sesión
-          </button>
-        </nav>
-      </header>
-      <main className="dash-main">
-        <h1>Panel creador</h1>
-        <p>
-          Vista mock: aquí irá la gestión de tus eventos, publicación y métricas
-          (como en el prototipo).
-        </p>
-      </main>
+    <div className="creator-shell">
+      <CreatorSideMenu
+        active="dashboard"
+        onLogout={() => {
+          clearMockSession();
+          localStorage.removeItem(MOCK_SESSION_KEY);
+          navigate('/', { replace: true });
+        }}
+      />
+      <div className="creator-content">
+        <main className="dash-main">
+          <h1>Panel creador</h1>
+          <p>
+            Crea y gestiona tus eventos. Todo se guarda en mock usando
+            localStorage.
+          </p>
+          <section className="dash-events">
+            <h2>Mis eventos</h2>
+            {creatorEvents.length === 0 ? (
+              <p className="dash-events-empty">
+                Todavía no has publicado eventos. Ve a Create Event desde el
+                menú lateral.
+              </p>
+            ) : (
+              <ul className="dash-events-list">
+                {creatorEvents.map((event) => (
+                  <li key={event.id} className="dash-event-card">
+                    <strong>{event.title}</strong>
+                    <span>
+                      {event.location || 'Ubicación pendiente'} ·{' '}
+                      {event.date || 'Fecha pendiente'}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+        </main>
+      </div>
     </div>
   );
 }
