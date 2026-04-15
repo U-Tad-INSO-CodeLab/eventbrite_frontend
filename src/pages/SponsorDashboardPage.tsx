@@ -16,7 +16,7 @@ export default function SponsorDashboardPage() {
     return (
       <div className="dash-page">
         <p className="dash-gate">
-          <Link to="/login">Inicia sesión</Link> para ver el panel sponsor.
+          <Link to="/login">Sign in</Link> to view the sponsor dashboard.
         </p>
       </div>
     );
@@ -26,8 +26,8 @@ export default function SponsorDashboardPage() {
     return (
       <div className="dash-page">
         <p className="dash-gate">
-          Tu cuenta es de creador.{' '}
-          <Link to={getHomePathForRole('creator')}>Ir al panel creador</Link>
+          Your account is a creator account.{' '}
+          <Link to={getHomePathForRole('creator')}>Go to creator dashboard</Link>
         </p>
       </div>
     );
@@ -52,15 +52,15 @@ export default function SponsorDashboardPage() {
               navigate('/', { replace: true });
             }}
           >
-            Cerrar sesión
+            Log out
           </button>
         </nav>
       </header>
       <main className="dash-main">
-        <h1>Panel sponsor</h1>
+        <h1>Sponsor dashboard</h1>
         <p>
-          Vista mock: aquí irá Discover, propuestas y acuerdos (como en el
-          prototipo).
+          Mock view: Discover, proposals, and agreements will appear here (as in the
+          prototype).
         </p>
       </main>
     </div>

@@ -6,14 +6,13 @@ import './dashboard.css';
 export default function CreatorDashboardPage() {
   const session = getMockSession();
   if (!session || session.role !== 'creator') return null;
-
   const creatorEvents = getMockEventsByCreator(session.id);
 
   return (
     <main className="dash-main">
-      <h1>Panel creador</h1>
+      <h1>Creator dashboard</h1>
       <p>
-        Crea y gestiona tus eventos. Todo se guarda en mock usando localStorage.
+        Create and manage your events. Everything is stored in mock localStorage.
       </p>
       <section className="dash-events">
         <h2>Quick overview</h2>

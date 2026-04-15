@@ -89,12 +89,12 @@ export default function PasswordInputWithToggle({
         type="button"
         className="auth-password-toggle"
         onClick={() => setVisible((v) => !v)}
-        aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+        aria-label={visible ? 'Hide password' : 'Show password'}
         aria-pressed={visible}
         disabled={toggleDisabled}
         title={
           !hasContent && !disabled
-            ? 'Escribe una contraseña para poder mostrarla u ocultarla'
+            ? 'Type a password to be able to show or hide it'
             : undefined
         }
       >
