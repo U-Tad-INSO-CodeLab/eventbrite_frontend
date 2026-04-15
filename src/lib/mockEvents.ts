@@ -16,9 +16,11 @@ export type MockEvent = {
   industry: string;
   expectedAttendance: number;
   tags: string[];
+  /** Data URL from upload, or remote placeholder URL (e.g. Picsum). */
   coverImageDataUrl: string;
   createdAt: string;
   status: MockEventStatus;
+  /** Shown in My Events footer when > 0 */
   sponsorshipTierCount: number;
   sponsorshipMaxPriceUsd: number;
 };
@@ -182,7 +184,6 @@ export function getDiscoverMockEvents(): MockEvent[] {
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
 }
-
 export async function createMockEvent(
   creator: MockSessionUser,
   input: CreateMockEventInput
@@ -246,13 +247,4 @@ export function setMockEventStatus(
   events[index] = { ...events[index], status };
   writeEvents(events);
   return true;
-}
-
-export function formatUsdCompact(amount: number): string {
-  if (!amount || amount <= 0) return '$0';
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(amount);
 }
