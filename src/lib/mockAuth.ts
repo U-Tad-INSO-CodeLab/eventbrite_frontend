@@ -1,7 +1,7 @@
 /**
- * Autenticación simulada para desarrollo frontend.
- * Los datos viven en localStorage; no hay backend.
- * Contraseñas en texto plano solo para demo — nunca en producción.
+ * Mock authentication for frontend development.
+ * Data lives in localStorage; there is no backend.
+ * Plain-text passwords are for demo only — never for production.
  */
 
 export type MockUserRole = 'sponsor' | 'creator';
@@ -17,10 +17,10 @@ type StoredUser = MockSessionUser & { password: string };
 
 const STORAGE_USERS = 'eventlink_mock_users';
 
-/** Clave compartida sessionStorage + localStorage (recordarme) */
+/** Shared key used for sessionStorage + localStorage (remember me) */
 export const MOCK_SESSION_KEY = 'eventlink_mock_session';
 
-/** Mensaje único post-registro (evita depender de location.state) */
+/** One-time post-register message (avoid relying on location.state) */
 export const MOCK_LOGIN_FLASH_KEY = 'eventlink_login_flash';
 
 const DEMO_PASSWORD = 'demo1234';
@@ -112,7 +112,7 @@ function persistSession(user: MockSessionUser, remember: boolean) {
   }
 }
 
-/** Restaura sesión "recordarme" al cargar la app */
+/** Restores "remember me" session when app loads */
 export function hydrateSessionFromRememberMe() {
   if (parseSession(sessionStorage.getItem(MOCK_SESSION_KEY))) return;
   const user = parseSession(localStorage.getItem(MOCK_SESSION_KEY));
@@ -144,7 +144,7 @@ export async function mockLogin(
     (u) => u.email.toLowerCase() === email.trim().toLowerCase()
   );
   if (!found || found.password !== password) {
-    return { ok: false, error: 'Email o contraseña incorrectos.' };
+    return { ok: false, error: 'Incorrect email or password.' };
   }
   const user: MockSessionUser = {
     id: found.id,
@@ -168,7 +168,7 @@ export async function mockRegister(
   const users = readUsers();
   const normalized = email.trim().toLowerCase();
   if (users.some((u) => u.email.toLowerCase() === normalized)) {
-    return { ok: false, error: 'Ya existe una cuenta con ese email.' };
+    return { ok: false, error: 'An account with that email already exists.' };
   }
   const newUser: StoredUser = {
     id: crypto.randomUUID(),
@@ -182,4 +182,4 @@ export async function mockRegister(
   return { ok: true };
 }
 
-export const MOCK_AUTH_HINT = `Demo sponsor: ${DEMO_SPONSOR_EMAIL} · Demo creator: ${DEMO_CREATOR_EMAIL} · Contraseña: ${DEMO_PASSWORD}`;
+export const MOCK_AUTH_HINT = `Demo sponsor: ${DEMO_SPONSOR_EMAIL} · Demo creator: ${DEMO_CREATOR_EMAIL} · Password: ${DEMO_PASSWORD}`;

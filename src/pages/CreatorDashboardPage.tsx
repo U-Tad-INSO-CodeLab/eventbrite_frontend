@@ -16,7 +16,7 @@ export default function CreatorDashboardPage() {
     return (
       <div className="dash-page">
         <p className="dash-gate">
-          <Link to="/login">Inicia sesión</Link> para ver el panel creador.
+          <Link to="/login">Sign in</Link> to view the creator dashboard.
         </p>
       </div>
     );
@@ -26,8 +26,8 @@ export default function CreatorDashboardPage() {
     return (
       <div className="dash-page">
         <p className="dash-gate">
-          Tu cuenta es de sponsor.{' '}
-          <Link to={getHomePathForRole('sponsor')}>Ir al panel sponsor</Link>
+          Your account is a sponsor account.{' '}
+          <Link to={getHomePathForRole('sponsor')}>Go to sponsor dashboard</Link>
         </p>
       </div>
     );
@@ -52,15 +52,15 @@ export default function CreatorDashboardPage() {
               navigate('/', { replace: true });
             }}
           >
-            Cerrar sesión
+            Log out
           </button>
         </nav>
       </header>
       <main className="dash-main">
-        <h1>Panel creador</h1>
+        <h1>Creator dashboard</h1>
         <p>
-          Vista mock: aquí irá la gestión de tus eventos, publicación y métricas
-          (como en el prototipo).
+          Mock view: event management, publishing, and metrics will appear here
+          (as shown in the prototype).
         </p>
       </main>
     </div>
