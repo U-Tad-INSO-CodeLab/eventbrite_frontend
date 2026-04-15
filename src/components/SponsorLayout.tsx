@@ -1,16 +1,12 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import SponsorSideMenu from './SponsorSideMenu';
 import './sponsorShell.css';
-import {
-  clearMockSession,
-  getHomePathForRole,
-  getMockSession,
-  MOCK_SESSION_KEY,
-} from '../lib/mockAuth';
+import { getHomePathForRole, getMockSession } from '../lib/mockAuth';
+import { useLogout } from '../hooks/useLogout';
 import '../pages/dashboard.css';
 
 export default function SponsorLayout() {
-  const navigate = useNavigate();
+  const logout = useLogout();
   const session = getMockSession();
 
   if (!session) {
@@ -36,13 +32,7 @@ export default function SponsorLayout() {
 
   return (
     <div className="sponsor-shell">
-      <SponsorSideMenu
-        onLogout={() => {
-          clearMockSession();
-          localStorage.removeItem(MOCK_SESSION_KEY);
-          navigate('/', { replace: true });
-        }}
-      />
+      <SponsorSideMenu onLogout={logout} />
       <div className="sponsor-content">
         <Outlet />
       </div>

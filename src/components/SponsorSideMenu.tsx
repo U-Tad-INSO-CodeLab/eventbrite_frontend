@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import EventLinkLogo from './EventLinkLogo';
 import './SponsorSideMenu.css';
 
@@ -15,7 +15,11 @@ export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
       </div>
       <p className="sponsor-sidebar-label">Sponsor</p>
       <nav className="sponsor-nav">
-        <Link to="/sponsor" className="is-active">
+        <NavLink
+          to="/sponsor"
+          end
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
+        >
           <span
             className="sponsor-nav-icon material-symbols-outlined"
             aria-hidden="true"
@@ -23,7 +27,7 @@ export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
             explore
           </span>
           Discover
-        </Link>
+        </NavLink>
       </nav>
       <button type="button" className="sponsor-logout-btn" onClick={onLogout}>
         <span

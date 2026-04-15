@@ -1,16 +1,12 @@
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
-import CreatorSideMenu, { type CreatorNavActive } from './CreatorSideMenu';
+import { Link, Outlet, useLocation } from 'react-router-dom';
+import CreatorSideMenu from './CreatorSideMenu';
 import './creatorShell.css';
-import {
-  clearMockSession,
-  getHomePathForRole,
-  getMockSession,
-  MOCK_SESSION_KEY,
-} from '../lib/mockAuth';
+import { getHomePathForRole, getMockSession } from '../lib/mockAuth';
+import { useLogout } from '../hooks/useLogout';
 import '../pages/dashboard.css';
 
 export default function CreatorLayout() {
-  const navigate = useNavigate();
+  const logout = useLogout();
   const { pathname } = useLocation();
   const session = getMockSession();
 
@@ -36,22 +32,11 @@ export default function CreatorLayout() {
   }
 
   const path = pathname.replace(/\/$/, '') || '/';
-  let active: CreatorNavActive = 'dashboard';
-  if (path.endsWith('/create-event')) active = 'create-event';
-  else if (path.endsWith('/my-events')) active = 'my-events';
-
   const isCreateRoute = path.endsWith('/create-event');
 
   return (
     <div className="creator-shell">
-      <CreatorSideMenu
-        active={active}
-        onLogout={() => {
-          clearMockSession();
-          localStorage.removeItem(MOCK_SESSION_KEY);
-          navigate('/', { replace: true });
-        }}
-      />
+      <CreatorSideMenu onLogout={logout} />
       <div
         className={
           isCreateRoute ? 'creator-content creator-content--create' : 'creator-content'

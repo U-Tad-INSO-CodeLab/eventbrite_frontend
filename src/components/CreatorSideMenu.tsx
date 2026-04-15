@@ -1,18 +1,12 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import EventLinkLogo from './EventLinkLogo';
 import './CreatorSideMenu.css';
 
-export type CreatorNavActive = 'dashboard' | 'my-events' | 'create-event';
-
 type CreatorSideMenuProps = {
-  active: CreatorNavActive;
   onLogout: () => void;
 };
 
-export default function CreatorSideMenu({
-  active,
-  onLogout,
-}: CreatorSideMenuProps) {
+export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
   return (
     <aside className="creator-sidebar">
       <div className="creator-brand">
@@ -20,33 +14,34 @@ export default function CreatorSideMenu({
         <span>EventLink</span>
       </div>
       <nav className="creator-nav">
-        <Link
+        <NavLink
           to="/creator"
-          className={active === 'dashboard' ? 'is-active' : ''}
+          end
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
           <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
             dashboard
           </span>
           Dashboard
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/creator/my-events"
-          className={active === 'my-events' ? 'is-active' : ''}
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
           <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
             calendar_month
           </span>
           My Events
-        </Link>
-        <Link
+        </NavLink>
+        <NavLink
           to="/creator/create-event"
-          className={active === 'create-event' ? 'is-active' : ''}
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
           <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
             add_circle
           </span>
           Create Event
-        </Link>
+        </NavLink>
       </nav>
       <button type="button" className="creator-logout-btn" onClick={onLogout}>
         <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
