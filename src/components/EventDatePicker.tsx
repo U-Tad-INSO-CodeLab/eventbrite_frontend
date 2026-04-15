@@ -1,4 +1,11 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import {
+  daysInMonth,
+  formatIsoForPickerDisplay,
+  mondayWeekday,
+  parseIso,
+  toIso,
+} from '../lib/datePickerUtils';
 import './EventDatePicker.css';
 
 type EventDatePickerProps = {
@@ -7,48 +14,6 @@ type EventDatePickerProps = {
   onChange: (isoDate: string) => void;
   disabled?: boolean;
 };
-
-function pad2(n: number) {
-  return String(n).padStart(2, '0');
-}
-
-function toIso(y: number, monthIndex: number, day: number) {
-  return `${y}-${pad2(monthIndex + 1)}-${pad2(day)}`;
-}
-
-function parseIso(iso: string): { y: number; m: number; d: number } | null {
-  const m = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-  if (!m) return null;
-  const y = Number(m[1]);
-  const mo = Number(m[2]) - 1;
-  const d = Number(m[3]);
-  if (Number.isNaN(y) || Number.isNaN(mo) || Number.isNaN(d)) return null;
-  return { y, m: mo, d };
-}
-
-function daysInMonth(y: number, monthIndex: number) {
-  return new Date(y, monthIndex + 1, 0).getDate();
-}
-
-/** Monday = 0 … Sunday = 6 */
-function mondayWeekday(y: number, monthIndex: number) {
-  const w = new Date(y, monthIndex, 1).getDay();
-  return w === 0 ? 6 : w - 1;
-}
-
-function formatDisplay(iso: string): string {
-  const p = parseIso(iso);
-  if (!p) return '';
-  try {
-    return new Date(p.y, p.m, p.d).toLocaleDateString(undefined, {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-  } catch {
-    return iso;
-  }
-}
 
 export default function EventDatePicker({
   id,
@@ -184,7 +149,7 @@ export default function EventDatePicker({
         onClick={togglePanel}
       >
         <span className={value ? '' : 'event-date-picker-placeholder'}>
-          {value ? formatDisplay(value) : 'Select date'}
+          {value ? formatIsoForPickerDisplay(value) : 'Select date'}
         </span>
         <span className="material-symbols-outlined event-date-picker-icon" aria-hidden="true">
           calendar_month
