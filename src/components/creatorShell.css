@@ -1,18 +1,21 @@
 .creator-shell {
-  min-height: 100svh;
+  height: 100svh;
   display: grid;
   grid-template-columns: 220px 1fr;
   background: #f7f7f8;
+  overflow: hidden;
 }
 
 .creator-content {
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .creator-content--create {
   display: flex;
   flex-direction: column;
-  min-height: 100svh;
+  min-height: 100%;
   --create-preview-width: 320px;
 }
 
@@ -30,6 +33,13 @@
 
 @media (max-width: 780px) {
   .creator-shell {
+    height: auto;
+    min-height: 100svh;
     grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .creator-content {
+    overflow: visible;
   }
 }
