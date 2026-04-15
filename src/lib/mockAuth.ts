@@ -103,6 +103,11 @@ export function clearMockSession() {
   sessionStorage.removeItem(MOCK_SESSION_KEY);
 }
 
+export function clearMockSessionEverywhere() {
+  clearMockSession();
+  localStorage.removeItem(MOCK_SESSION_KEY);
+}
+
 function persistSession(user: MockSessionUser, remember: boolean) {
   sessionStorage.setItem(MOCK_SESSION_KEY, JSON.stringify(user));
   if (remember) {

@@ -70,15 +70,104 @@ function withEventDefaults(partial: MockEvent): MockEvent {
   };
 }
 
+/** Demo events so Discover is populated before any creator publishes. */
+function seedEvents(): MockEvent[] {
+  const now = new Date().toISOString();
+  return [
+    withEventDefaults({
+      id: 'seed-techconnect',
+      creatorId: 'seed-creator',
+      creatorName: 'Sarah Chen',
+      title: 'TechConnect Summit 2026',
+      description:
+        'Join industry leaders for three days of keynotes, workshops, and networking focused on AI, cloud, and the future of software.',
+      date: '2026-05-15',
+      location: 'San Francisco',
+      industry: 'Technology',
+      expectedAttendance: 5000,
+      tags: ['AI', 'SaaS', 'Networking'],
+      coverImageDataUrl: '',
+      createdAt: now,
+      status: 'active',
+      sponsorshipTierCount: 0,
+      sponsorshipMaxPriceUsd: 0,
+    }),
+    withEventDefaults({
+      id: 'seed-finance-forum',
+      creatorId: 'seed-creator',
+      creatorName: 'James Okonkwo',
+      title: 'Global Finance Forum',
+      description:
+        'Institutional investors and fintech founders meet to discuss markets, regulation, and digital assets in a two-day curated program.',
+      date: '2026-06-03',
+      location: 'New York',
+      industry: 'Finance',
+      expectedAttendance: 1200,
+      tags: ['Fintech', 'Investing'],
+      coverImageDataUrl: '',
+      createdAt: now,
+      status: 'active',
+      sponsorshipTierCount: 0,
+      sponsorshipMaxPriceUsd: 0,
+    }),
+    withEventDefaults({
+      id: 'seed-green-expo',
+      creatorId: 'seed-creator-2',
+      creatorName: 'Elena Vasquez',
+      title: 'Green Energy Expo',
+      description:
+        'Showcase cleantech solutions, meet buyers, and attend panels on storage, grids, and sustainable infrastructure.',
+      date: '2026-07-22',
+      location: 'Austin',
+      industry: 'Energy & Sustainability',
+      expectedAttendance: 8000,
+      tags: ['Cleantech', 'Solar'],
+      coverImageDataUrl: '',
+      createdAt: now,
+      status: 'active',
+      sponsorshipTierCount: 0,
+      sponsorshipMaxPriceUsd: 0,
+    }),
+    withEventDefaults({
+      id: 'seed-wellness',
+      creatorId: 'seed-creator-2',
+      creatorName: 'Maya Patel',
+      title: 'Wellness & Longevity Week',
+      description:
+        'Clinical innovators and consumer brands share the latest in preventative health, wearables, and mental fitness.',
+      date: '2026-09-10',
+      location: 'Miami',
+      industry: 'Health & Wellness',
+      expectedAttendance: 2500,
+      tags: ['Health', 'Wearables'],
+      coverImageDataUrl: '',
+      createdAt: now,
+      status: 'active',
+      sponsorshipTierCount: 0,
+      sponsorshipMaxPriceUsd: 0,
+    }),
+  ];
+}
+
 function readEvents(): MockEvent[] {
   try {
     const raw = localStorage.getItem(STORAGE_EVENTS);
-    if (!raw) return [];
+    if (!raw) {
+      const seeded = seedEvents();
+      localStorage.setItem(STORAGE_EVENTS, JSON.stringify(seeded));
+      return seeded;
+    }
     const parsed = JSON.parse(raw) as MockEvent[];
-    if (!Array.isArray(parsed)) return [];
+    if (!Array.isArray(parsed)) {
+      const seeded = seedEvents();
+      writeEvents(seeded);
+      return seeded;
+    }
     return parsed.map((e) => withEventDefaults(e as MockEvent));
   } catch {
-    return [];
+    const seeded = seedEvents();
+    writeEvents(seeded);
+    return seeded;
   }
 }
 
@@ -86,6 +175,15 @@ function writeEvents(events: MockEvent[]) {
   localStorage.setItem(STORAGE_EVENTS, JSON.stringify(events));
 }
 
+/** Active events from mock storage (for sponsor Discover). Drafts are excluded. */
+export function getDiscoverMockEvents(): MockEvent[] {
+  return readEvents()
+    .filter((e) => e.status === 'active')
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+}
 export async function createMockEvent(
   creator: MockSessionUser,
   input: CreateMockEventInput

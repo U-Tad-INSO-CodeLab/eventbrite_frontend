@@ -1,12 +1,10 @@
-import type { ReactElement } from 'react'
-import { Route } from 'react-router-dom'
-import SponsorDashboardPage from '../pages/SponsorDashboardPage'
+import type { ReactElement } from 'react';
+import { Route } from 'react-router-dom';
+import SponsorLayout from '../components/SponsorLayout';
+import SponsorDiscoverPage from '../pages/SponsorDiscoverPage';
 
-/** Rutas del área sponsor (patrocinadores) */
 export const sponsorRoutes: ReactElement[] = [
-  <Route
-    key="sponsor-root"
-    path="/sponsor"
-    element={<SponsorDashboardPage />}
-  />,
-]
+  <Route key="sponsor" path="/sponsor" element={<SponsorLayout />}>
+    <Route index element={<SponsorDiscoverPage />} />
+  </Route>,
+];
