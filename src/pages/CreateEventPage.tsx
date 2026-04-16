@@ -1,16 +1,79 @@
+import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateEventForm from '../components/create-event/CreateEventForm';
 import CreateEventPreview from '../components/create-event/CreateEventPreview';
+import {
+  addCreatorTierTemplate,
+  draftTierFromTemplate,
+  isPlaceholderDraftTier,
+  listCreatorTierTemplates,
+  tierDraftMatchesTemplate,
+  type CreatorTierTemplate,
+} from '../lib/creatorTierTemplates';
 import { getMockSession, type MockSessionUser } from '../lib/mockAuth';
 import { useCreateEventForm } from './useCreateEventForm';
 import './createEvent.css';
 
 function CreateEventContent({ session }: { session: MockSessionUser }) {
   const navigate = useNavigate();
+  const [savedTemplates, setSavedTemplates] = useState<CreatorTierTemplate[]>(() =>
+    listCreatorTierTemplates(session.id)
+  );
   const form = useCreateEventForm({
     session,
     onCreated: () => navigate('/creator'),
   });
+  const { setTiers, setError, tiers } = form;
+
+  const refreshSavedTemplates = useCallback(() => {
+    setSavedTemplates(listCreatorTierTemplates(session.id));
+  }, [session.id]);
+
+  const applySavedTemplate = useCallback(
+    (template: CreatorTierTemplate) => {
+      setError('');
+      setTiers((current) => {
+        const copy = draftTierFromTemplate(template);
+        if (current.length === 1 && isPlaceholderDraftTier(current[0])) {
+          return [copy];
+        }
+        return [...current, copy];
+      });
+    },
+    [setError, setTiers]
+  );
+
+  const saveTierAsTemplate = useCallback(
+    (tierId: string) => {
+      const tier = tiers.find((t) => t.id === tierId);
+      if (!tier) return;
+      const name = tier.name.trim();
+      const price = Number(tier.priceUsd);
+      if (!name || !Number.isFinite(price) || price <= 0) {
+        setError('Complete tier name and price before saving to your library.');
+        return;
+      }
+      const alreadySaved = savedTemplates.some((template) =>
+        tierDraftMatchesTemplate(tier, template)
+      );
+      if (alreadySaved) {
+        setError('That tier already exists in your library.');
+        return;
+      }
+      setError('');
+      addCreatorTierTemplate(session.id, {
+        name,
+        priceUsd: price,
+        benefits: tier.benefits
+          .split(',')
+          .map((b) => b.trim())
+          .filter(Boolean),
+      });
+      refreshSavedTemplates();
+    },
+    [setError, tiers, savedTemplates, session.id, refreshSavedTemplates]
+  );
+
   const addTierDisabled = form.tiers.some((tier) => {
     const hasName = tier.name.trim().length > 0;
     const price = Number(tier.priceUsd);
@@ -44,6 +107,14 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
           form.setExpectedAttendance(e.target.value)
         }
         onTagsChange={(e) => form.setTags(e.target.value)}
+        savedTemplates={savedTemplates}
+        isTierAlreadySaved={(tierId) => {
+          const tier = tiers.find((currentTier) => currentTier.id === tierId);
+          if (!tier) return false;
+          return savedTemplates.some((template) => tierDraftMatchesTemplate(tier, template));
+        }}
+        onApplySavedTemplate={applySavedTemplate}
+        onSaveTierAsTemplate={saveTierAsTemplate}
         onTierNameChange={(tierId, value) =>
           form.setTiers((currentTiers) =>
             currentTiers.map((tier) =>

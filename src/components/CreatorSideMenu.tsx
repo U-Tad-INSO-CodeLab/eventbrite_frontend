@@ -19,7 +19,10 @@ export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
           end
           className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
-          <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
+          <span
+            className="creator-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
             dashboard
           </span>
           Dashboard
@@ -28,23 +31,44 @@ export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
           to="/creator/my-events"
           className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
-          <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
+          <span
+            className="creator-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
             calendar_month
           </span>
           My Events
         </NavLink>
         <NavLink
+          to="/creator/tier-templates"
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
+        >
+          <span
+            className="creator-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
+            layers
+          </span>
+          My Tiers
+        </NavLink>
+        <NavLink
           to="/creator/create-event"
           className={({ isActive }) => (isActive ? 'is-active' : '')}
         >
-          <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
+          <span
+            className="creator-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
             add_circle
           </span>
           Create Event
         </NavLink>
       </nav>
       <button type="button" className="creator-logout-btn" onClick={onLogout}>
-        <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
+        <span
+          className="creator-nav-icon material-symbols-outlined"
+          aria-hidden="true"
+        >
           logout
         </span>
         Logout

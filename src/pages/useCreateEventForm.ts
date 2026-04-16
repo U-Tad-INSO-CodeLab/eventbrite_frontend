@@ -183,6 +183,7 @@ export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArg
     setExpectedAttendance,
     setTags,
     setTiers,
+    setError,
     handleCoverUpload,
     handleCoverDragEnter,
     handleCoverDragOver,

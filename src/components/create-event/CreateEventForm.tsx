@@ -1,5 +1,6 @@
 import EventDatePicker from '../EventDatePicker';
 import CreateEventTiersSection from './CreateEventTiersSection';
+import type { CreatorTierTemplate } from '../../lib/creatorTierTemplates';
 import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject, FormEventHandler } from 'react';
 
 type Props = {
@@ -32,6 +33,10 @@ type Props = {
   onTierNameChange: (tierId: string, value: string) => void;
   onTierPriceChange: (tierId: string, value: string) => void;
   onTierBenefitsChange: (tierId: string, value: string) => void;
+  savedTemplates: CreatorTierTemplate[];
+  isTierAlreadySaved: (tierId: string) => boolean;
+  onApplySavedTemplate: (template: CreatorTierTemplate) => void;
+  onSaveTierAsTemplate: (tierId: string) => void;
   onAddTier: () => void;
   addTierDisabled: boolean;
   onRemoveTier: (tierId: string) => void;
@@ -69,6 +74,10 @@ export default function CreateEventForm({
   onTierNameChange,
   onTierPriceChange,
   onTierBenefitsChange,
+  savedTemplates,
+  isTierAlreadySaved,
+  onApplySavedTemplate,
+  onSaveTierAsTemplate,
   onAddTier,
   addTierDisabled,
   onRemoveTier,
@@ -241,6 +250,10 @@ export default function CreateEventForm({
             tiers={tiers}
             loading={loading}
             addTierDisabled={addTierDisabled}
+            savedTemplates={savedTemplates}
+            isTierAlreadySaved={isTierAlreadySaved}
+            onApplySavedTemplate={onApplySavedTemplate}
+            onSaveTierAsTemplate={onSaveTierAsTemplate}
             onAddTier={onAddTier}
             onRemoveTier={onRemoveTier}
             onTierNameChange={onTierNameChange}
