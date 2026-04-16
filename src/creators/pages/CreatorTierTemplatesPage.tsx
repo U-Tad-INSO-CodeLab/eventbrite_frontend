@@ -8,7 +8,7 @@ import {
 } from '@/creators/lib/creatorTierTemplates';
 import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
 import { getMockSession } from '@/auth/lib/mockAuth';
-import '@/creators/pages/createEvent.css';
+import '@/creators/pages/CreatorTierTemplatesPage.css';
 import '@/shared/styles/dashboard.css';
 
 function emptyAddForm() {

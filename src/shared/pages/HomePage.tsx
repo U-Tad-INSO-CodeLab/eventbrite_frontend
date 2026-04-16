@@ -4,7 +4,7 @@ import LandingAuthPanel, {
   type LandingAuthMode,
 } from '@/shared/components/LandingAuthPanel';
 import { MOCK_AUTH_HINT, getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
-import '@/shared/pages/home.css';
+import '@/shared/pages/HomePage.css';
 import '@/auth/styles/auth.css';
 
 export default function HomePage() {

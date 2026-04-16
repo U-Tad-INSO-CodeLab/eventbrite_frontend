@@ -12,7 +12,7 @@ import {
 } from '@/creators/lib/creatorTierTemplates';
 import { getMockSession, type MockSessionUser } from '@/auth/lib/mockAuth';
 import { useCreateEventForm } from '@/events/hooks/useCreateEventForm';
-import '@/creators/pages/createEvent.css';
+import '@/creators/pages/CreateEventPage.css';
 
 function CreateEventContent({ session }: { session: MockSessionUser }) {
   const navigate = useNavigate();
