@@ -200,8 +200,18 @@
 
 .my-events-footer-tier {
   font-size: 13px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.my-events-footer-tier-count {
   font-weight: 700;
-  color: #1f2937;
+  color: #111827;
+}
+
+.my-events-footer-tier-price {
+  color: #ff7a00;
+  font-weight: 600;
 }
 
 .my-events-footer-action {

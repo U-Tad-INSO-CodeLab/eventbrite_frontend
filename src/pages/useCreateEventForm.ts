@@ -16,6 +16,13 @@ type UseCreateEventFormArgs = {
   onCreated: () => void;
 };
 
+type DraftTier = {
+  id: string;
+  name: string;
+  priceUsd: string;
+  benefits: string;
+};
+
 export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArgs) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -24,6 +31,9 @@ export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArg
   const [industry, setIndustry] = useState('');
   const [expectedAttendance, setExpectedAttendance] = useState('');
   const [tags, setTags] = useState('');
+  const [tiers, setTiers] = useState<DraftTier[]>([
+    { id: crypto.randomUUID(), name: '', priceUsd: '', benefits: '' },
+  ]);
   const [coverImageDataUrl, setCoverImageDataUrl] = useState<string | null>(null);
   const [coverDragging, setCoverDragging] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -128,6 +138,14 @@ export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArg
           .map((tag) => tag.trim())
           .filter(Boolean),
         coverImageDataUrl,
+        sponsorshipTiers: tiers.map((tier) => ({
+          name: tier.name,
+          priceUsd: Number(tier.priceUsd) || 0,
+          benefits: tier.benefits
+            .split(',')
+            .map((benefit) => benefit.trim())
+            .filter(Boolean),
+        })),
       });
       setLoading(false);
 
@@ -149,6 +167,7 @@ export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArg
     industry,
     expectedAttendance,
     tags,
+    tiers,
     coverImageDataUrl,
     coverDragging,
     coverInputRef,
@@ -163,6 +182,8 @@ export function useCreateEventForm({ session, onCreated }: UseCreateEventFormArg
     setIndustry,
     setExpectedAttendance,
     setTags,
+    setTiers,
+    setError,
     handleCoverUpload,
     handleCoverDragEnter,
     handleCoverDragOver,

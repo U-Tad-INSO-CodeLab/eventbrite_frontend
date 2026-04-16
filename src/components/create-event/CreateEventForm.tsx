@@ -1,4 +1,6 @@
 import EventDatePicker from '../EventDatePicker';
+import CreateEventTiersSection from './CreateEventTiersSection';
+import type { CreatorTierTemplate } from '../../lib/creatorTierTemplates';
 import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject, FormEventHandler } from 'react';
 
 type Props = {
@@ -9,6 +11,12 @@ type Props = {
   industry: string;
   expectedAttendance: string;
   tags: string;
+  tiers: Array<{
+    id: string;
+    name: string;
+    priceUsd: string;
+    benefits: string;
+  }>;
   coverImageDataUrl: string | null;
   coverDragging: boolean;
   coverInputRef: RefObject<HTMLInputElement | null>;
@@ -22,6 +30,16 @@ type Props = {
   onIndustryChange: ChangeEventHandler<HTMLInputElement>;
   onExpectedAttendanceChange: ChangeEventHandler<HTMLInputElement>;
   onTagsChange: ChangeEventHandler<HTMLInputElement>;
+  onTierNameChange: (tierId: string, value: string) => void;
+  onTierPriceChange: (tierId: string, value: string) => void;
+  onTierBenefitsChange: (tierId: string, value: string) => void;
+  savedTemplates: CreatorTierTemplate[];
+  isTierAlreadySaved: (tierId: string) => boolean;
+  onApplySavedTemplate: (template: CreatorTierTemplate) => void;
+  onSaveTierAsTemplate: (tierId: string) => void;
+  onAddTier: () => void;
+  addTierDisabled: boolean;
+  onRemoveTier: (tierId: string) => void;
   onCoverUpload: ChangeEventHandler<HTMLInputElement>;
   onCoverDragEnter: DragEventHandler<HTMLLabelElement>;
   onCoverDragOver: DragEventHandler<HTMLLabelElement>;
@@ -39,6 +57,7 @@ export default function CreateEventForm({
   industry,
   expectedAttendance,
   tags,
+  tiers,
   coverImageDataUrl,
   coverDragging,
   coverInputRef,
@@ -52,6 +71,16 @@ export default function CreateEventForm({
   onIndustryChange,
   onExpectedAttendanceChange,
   onTagsChange,
+  onTierNameChange,
+  onTierPriceChange,
+  onTierBenefitsChange,
+  savedTemplates,
+  isTierAlreadySaved,
+  onApplySavedTemplate,
+  onSaveTierAsTemplate,
+  onAddTier,
+  addTierDisabled,
+  onRemoveTier,
   onCoverUpload,
   onCoverDragEnter,
   onCoverDragOver,
@@ -216,6 +245,21 @@ export default function CreateEventForm({
               disabled={loading}
             />
           </div>
+
+          <CreateEventTiersSection
+            tiers={tiers}
+            loading={loading}
+            addTierDisabled={addTierDisabled}
+            savedTemplates={savedTemplates}
+            isTierAlreadySaved={isTierAlreadySaved}
+            onApplySavedTemplate={onApplySavedTemplate}
+            onSaveTierAsTemplate={onSaveTierAsTemplate}
+            onAddTier={onAddTier}
+            onRemoveTier={onRemoveTier}
+            onTierNameChange={onTierNameChange}
+            onTierPriceChange={onTierPriceChange}
+            onTierBenefitsChange={onTierBenefitsChange}
+          />
 
           <button type="submit" className="create-submit" disabled={loading}>
             {loading ? 'Publishing...' : 'Publish Event'}

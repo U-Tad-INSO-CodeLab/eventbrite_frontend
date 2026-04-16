@@ -15,8 +15,8 @@
 .creator-content--create {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  --create-preview-width: 320px;
+  min-height: 100svh;
+  --create-preview-width: 420px;
 }
 
 @media (min-width: 1101px) {
