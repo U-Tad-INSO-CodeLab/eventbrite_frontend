@@ -9,10 +9,16 @@ type EventCardProps = {
 
 export default function EventCard({ event, onStatusChange }: EventCardProps) {
   const isActive = event.status === 'active';
-  const tierLine =
-    event.sponsorshipTierCount > 0
-      ? `${event.sponsorshipTierCount} tier${event.sponsorshipTierCount === 1 ? '' : 's'} · up to ${formatUsdCompact(event.sponsorshipMaxPriceUsd)}`
-      : 'No sponsorship tiers yet';
+  const tierCount = Array.isArray(event.sponsorshipTiers)
+    ? event.sponsorshipTiers.length
+    : event.sponsorshipTierCount;
+  const maxTierPrice = Array.isArray(event.sponsorshipTiers)
+    ? event.sponsorshipTiers.reduce(
+        (maxPrice, tier) => Math.max(maxPrice, tier.priceUsd),
+        0
+      )
+    : event.sponsorshipMaxPriceUsd;
+  const maxTierPriceLabel = formatUsdCompact(maxTierPrice);
 
   return (
     <article className="my-events-card">
@@ -56,7 +62,15 @@ export default function EventCard({ event, onStatusChange }: EventCardProps) {
         ) : null}
       </div>
       <footer className="my-events-card-footer">
-        <span className="my-events-footer-tier">{tierLine}</span>
+        {tierCount === 0 ? (
+          <span className="my-events-footer-tier">No sponsorship tiers yet</span>
+        ) : (
+          <span className="my-events-footer-tier">
+            <span className="my-events-footer-tier-count">{tierCount}</span> tier
+            {tierCount === 1 ? '' : 's'} · up to{' '}
+            <span className="my-events-footer-tier-price">{maxTierPriceLabel}</span>
+          </span>
+        )}
         <button
           type="button"
           className="my-events-footer-action"

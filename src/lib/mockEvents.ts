@@ -5,6 +5,14 @@ const STORAGE_EVENTS = 'eventlink_mock_events';
 
 export type MockEventStatus = 'active' | 'draft';
 
+export type MockSponsorshipTier = {
+  id: string;
+  eventId: string;
+  name: string;
+  priceUsd: number;
+  benefits: string[];
+};
+
 export type MockEvent = {
   id: string;
   creatorId: string;
@@ -20,6 +28,7 @@ export type MockEvent = {
   coverImageDataUrl: string;
   createdAt: string;
   status: MockEventStatus;
+  sponsorshipTiers: MockSponsorshipTier[];
   /** Shown in My Events footer when > 0 */
   sponsorshipTierCount: number;
   sponsorshipMaxPriceUsd: number;
@@ -34,6 +43,11 @@ export type CreateMockEventInput = {
   expectedAttendance: number;
   tags: string[];
   coverImageDataUrl: string | null;
+  sponsorshipTiers: Array<{
+    name: string;
+    priceUsd: number;
+    benefits: string[];
+  }>;
 };
 
 export type CreateMockEventResult =
@@ -54,19 +68,48 @@ function withEventDefaults(partial: MockEvent): MockEvent {
         ? eventCoverPlaceholderUrl(id)
         : '';
 
+  const rawTiers = Array.isArray(partial.sponsorshipTiers)
+    ? partial.sponsorshipTiers
+    : [];
+  const sponsorshipTiers = rawTiers.map((tier, index) => ({
+    id:
+      typeof tier.id === 'string' && tier.id.length > 0
+        ? tier.id
+        : `${id}-tier-${index + 1}`,
+    eventId:
+      typeof tier.eventId === 'string' && tier.eventId.length > 0
+        ? tier.eventId
+        : id,
+    name: String(tier.name ?? '').trim(),
+    priceUsd:
+      typeof tier.priceUsd === 'number' && Number.isFinite(tier.priceUsd)
+        ? Math.max(0, Math.floor(tier.priceUsd))
+        : 0,
+    benefits: Array.isArray(tier.benefits)
+      ? tier.benefits.map((benefit) => String(benefit).trim()).filter(Boolean)
+      : [],
+  }));
+
+  const computedTierCount = sponsorshipTiers.length;
+  const computedMaxTierPrice = sponsorshipTiers.reduce(
+    (maxPrice, tier) => Math.max(maxPrice, tier.priceUsd),
+    0
+  );
+
   return {
     ...partial,
     id,
     coverImageDataUrl,
     status: partial.status === 'draft' ? 'draft' : 'active',
+    sponsorshipTiers,
     sponsorshipTierCount:
       typeof partial.sponsorshipTierCount === 'number'
         ? partial.sponsorshipTierCount
-        : 0,
+        : computedTierCount,
     sponsorshipMaxPriceUsd:
       typeof partial.sponsorshipMaxPriceUsd === 'number'
         ? partial.sponsorshipMaxPriceUsd
-        : 0,
+        : computedMaxTierPrice,
   };
 }
 
@@ -89,6 +132,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
+      sponsorshipTiers: [],
       sponsorshipTierCount: 0,
       sponsorshipMaxPriceUsd: 0,
     }),
@@ -107,6 +151,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
+      sponsorshipTiers: [],
       sponsorshipTierCount: 0,
       sponsorshipMaxPriceUsd: 0,
     }),
@@ -125,6 +170,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
+      sponsorshipTiers: [],
       sponsorshipTierCount: 0,
       sponsorshipMaxPriceUsd: 0,
     }),
@@ -143,6 +189,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
+      sponsorshipTiers: [],
       sponsorshipTierCount: 0,
       sponsorshipMaxPriceUsd: 0,
     }),
@@ -206,6 +253,31 @@ export async function createMockEvent(
     input.coverImageDataUrl && input.coverImageDataUrl.length > 0
       ? input.coverImageDataUrl
       : eventCoverPlaceholderUrl(id, 800, 450);
+  const sponsorshipTiers: MockSponsorshipTier[] = input.sponsorshipTiers
+    .map((tier, index) => {
+      const name = tier.name.trim();
+      const benefits = tier.benefits.map((benefit) => benefit.trim()).filter(Boolean);
+      const priceUsd = Number.isFinite(tier.priceUsd)
+        ? Math.max(0, Math.floor(tier.priceUsd))
+        : 0;
+
+      if (!name) return null;
+      return {
+        id: `${id}-tier-${index + 1}`,
+        eventId: id,
+        name,
+        priceUsd,
+        benefits,
+      };
+    })
+    .filter((tier): tier is MockSponsorshipTier => Boolean(tier));
+
+  const sponsorshipTierCount = sponsorshipTiers.length;
+  const sponsorshipMaxPriceUsd = sponsorshipTiers.reduce(
+    (maxPrice, tier) => Math.max(maxPrice, tier.priceUsd),
+    0
+  );
+
   const event: MockEvent = {
     id,
     creatorId: creator.id,
@@ -220,8 +292,9 @@ export async function createMockEvent(
     coverImageDataUrl,
     createdAt: new Date().toISOString(),
     status: 'active',
-    sponsorshipTierCount: 0,
-    sponsorshipMaxPriceUsd: 0,
+    sponsorshipTiers,
+    sponsorshipTierCount,
+    sponsorshipMaxPriceUsd,
   };
 
   events.unshift(event);

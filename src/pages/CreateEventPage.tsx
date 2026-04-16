@@ -11,6 +11,12 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
     session,
     onCreated: () => navigate('/creator'),
   });
+  const addTierDisabled = form.tiers.some((tier) => {
+    const hasName = tier.name.trim().length > 0;
+    const price = Number(tier.priceUsd);
+    const hasValidPrice = Number.isFinite(price) && price > 0;
+    return !hasName || !hasValidPrice;
+  });
 
   return (
     <div className="create-body">
@@ -22,6 +28,7 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
         industry={form.industry}
         expectedAttendance={form.expectedAttendance}
         tags={form.tags}
+        tiers={form.tiers}
         coverImageDataUrl={form.coverImageDataUrl}
         coverDragging={form.coverDragging}
         coverInputRef={form.coverInputRef}
@@ -37,6 +44,45 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
           form.setExpectedAttendance(e.target.value)
         }
         onTagsChange={(e) => form.setTags(e.target.value)}
+        onTierNameChange={(tierId, value) =>
+          form.setTiers((currentTiers) =>
+            currentTiers.map((tier) =>
+              tier.id === tierId ? { ...tier, name: value } : tier
+            )
+          )
+        }
+        onTierPriceChange={(tierId, value) =>
+          form.setTiers((currentTiers) =>
+            currentTiers.map((tier) =>
+              tier.id === tierId ? { ...tier, priceUsd: value } : tier
+            )
+          )
+        }
+        onTierBenefitsChange={(tierId, value) =>
+          form.setTiers((currentTiers) =>
+            currentTiers.map((tier) =>
+              tier.id === tierId ? { ...tier, benefits: value } : tier
+            )
+          )
+        }
+        onAddTier={() =>
+          form.setTiers((currentTiers) => [
+            ...currentTiers,
+            { id: crypto.randomUUID(), name: '', priceUsd: '', benefits: '' },
+          ])
+        }
+        addTierDisabled={addTierDisabled}
+        onRemoveTier={(tierId) =>
+          form.setTiers((currentTiers) => {
+            const nextTiers = currentTiers.filter((tier) => tier.id !== tierId);
+            if (nextTiers.length === 0) {
+              return [
+                { id: crypto.randomUUID(), name: '', priceUsd: '', benefits: '' },
+              ];
+            }
+            return nextTiers;
+          })
+        }
         onCoverUpload={form.handleCoverUpload}
         onCoverDragEnter={form.handleCoverDragEnter}
         onCoverDragOver={form.handleCoverDragOver}
@@ -53,6 +99,7 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
         location={form.location}
         expectedAttendance={form.expectedAttendance}
         previewTags={form.previewTags}
+        tiers={form.tiers}
       />
     </div>
   );

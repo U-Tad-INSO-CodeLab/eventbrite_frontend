@@ -76,7 +76,7 @@
 
 .discover-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 24px;
 }
 
@@ -176,6 +176,53 @@
 
 .discover-card-tags span {
   margin-right: 6px;
+}
+
+.discover-card-tags--chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.discover-card-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 999px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  color: #4b5563;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+}
+
+.discover-card-tag-chip .material-symbols-outlined {
+  font-size: 12px;
+  line-height: 1;
+  color: #9ca3af;
+}
+
+.discover-card-tier-summary {
+  margin-top: 2px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.discover-card-tier-summary strong {
+  color: #111827;
+}
+
+.discover-card-tier-price {
+  color: #ff7a00 !important;
+}
+
+.discover-card-tier-summary--empty {
+  color: #9ca3af;
 }
 
 .discover-card-footer {

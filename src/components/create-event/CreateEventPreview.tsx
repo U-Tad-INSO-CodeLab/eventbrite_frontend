@@ -8,6 +8,12 @@ type Props = {
   location: string;
   expectedAttendance: string;
   previewTags: string[];
+  tiers: Array<{
+    id: string;
+    name: string;
+    priceUsd: string;
+    benefits: string;
+  }>;
 };
 
 export default function CreateEventPreview({
@@ -18,7 +24,28 @@ export default function CreateEventPreview({
   location,
   expectedAttendance,
   previewTags,
+  tiers,
 }: Props) {
+  const previewTiers = tiers
+    .map((tier) => {
+      const name = tier.name.trim();
+      if (!name) return null;
+      const benefits = tier.benefits
+        .split(',')
+        .map((benefit) => benefit.trim())
+        .filter(Boolean);
+      const price = Number(tier.priceUsd);
+      return {
+        id: tier.id,
+        name,
+        benefits,
+        price: Number.isFinite(price) && price > 0 ? Math.floor(price) : 0,
+      };
+    })
+    .filter((tier): tier is { id: string; name: string; benefits: string[]; price: number } =>
+      Boolean(tier)
+    );
+
   return (
     <aside className="create-preview" aria-label="Live preview">
       <h2 className="create-preview-heading">
@@ -76,6 +103,24 @@ export default function CreateEventPreview({
               )
             )}
           </div>
+          {previewTiers.length > 0 ? (
+            <section className="create-preview-tiers">
+              <h4>Sponsorship Tiers</h4>
+              <ul>
+                {previewTiers.map((tier) => (
+                  <li key={tier.id}>
+                    <div className="create-preview-tier-top">
+                      <strong>{tier.name}</strong>
+                      <span>${tier.price.toLocaleString()}</span>
+                    </div>
+                    {tier.benefits.length > 0 ? (
+                      <p>{tier.benefits.join(' · ')}</p>
+                    ) : null}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ) : null}
         </div>
       </div>
     </aside>
