@@ -2,7 +2,7 @@ import { useState } from 'react';
 import SponsorDiscoverCard from '@/sponsors/components/SponsorDiscoverCard';
 import { getMockSession } from '@/auth/lib/mockAuth';
 import { getDiscoverMockEvents } from '@/events/lib/mockEvents';
-import '@/sponsors/pages/sponsorDiscover.css';
+import '@/sponsors/pages/SponsorDiscoverPage.css';
 
 export default function SponsorDiscoverPage() {
   const [search, setSearch] = useState('');
