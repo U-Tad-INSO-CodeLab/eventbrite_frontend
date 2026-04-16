@@ -1,9 +1,14 @@
 .creator-sidebar {
+  box-sizing: border-box;
   border-right: 1px solid #e8e8ec;
   background: #fff;
   padding: 18px 14px;
   display: flex;
   flex-direction: column;
+  height: 100svh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
 }
 
 .creator-brand {
@@ -80,6 +85,9 @@
 
 @media (max-width: 780px) {
   .creator-sidebar {
+    height: auto;
+    position: static;
+    overflow: visible;
     border-right: 0;
     border-bottom: 1px solid #e8e8ec;
   }
