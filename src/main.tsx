@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { hydrateSessionFromRememberMe } from './lib/mockAuth'
+import { hydrateSessionFromRememberMe } from './auth/lib/mockAuth.ts'
 import './index.css'
 import App from './App.tsx'
 

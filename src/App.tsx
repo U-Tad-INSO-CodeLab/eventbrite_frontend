@@ -1,6 +1,8 @@
 import { Route, Routes } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import { authRoutes, creatorRoutes, sponsorRoutes } from './router';
+import HomePage from './shared/pages/HomePage';
+import { authRoutes } from './auth/routes/authRoutes';
+import { creatorRoutes } from './creators/routes/creatorRoutes';
+import { sponsorRoutes } from './sponsors/routes/sponsorRoutes';
 
 export default function App() {
   return (
