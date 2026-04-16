@@ -1,16 +1,26 @@
 .sponsor-shell {
-  min-height: 100svh;
+  height: 100svh;
   display: grid;
   grid-template-columns: 220px 1fr;
   background: #f7f7f8;
+  overflow: hidden;
 }
 
 .sponsor-content {
   min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
 }
 
 @media (max-width: 780px) {
   .sponsor-shell {
+    height: auto;
+    min-height: 100svh;
     grid-template-columns: 1fr;
+    overflow: visible;
+  }
+
+  .sponsor-content {
+    overflow: visible;
   }
 }
