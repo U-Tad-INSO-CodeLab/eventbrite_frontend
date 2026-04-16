@@ -1,6 +1,6 @@
-import EventDatePicker from '../EventDatePicker';
-import CreateEventTiersSection from './CreateEventTiersSection';
-import type { CreatorTierTemplate } from '../../lib/creatorTierTemplates';
+import EventDatePicker from '@/events/components/EventDatePicker';
+import CreateEventTiersSection from '@/creators/components/create-event/CreateEventTiersSection';
+import type { CreatorTierTemplate } from '@/creators/lib/creatorTierTemplates';
 import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject, FormEventHandler } from 'react';
 
 type Props = {

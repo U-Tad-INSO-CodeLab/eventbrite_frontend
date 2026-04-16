@@ -5,8 +5,8 @@ import {
   mondayWeekday,
   parseIso,
   toIso,
-} from '../../shared/lib/datePickerUtils';
-import './EventDatePicker.css';
+} from '@/shared/lib/datePickerUtils';
+import '@/events/components/EventDatePicker.css';
 
 type EventDatePickerProps = {
   id: string;

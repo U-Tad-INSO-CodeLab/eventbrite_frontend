@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState, type ChangeEvent, type DragEvent, type MouseEvent, type SubmitEventHandler } from 'react';
-import type { MockSessionUser } from '../../auth/lib/mockAuth';
-import { createMockEvent } from '../lib/mockEvents';
+import type { MockSessionUser } from '@/auth/lib/mockAuth';
+import { createMockEvent } from '@/events/lib/mockEvents';
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {

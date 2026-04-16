@@ -1,8 +1,8 @@
 import { useMemo, useState, type SubmitEventHandler } from 'react';
-import PasswordInputWithToggle from './PasswordInputWithToggle';
-import type { MockUserRole } from '../lib/mockAuth';
-import { mockRegister } from '../lib/mockAuth';
-import { getPasswordChecks, isPasswordPolicyMet } from '../lib/passwordRules';
+import PasswordInputWithToggle from '@/shared/components/PasswordInputWithToggle';
+import type { MockUserRole } from '@/auth/lib/mockAuth';
+import { mockRegister } from '@/auth/lib/mockAuth';
+import { getPasswordChecks, isPasswordPolicyMet } from '@/auth/lib/passwordRules';
 
 type Props = {
   onRegistered: () => void;

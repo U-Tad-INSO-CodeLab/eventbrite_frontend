@@ -1,4 +1,4 @@
-import { hashToIndex } from '../../shared/lib/hashToIndex';
+import { hashToIndex } from '@/shared/lib/hashToIndex';
 
 /**
  * When no cover is uploaded, use Lorem Picsum with a stable seed.

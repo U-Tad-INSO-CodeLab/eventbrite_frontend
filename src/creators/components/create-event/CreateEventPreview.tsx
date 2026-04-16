@@ -1,4 +1,4 @@
-import { formatIsoDate } from '../../lib/formatIsoDate';
+import { formatIsoDate } from '@/shared/lib/formatIsoDate';
 
 type Props = {
   coverImageDataUrl: string | null;
@@ -99,7 +99,7 @@ export default function CreateEventPreview({
           <div className="create-preview-tags">
             {(previewTags.length > 0 ? previewTags : ['AI', 'SaaS', 'Networking']).map(
               (tag) => (
-              <span key={tag}>{tag}</span>
+                <span key={tag}>{tag}</span>
               )
             )}
           </div>

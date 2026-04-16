@@ -1,9 +1,9 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import CreatorSideMenu from '../components/CreatorSideMenu';
-import './creatorShell.css';
-import { getHomePathForRole, getMockSession } from '../../auth/lib/mockAuth';
-import { useLogout } from '../../auth/hooks/useLogout';
-import '../pages/dashboard.css';
+import CreatorSideMenu from '@/creators/components/CreatorSideMenu';
+import '@/creators/layouts/CreatorLayout.css';
+import { getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
+import { useLogout } from '@/auth/hooks/useLogout';
+import '@/shared/styles/dashboard.css';
 
 export default function CreatorLayout() {
   const logout = useLogout();

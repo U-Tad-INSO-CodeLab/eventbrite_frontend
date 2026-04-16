@@ -1,9 +1,9 @@
 import { Link, Outlet } from 'react-router-dom';
-import SponsorSideMenu from '../components/SponsorSideMenu';
-import './sponsorShell.css';
-import { getHomePathForRole, getMockSession } from '../../auth/lib/mockAuth';
-import { useLogout } from '../../auth/hooks/useLogout';
-import '../pages/dashboard.css';
+import SponsorSideMenu from '@/sponsors/components/SponsorSideMenu';
+import '@/sponsors/layouts/SponsorLayout.css';
+import { getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
+import { useLogout } from '@/auth/hooks/useLogout';
+import '@/shared/styles/dashboard.css';
 
 export default function SponsorLayout() {
   const logout = useLogout();

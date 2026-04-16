@@ -1,6 +1,6 @@
-import { formatIsoDate } from '../../shared/lib/formatIsoDate';
-import { formatUsdCompact } from '../../shared/lib/formatUsdCompact';
-import { setMockEventStatus, type MockEvent } from '../lib/mockEvents';
+import { formatIsoDate } from '@/shared/lib/formatIsoDate';
+import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
+import { setMockEventStatus, type MockEvent } from '@/events/lib/mockEvents';
 
 type EventCardProps = {
   event: MockEvent;

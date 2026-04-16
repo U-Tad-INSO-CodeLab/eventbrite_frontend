@@ -3,7 +3,7 @@ import {
   createMockAblyRealtime,
   listMessagesForEvent,
   type MockAblyInboundMessage,
-} from '../lib/mockAblyChat';
+} from '@/chat/lib/mockAblyChat';
 
 /**
  * Generic mock Ably channel hook.

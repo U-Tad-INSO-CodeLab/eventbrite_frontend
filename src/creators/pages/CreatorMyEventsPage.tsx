@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import EventCard from '../../events/components/EventCard';
-import { getMockSession } from '../../auth/lib/mockAuth';
-import { getMockEventsByCreator } from '../../events/lib/mockEvents';
-import './myEvents.css';
+import EventCard from '@/events/components/EventCard';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import { getMockEventsByCreator } from '@/events/lib/mockEvents';
+import '@/creators/pages/myEvents.css';
 
 export default function CreatorMyEventsPage() {
   const session = getMockSession();

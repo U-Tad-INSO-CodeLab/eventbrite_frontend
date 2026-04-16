@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CreateEventForm from '../components/create-event/CreateEventForm';
-import CreateEventPreview from '../components/create-event/CreateEventPreview';
+import CreateEventForm from '@/creators/components/create-event/CreateEventForm';
+import CreateEventPreview from '@/creators/components/create-event/CreateEventPreview';
 import {
   addCreatorTierTemplate,
   draftTierFromTemplate,
@@ -9,10 +9,10 @@ import {
   listCreatorTierTemplates,
   tierDraftMatchesTemplate,
   type CreatorTierTemplate,
-} from '../lib/creatorTierTemplates';
-import { getMockSession, type MockSessionUser } from '../../auth/lib/mockAuth';
-import { useCreateEventForm } from '../../events/hooks/useCreateEventForm';
-import './createEvent.css';
+} from '@/creators/lib/creatorTierTemplates';
+import { getMockSession, type MockSessionUser } from '@/auth/lib/mockAuth';
+import { useCreateEventForm } from '@/events/hooks/useCreateEventForm';
+import '@/creators/pages/createEvent.css';
 
 function CreateEventContent({ session }: { session: MockSessionUser }) {
   const navigate = useNavigate();

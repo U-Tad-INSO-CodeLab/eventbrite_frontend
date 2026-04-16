@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { clearMockSessionEverywhere } from '../lib/mockAuth';
+import { clearMockSessionEverywhere } from '@/auth/lib/mockAuth';
 
 export function useLogout() {
   const navigate = useNavigate();

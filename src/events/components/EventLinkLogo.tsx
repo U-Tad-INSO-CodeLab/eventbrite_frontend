@@ -1,5 +1,5 @@
-import logoSrc from '../assets/logo.svg';
-import './EventLinkLogo.css';
+import logoSrc from '@/assets/logo.svg';
+import '@/events/components/EventLinkLogo.css';
 
 type Props = {
   variant?: 'auth' | 'header';

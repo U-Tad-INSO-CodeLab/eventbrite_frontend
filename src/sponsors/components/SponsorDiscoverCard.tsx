@@ -1,7 +1,7 @@
-import { formatIsoDate } from '../../shared/lib/formatIsoDate';
-import { formatUsdCompact } from '../../shared/lib/formatUsdCompact';
-import type { MockEvent } from '../../events/lib/mockEvents';
-import { organizerInitials } from '../../shared/lib/organizerInitials';
+import { formatIsoDate } from '@/shared/lib/formatIsoDate';
+import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
+import type { MockEvent } from '@/events/lib/mockEvents';
+import { organizerInitials } from '@/shared/lib/organizerInitials';
 
 type SponsorDiscoverCardProps = {
   event: MockEvent;

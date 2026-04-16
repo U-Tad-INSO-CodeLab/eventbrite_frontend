@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { getMockSession } from '../../auth/lib/mockAuth';
-import { getMockEventsByCreator } from '../../events/lib/mockEvents';
-import './dashboard.css';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import { getMockEventsByCreator } from '@/events/lib/mockEvents';
+import '@/shared/styles/dashboard.css';
 
 export default function CreatorDashboardPage() {
   const session = getMockSession();

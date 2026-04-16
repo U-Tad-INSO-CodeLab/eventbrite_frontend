@@ -4,9 +4,9 @@ import {
   getHomePathForRole,
   getMockSession,
   MOCK_LOGIN_FLASH_KEY,
-} from '../lib/mockAuth';
-import LandingLoginForm from './LandingLoginForm';
-import LandingRegisterForm from './LandingRegisterForm';
+} from '@/auth/lib/mockAuth';
+import LandingLoginForm from '@/shared/components/LandingLoginForm';
+import LandingRegisterForm from '@/shared/components/LandingRegisterForm';
 
 export type LandingAuthMode = 'login' | 'register';
 

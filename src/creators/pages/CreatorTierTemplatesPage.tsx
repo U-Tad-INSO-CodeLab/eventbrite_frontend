@@ -5,11 +5,11 @@ import {
   listCreatorTierTemplates,
   updateCreatorTierTemplate,
   type CreatorTierTemplate,
-} from '../lib/creatorTierTemplates';
-import { formatUsdCompact } from '../../shared/lib/formatUsdCompact';
-import { getMockSession } from '../../auth/lib/mockAuth';
-import './createEvent.css';
-import './dashboard.css';
+} from '@/creators/lib/creatorTierTemplates';
+import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import '@/creators/pages/createEvent.css';
+import '@/shared/styles/dashboard.css';
 
 function emptyAddForm() {
   return { name: '', priceUsd: '', benefits: '' };

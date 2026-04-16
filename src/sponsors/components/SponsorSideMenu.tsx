@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import EventLinkLogo from '../../events/components/EventLinkLogo';
-import './SponsorSideMenu.css';
+import EventLinkLogo from '@/events/components/EventLinkLogo';
+import '@/sponsors/components/SponsorSideMenu.css';
 
 type SponsorSideMenuProps = {
   onLogout: () => void;

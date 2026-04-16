@@ -1,7 +1,7 @@
 import { useState, type SubmitEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
-import PasswordInputWithToggle from './PasswordInputWithToggle';
-import { getHomePathForRole, mockLogin } from '../lib/mockAuth';
+import PasswordInputWithToggle from '@/shared/components/PasswordInputWithToggle';
+import { getHomePathForRole, mockLogin } from '@/auth/lib/mockAuth';
 
 type Props = {
   banner: string;

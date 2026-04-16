@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
-import LoginPage from '../pages/LoginPage';
-import RegisterPage from '../pages/RegisterPage';
+import LoginPage from '@/auth/pages/LoginPage';
+import RegisterPage from '@/auth/pages/RegisterPage';
 
 export const authRoutes: ReactElement[] = [
   <Route key="login" path="/login" element={<LoginPage />} />,

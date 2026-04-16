@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import LandingAuthPanel, {
   type LandingAuthMode,
-} from '../components/LandingAuthPanel';
-import { MOCK_AUTH_HINT, getHomePathForRole, getMockSession } from '../../auth/lib/mockAuth';
-import './home.css';
-import './auth.css';
+} from '@/shared/components/LandingAuthPanel';
+import { MOCK_AUTH_HINT, getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
+import '@/shared/pages/home.css';
+import '@/auth/styles/auth.css';
 
 export default function HomePage() {
   const navigate = useNavigate();

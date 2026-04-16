@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 import { Route } from 'react-router-dom';
-import CreatorLayout from '../layouts/CreatorLayout';
-import CreatorDashboardPage from '../pages/CreatorDashboardPage';
-import CreatorMyEventsPage from '../pages/CreatorMyEventsPage';
-import CreateEventPage from '../pages/CreateEventPage';
-import CreatorTierTemplatesPage from '../pages/CreatorTierTemplatesPage';
+import CreatorLayout from '@/creators/layouts/CreatorLayout';
+import CreatorDashboardPage from '@/creators/pages/CreatorDashboardPage';
+import CreatorMyEventsPage from '@/creators/pages/CreatorMyEventsPage';
+import CreateEventPage from '@/creators/pages/CreateEventPage';
+import CreatorTierTemplatesPage from '@/creators/pages/CreatorTierTemplatesPage';
 
 export const creatorRoutes: ReactElement[] = [
   <Route key="creator" path="/creator" element={<CreatorLayout />}>

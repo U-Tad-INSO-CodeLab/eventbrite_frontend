@@ -1,5 +1,5 @@
-import type { MockSessionUser } from '../../auth/lib/mockAuth';
-import { eventCoverPlaceholderUrl } from './eventCoverPlaceholder';
+import type { MockSessionUser } from '@/auth/lib/mockAuth';
+import { eventCoverPlaceholderUrl } from '@/events/lib/eventCoverPlaceholder';
 
 const STORAGE_EVENTS = 'eventlink_mock_events';
 

@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import EventLinkLogo from './EventLinkLogo';
-import './CreatorSideMenu.css';
+import EventLinkLogo from '@/events/components/EventLinkLogo';
+import '@/creators/components/CreatorSideMenu.css';
 
 type CreatorSideMenuProps = {
   onLogout: () => void;

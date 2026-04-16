@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { CreatorTierTemplate } from '../../lib/creatorTierTemplates';
+import type { CreatorTierTemplate } from '@/creators/lib/creatorTierTemplates';
 
 type TierDraft = {
   id: string;
