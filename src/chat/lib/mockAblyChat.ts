@@ -47,6 +47,15 @@ function writeStoredMessages(
   localStorage.setItem(storageKey(channelName), JSON.stringify(trimmed));
 }
 
+/** Clears persisted mock channel history and in-memory bucket (e.g. when removing a deal thread). */
+export function clearMockChannelStorage(channelName: string): void {
+  localStorage.removeItem(storageKey(channelName));
+  const b = buckets.get(channelName);
+  if (b) {
+    b.messages = [];
+  }
+}
+
 function getBucket(channelName: string): ChannelBucket {
   let b = buckets.get(channelName);
   if (!b) {

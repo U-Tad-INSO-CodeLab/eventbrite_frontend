@@ -1,13 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import { formatIsoDate } from '@/shared/lib/formatIsoDate';
 import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
 import type { MockEvent } from '@/events/lib/mockEvents';
 import { organizerInitials } from '@/shared/lib/organizerInitials';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import { ensureDealThreadForSponsorEvent } from '@/chat/lib/mockDealThreads';
 
 type SponsorDiscoverCardProps = {
   event: MockEvent;
 };
 
 export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps) {
+  const navigate = useNavigate();
   const tierCount = Array.isArray(event.sponsorshipTiers)
     ? event.sponsorshipTiers.length
     : event.sponsorshipTierCount;
@@ -91,7 +95,10 @@ export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps)
           type="button"
           className="discover-card-cta"
           onClick={() => {
-            window.alert('On develop');
+            const session = getMockSession();
+            if (!session || session.role !== 'sponsor') return;
+            const thread = ensureDealThreadForSponsorEvent(session, event);
+            navigate(`/sponsor/messages?thread=${encodeURIComponent(thread.id)}`);
           }}
         >
           Sponsor Now
