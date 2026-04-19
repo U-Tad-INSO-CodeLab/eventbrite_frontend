@@ -52,6 +52,18 @@ export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
           My Tiers
         </NavLink>
         <NavLink
+          to="/creator/messages"
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
+        >
+          <span
+            className="creator-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
+            chat
+          </span>
+          Messages
+        </NavLink>
+        <NavLink
           to="/creator/create-event"
           className={({ isActive }) => (isActive ? 'is-active' : '')}
         >

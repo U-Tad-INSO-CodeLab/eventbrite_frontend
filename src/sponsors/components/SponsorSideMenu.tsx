@@ -28,6 +28,18 @@ export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
           </span>
           Discover
         </NavLink>
+        <NavLink
+          to="/sponsor/messages"
+          className={({ isActive }) => (isActive ? 'is-active' : '')}
+        >
+          <span
+            className="sponsor-nav-icon material-symbols-outlined"
+            aria-hidden="true"
+          >
+            chat
+          </span>
+          Messages
+        </NavLink>
       </nav>
       <button type="button" className="sponsor-logout-btn" onClick={onLogout}>
         <span

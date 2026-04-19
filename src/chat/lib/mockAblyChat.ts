@@ -111,7 +111,11 @@ export type MockAblyChannel = {
     eventOrListener: string | MessageListener,
     listener?: MessageListener
   ) => void;
-  publish: (eventName: string, data: Record<string, unknown>) => void;
+  publish: (
+    eventName: string,
+    data: Record<string, unknown>,
+    timestamp?: number
+  ) => void;
   history: () => MockAblyInboundMessage[];
 };
 
@@ -142,12 +146,16 @@ function createChannelApi(channelName: string): MockAblyChannel {
       if (!cb) return;
       b.listeners.delete(cb);
     },
-    publish(eventName: string, data: Record<string, unknown>) {
+    publish(
+      eventName: string,
+      data: Record<string, unknown>,
+      timestamp?: number
+    ) {
       const msg: MockAblyInboundMessage = {
         id: crypto.randomUUID(),
         name: eventName,
         data,
-        timestamp: Date.now(),
+        timestamp: timestamp ?? Date.now(),
       };
       b.messages = [...b.messages, msg];
       writeStoredMessages(channelName, b.messages);
@@ -158,8 +166,7 @@ function createChannelApi(channelName: string): MockAblyChannel {
 }
 
 /** Canal demo fijo patrocinador ↔ creador (sustituir por id de conversación real). */
-export const DEFAULT_SPONSOR_CREATOR_CHANNEL =
-  'sponsor-creator:demo-thread';
+export const DEFAULT_SPONSOR_CREATOR_CHANNEL = 'sponsor-creator:demo-thread';
 
 /**
  * Crea un cliente tipo Ably Realtime (mock).

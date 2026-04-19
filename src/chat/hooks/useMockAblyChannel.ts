@@ -9,6 +9,11 @@ import {
  * Generic mock Ably channel hook.
  * Subscribes to a channel + optional event name, returns messages and a publish fn.
  * When a real backend is available, swap `createMockAblyRealtime` for the Ably SDK.
+ *
+ *
+ * Initial message history comes from the `useState` initializer. If `channelName` or
+ * `eventName` change without remounting, remount the parent (e.g. `key={channelName}`) so
+ * state reloads from `listMessagesForEvent`.
  */
 export function useMockAblyChannel(channelName: string, eventName?: string) {
   const client = useMemo(() => createMockAblyRealtime(), []);
