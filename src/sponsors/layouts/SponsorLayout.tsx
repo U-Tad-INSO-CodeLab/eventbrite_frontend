@@ -1,4 +1,4 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Navigate, Outlet } from 'react-router-dom';
 import SponsorSideMenu from '@/sponsors/components/SponsorSideMenu';
 import '@/sponsors/layouts/SponsorLayout.css';
 import { getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
@@ -10,13 +10,7 @@ export default function SponsorLayout() {
   const session = getMockSession();
 
   if (!session) {
-    return (
-      <div className="dash-page">
-        <p className="dash-gate">
-          <Link to="/login">Sign in</Link> to open the sponsor area.
-        </p>
-      </div>
-    );
+    return <Navigate to="/login" replace />;
   }
 
   if (session.role !== 'sponsor') {
