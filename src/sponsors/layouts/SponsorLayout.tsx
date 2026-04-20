@@ -27,13 +27,7 @@ export default function SponsorLayout() {
   }, [location.pathname]);
 
   if (!session) {
-    return (
-      <div className="dash-page">
-        <p className="dash-gate">
-          <Link to="/login">Sign in</Link> to open the sponsor area.
-        </p>
-      </div>
-    );
+    return <Navigate to="/login" replace />;
   }
 
   if (session.role !== 'sponsor') {

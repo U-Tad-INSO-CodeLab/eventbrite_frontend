@@ -1,4 +1,4 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import CreatorSideMenu from '@/creators/components/CreatorSideMenu';
 import '@/creators/layouts/CreatorLayout.css';
 import { getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';
@@ -11,13 +11,7 @@ export default function CreatorLayout() {
   const session = getMockSession();
 
   if (!session) {
-    return (
-      <div className="dash-page">
-        <p className="dash-gate">
-          <Link to="/login">Sign in</Link> to open the creator area.
-        </p>
-      </div>
-    );
+    return <Navigate to="/login" replace />;
   }
 
   if (session.role !== 'creator') {
