@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
 import EventLinkLogo from '@/events/components/EventLinkLogo';
+import DashboardNavLink from '@/shared/components/DashboardNavLink';
 import '@/creators/components/CreatorSideMenu.css';
 
 type CreatorSideMenuProps = {
@@ -14,61 +14,36 @@ export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
         <span>EventLink</span>
       </div>
       <nav className="creator-nav">
-        <NavLink
-          to="/creator"
-          end
-          className={({ isActive }) => (isActive ? 'is-active' : '')}
-        >
-          <span
-            className="creator-nav-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            dashboard
-          </span>
+        <DashboardNavLink to="/creator" end icon="dashboard" iconClassName="creator-nav-icon">
           Dashboard
-        </NavLink>
-        <NavLink
+        </DashboardNavLink>
+        <DashboardNavLink
           to="/creator/my-events"
-          className={({ isActive }) => (isActive ? 'is-active' : '')}
+          icon="calendar_month"
+          iconClassName="creator-nav-icon"
         >
-          <span
-            className="creator-nav-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            calendar_month
-          </span>
           My Events
-        </NavLink>
-        <NavLink
+        </DashboardNavLink>
+        <DashboardNavLink
           to="/creator/tier-templates"
-          className={({ isActive }) => (isActive ? 'is-active' : '')}
+          icon="layers"
+          iconClassName="creator-nav-icon"
         >
-          <span
-            className="creator-nav-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            layers
-          </span>
           My Tiers
-        </NavLink>
-        <NavLink
+        </DashboardNavLink>
+        <DashboardNavLink to="/creator/messages" icon="chat" iconClassName="creator-nav-icon">
+          Messages
+        </DashboardNavLink>
+        <DashboardNavLink
           to="/creator/create-event"
-          className={({ isActive }) => (isActive ? 'is-active' : '')}
+          icon="add_circle"
+          iconClassName="creator-nav-icon"
         >
-          <span
-            className="creator-nav-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            add_circle
-          </span>
           Create Event
-        </NavLink>
+        </DashboardNavLink>
       </nav>
       <button type="button" className="creator-logout-btn" onClick={onLogout}>
-        <span
-          className="creator-nav-icon material-symbols-outlined"
-          aria-hidden="true"
-        >
+        <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
           logout
         </span>
         Logout

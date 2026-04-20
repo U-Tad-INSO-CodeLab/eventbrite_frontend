@@ -1,10 +1,12 @@
 .sponsor-sidebar {
+  box-sizing: border-box;
   border-right: 1px solid #e8e8ec;
   background: #fff;
-  padding: 18px 14px;
+  padding: 18px 14px max(18px, env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   height: 100svh;
+  min-height: 0;
   position: sticky;
   top: 0;
   overflow-y: auto;
@@ -30,7 +32,6 @@
 .sponsor-nav {
   display: grid;
   gap: 8px;
-  margin-bottom: auto;
 }
 
 .sponsor-nav a {
@@ -71,7 +72,10 @@
 }
 
 .sponsor-logout-btn {
-  margin-top: 16px;
+  box-sizing: border-box;
+  margin-top: auto;
+  flex-shrink: 0;
+  width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;

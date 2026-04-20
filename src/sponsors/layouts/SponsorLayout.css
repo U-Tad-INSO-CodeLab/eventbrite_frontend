@@ -9,6 +9,8 @@
 .sponsor-content {
   min-width: 0;
   min-height: 0;
+  display: flex;
+  flex-direction: column;
   overflow-y: auto;
 }
 

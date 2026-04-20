@@ -1,5 +1,5 @@
-import { NavLink } from 'react-router-dom';
 import EventLinkLogo from '@/events/components/EventLinkLogo';
+import DashboardNavLink from '@/shared/components/DashboardNavLink';
 import '@/sponsors/components/SponsorSideMenu.css';
 
 type SponsorSideMenuProps = {
@@ -15,25 +15,15 @@ export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
       </div>
       <p className="sponsor-sidebar-label">Sponsor</p>
       <nav className="sponsor-nav">
-        <NavLink
-          to="/sponsor"
-          end
-          className={({ isActive }) => (isActive ? 'is-active' : '')}
-        >
-          <span
-            className="sponsor-nav-icon material-symbols-outlined"
-            aria-hidden="true"
-          >
-            explore
-          </span>
+        <DashboardNavLink to="/sponsor" end icon="explore" iconClassName="sponsor-nav-icon">
           Discover
-        </NavLink>
+        </DashboardNavLink>
+        <DashboardNavLink to="/sponsor/messages" icon="chat" iconClassName="sponsor-nav-icon">
+          Messages
+        </DashboardNavLink>
       </nav>
       <button type="button" className="sponsor-logout-btn" onClick={onLogout}>
-        <span
-          className="sponsor-nav-icon material-symbols-outlined"
-          aria-hidden="true"
-        >
+        <span className="sponsor-nav-icon material-symbols-outlined" aria-hidden="true">
           logout
         </span>
         Logout
