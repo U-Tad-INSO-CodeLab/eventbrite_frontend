@@ -10,11 +10,10 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  min-height: 44px;
   padding: 10px 12px;
   border: 1px solid #dadade;
   border-radius: 10px;
-  background: #f7f7f8;
+  background: #fff;
   color: #1b1b1f;
   font: inherit;
   text-align: left;
@@ -25,11 +24,10 @@
   min-width: 0 !important;
   text-transform: none !important;
   box-shadow: none !important;
-  min-height: 44px !important;
   padding: 11px 12px !important;
   justify-content: space-between !important;
   align-items: center !important;
-  background: #f7f7f8 !important;
+  background: #fff !important;
   border: 1px solid #dadade !important;
   border-radius: 10px !important;
   color: #1b1b1f !important;
@@ -39,7 +37,7 @@
 
 .event-date-picker-trigger.MuiButton-root:hover {
   box-shadow: none !important;
-  background: #f7f7f8 !important;
+  background: #fff !important;
 }
 
 .event-date-picker-trigger:disabled {

@@ -21,11 +21,25 @@
   color: #111827;
 }
 
+.my-events-header h1.MuiTypography-root {
+  margin: 0 0 6px !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
 .my-events-subtitle {
   margin: 0;
   font-size: 13px;
   line-height: 1.35;
   color: #6b7280;
+}
+
+.my-events-subtitle.MuiTypography-root {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  color: #6b7280 !important;
 }
 
 .my-events-create-btn.MuiButton-root {

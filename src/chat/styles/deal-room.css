@@ -49,12 +49,29 @@
   font-size: 22px;
   font-weight: 700;
   color: #1f1630;
+  line-height: 1.2;
 }
 
 .deal-room-lead {
   margin: 6px 0 0;
   font-size: 13px;
+  line-height: 1.35;
   color: #8b8799;
+}
+
+.deal-room-title.MuiTypography-root {
+  margin: 0 !important;
+  font-size: 22px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: #1f1630 !important;
+}
+
+.deal-room-lead.MuiTypography-root {
+  margin: 6px 0 0 !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  color: #8b8799 !important;
 }
 
 .deal-room-empty-msg {
