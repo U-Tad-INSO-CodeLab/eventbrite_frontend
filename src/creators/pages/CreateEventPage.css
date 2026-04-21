@@ -725,15 +725,7 @@ span.create-field-label {
 }
 
 .create-tier-save-lib-btn {
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  color: #6b7280;
   border-radius: 8px;
-  padding: 6px 10px;
-  font: inherit;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -754,7 +746,6 @@ span.create-field-label {
 }
 
 .create-tier-save-lib-btn:hover:not(:disabled) {
-  border-color: #fdba74;
   color: #c2410c;
   background: #fff7ed;
 }
@@ -768,7 +759,6 @@ span.create-field-label {
 
 .create-tier-save-lib-btn:disabled {
   opacity: 0.45;
-  cursor: not-allowed;
 }
 
 .create-tier-save-lib-btn.MuiButton-root:disabled {
