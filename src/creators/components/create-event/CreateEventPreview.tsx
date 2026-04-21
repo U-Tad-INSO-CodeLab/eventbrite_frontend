@@ -1,4 +1,9 @@
 import { formatIsoDate } from '@/shared/lib/formatIsoDate';
+import { Box, Typography } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import GroupsIcon from '@mui/icons-material/Groups';
 
 type Props = {
   coverImageDataUrl: string | null;
@@ -47,82 +52,69 @@ export default function CreateEventPreview({
     );
 
   return (
-    <aside className="create-preview" aria-label="Live preview">
-      <h2 className="create-preview-heading">
-        <span className="create-preview-eye" aria-hidden="true">
-          <svg viewBox="0 0 24 24" focusable="false">
-            <path d="M12 5C7 5 2.73 8.11 1 12c1.73 3.89 6 7 11 7s9.27-3.11 11-7c-1.73-3.89-6-7-11-7zm0 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
-          </svg>
-        </span>
+    <Box component="aside" className="create-preview" aria-label="Live preview">
+      <Typography component="h2" className="create-preview-heading">
+        <Box className="create-preview-eye" aria-hidden="true">
+          <VisibilityIcon />
+        </Box>
         Live Preview
-      </h2>
-      <div className="create-preview-card">
-        <div className="create-preview-media">
+      </Typography>
+      <Box className="create-preview-card">
+        <Box className="create-preview-media">
           {coverImageDataUrl ? (
             <img src={coverImageDataUrl} alt="" />
           ) : (
-            <div className="placeholder">Cover Image</div>
+            <Box className="placeholder">Cover Image</Box>
           )}
-        </div>
-        <div className="create-preview-content">
-          <strong>{title.trim() || 'e.g. TechConnect Summit 2026'}</strong>
-          <p>{description.trim() || 'Event description will appear here...'}</p>
-          <ul className="create-preview-meta-list">
+        </Box>
+        <Box className="create-preview-content">
+          <Box component="strong">{title.trim() || 'e.g. TechConnect Summit 2026'}</Box>
+          <Typography component="p">
+            {description.trim() || 'Event description will appear here...'}
+          </Typography>
+          <Box component="ul" className="create-preview-meta-list">
             <li>
-              <span
-                className="material-symbols-outlined create-preview-meta-icon"
-                aria-hidden="true"
-              >
-                calendar_today
-              </span>
+              <CalendarTodayIcon className="create-preview-meta-icon" aria-hidden="true" />
               {date ? formatIsoDate(date) : 'dd/mm/yyyy'}
             </li>
             <li>
-              <span
-                className="material-symbols-outlined create-preview-meta-icon"
-                aria-hidden="true"
-              >
-                location_on
-              </span>
+              <LocationOnIcon className="create-preview-meta-icon" aria-hidden="true" />
               {location.trim() || 'City, State'}
             </li>
             <li>
-              <span
-                className="material-symbols-outlined create-preview-meta-icon"
-                aria-hidden="true"
-              >
-                groups
-              </span>
+              <GroupsIcon className="create-preview-meta-icon" aria-hidden="true" />
               {expectedAttendance.trim() || '0'}
             </li>
-          </ul>
-          <div className="create-preview-tags">
+          </Box>
+          <Box className="create-preview-tags">
             {(previewTags.length > 0 ? previewTags : ['AI', 'SaaS', 'Networking']).map(
               (tag) => (
-                <span key={tag}>{tag}</span>
+                <Box component="span" key={tag}>
+                  {tag}
+                </Box>
               )
             )}
-          </div>
+          </Box>
           {previewTiers.length > 0 ? (
-            <section className="create-preview-tiers">
-              <h4>Sponsorship Tiers</h4>
-              <ul>
+            <Box component="section" className="create-preview-tiers">
+              <Typography component="h4">Sponsorship Tiers</Typography>
+              <Box component="ul">
                 {previewTiers.map((tier) => (
                   <li key={tier.id}>
-                    <div className="create-preview-tier-top">
-                      <strong>{tier.name}</strong>
-                      <span>${tier.price.toLocaleString()}</span>
-                    </div>
+                    <Box className="create-preview-tier-top">
+                      <Box component="strong">{tier.name}</Box>
+                      <Box component="span">${tier.price.toLocaleString()}</Box>
+                    </Box>
                     {tier.benefits.length > 0 ? (
-                      <p>{tier.benefits.join(' · ')}</p>
+                      <Typography component="p">{tier.benefits.join(' · ')}</Typography>
                     ) : null}
                   </li>
                 ))}
-              </ul>
-            </section>
+              </Box>
+            </Box>
           ) : null}
-        </div>
-      </div>
-    </aside>
+        </Box>
+      </Box>
+    </Box>
   );
 }

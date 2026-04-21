@@ -1,4 +1,8 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Box, Button, IconButton, Typography } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import {
   daysInMonth,
   formatIsoForPickerDisplay,
@@ -137,8 +141,8 @@ export default function EventDatePicker({
   };
 
   return (
-    <div className="event-date-picker" ref={rootRef}>
-      <button
+    <Box className="event-date-picker" ref={rootRef}>
+      <Button
         type="button"
         id={id}
         className="event-date-picker-trigger"
@@ -148,55 +152,53 @@ export default function EventDatePicker({
         aria-controls={panelId}
         onClick={togglePanel}
       >
-        <span className={value ? '' : 'event-date-picker-placeholder'}>
+        <Box component="span" className={value ? '' : 'event-date-picker-placeholder'}>
           {value ? formatIsoForPickerDisplay(value) : 'Select date'}
-        </span>
-        <span className="material-symbols-outlined event-date-picker-icon" aria-hidden="true">
-          calendar_month
-        </span>
-      </button>
+        </Box>
+        <CalendarMonthIcon className="event-date-picker-icon" aria-hidden="true" />
+      </Button>
 
       {open ? (
-        <div
+        <Box
           id={panelId}
           className="event-date-picker-panel"
           role="dialog"
           aria-label="Choose date"
         >
-          <div className="event-date-picker-head">
-            <button
+          <Box className="event-date-picker-head">
+            <IconButton
               type="button"
               className="event-date-picker-nav"
               aria-label="Previous month"
               onClick={() => shiftMonth(-1)}
             >
-              <span className="material-symbols-outlined" aria-hidden="true">
-                chevron_left
-              </span>
-            </button>
-            <span className="event-date-picker-month">{monthLabel}</span>
-            <button
+              <ChevronLeftIcon />
+            </IconButton>
+            <Typography component="span" className="event-date-picker-month">
+              {monthLabel}
+            </Typography>
+            <IconButton
               type="button"
               className="event-date-picker-nav"
               aria-label="Next month"
               onClick={() => shiftMonth(1)}
             >
-              <span className="material-symbols-outlined" aria-hidden="true">
-                chevron_right
-              </span>
-            </button>
-          </div>
-          <div className="event-date-picker-weekdays">
+              <ChevronRightIcon />
+            </IconButton>
+          </Box>
+          <Box className="event-date-picker-weekdays">
             {['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].map((d) => (
-              <span key={d}>{d}</span>
+              <Box component="span" key={d}>
+                {d}
+              </Box>
             ))}
-          </div>
-          <div className="event-date-picker-grid">
+          </Box>
+          <Box className="event-date-picker-grid">
             {cells.map((cell, index) => {
               const selected = cell.iso === value;
               const today = cell.iso === todayIso;
               return (
-                <button
+                <Button
                   key={`${index}-${cell.iso}`}
                   type="button"
                   className={[
@@ -213,12 +215,12 @@ export default function EventDatePicker({
                   }}
                 >
                   {cell.day}
-                </button>
+                </Button>
               );
             })}
-          </div>
-        </div>
+          </Box>
+        </Box>
       ) : null}
-    </div>
+    </Box>
   );
 }
