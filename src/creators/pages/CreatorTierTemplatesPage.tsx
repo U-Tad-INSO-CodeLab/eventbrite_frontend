@@ -7,7 +7,6 @@ import {
   InputBase,
   Typography,
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CloseIcon from '@mui/icons-material/Close';
@@ -133,8 +132,7 @@ export default function CreatorTierTemplatesPage() {
           variant="contained"
           disableElevation
         >
-          <AddIcon fontSize="inherit" aria-hidden="true" />
-          New Tier
+          + New Tier
         </Button>
       </Box>
 

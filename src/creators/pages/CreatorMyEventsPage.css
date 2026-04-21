@@ -1,7 +1,7 @@
 .my-events-page {
   min-height: 100svh;
   background: #f7f7f8;
-  padding: 28px 32px 48px;
+  padding: 24px 24px 40px;
   box-sizing: border-box;
 }
 
@@ -23,7 +23,8 @@
 
 .my-events-subtitle {
   margin: 0;
-  font-size: 15px;
+  font-size: 13px;
+  line-height: 1.35;
   color: #6b7280;
 }
 
@@ -31,6 +32,11 @@
   min-width: 0 !important;
   text-transform: none !important;
   box-shadow: none !important;
+  border-radius: 10px !important;
+  padding: 10px 18px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
   border: 1px solid #ff7a00 !important;
   background: #ff7a00 !important;
   color: #fff !important;

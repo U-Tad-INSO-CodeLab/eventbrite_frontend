@@ -6,7 +6,7 @@
 .create-layout {
   width: 100%;
   max-width: none;
-  padding: 26px 24px;
+  padding: 24px 24px 40px;
   box-sizing: border-box;
 }
 
@@ -16,13 +16,14 @@
 }
 
 .create-layout h1 {
-  margin: 0;
-  font-size: 36px;
-  color: #151517;
+  margin: 0 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
 }
 
 .create-layout > section > p {
-  margin-bottom: 20px;
+  margin: 0 0 28px;
   font-size: 13px;
   line-height: 1.35;
   color: #6e6e74;
