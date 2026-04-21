@@ -1,4 +1,13 @@
 import { useMemo, useState, type SubmitEventHandler } from 'react';
+import {
+  Alert,
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  InputBase,
+  Typography,
+} from '@mui/material';
 import PasswordInputWithToggle from '@/shared/components/PasswordInputWithToggle';
 import type { MockUserRole } from '@/auth/lib/mockAuth';
 import { mockRegister } from '@/auth/lib/mockAuth';
@@ -67,22 +76,26 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
 
   return (
     <>
-      <h2 className="landing-auth-title">Create account</h2>
-      <p className="landing-auth-subtitle">
+      <Typography component="h2" className="landing-auth-title">
+        Create account
+      </Typography>
+      <Typography component="p" className="landing-auth-subtitle">
         Choose whether you sponsor events or create your own.
-      </p>
+      </Typography>
 
       {errors.form ? (
-        <div className="auth-alert auth-alert-error" role="alert">
+        <Alert className="auth-alert auth-alert-error" severity="error" role="alert">
           {errors.form}
-        </div>
+        </Alert>
       ) : null}
 
-      <form className="auth-form" onSubmit={handleRegister} noValidate>
-        <fieldset className="auth-fieldset">
-          <legend className="auth-legend">Account type</legend>
-          <div className="auth-role-grid">
-            <label className="auth-role-option">
+      <Box component="form" className="auth-form" onSubmit={handleRegister} noValidate>
+        <Box component="fieldset" className="auth-fieldset">
+          <Typography component="legend" className="auth-legend">
+            Account type
+          </Typography>
+          <Box className="auth-role-grid">
+            <Box component="label" className="auth-role-option">
               <input
                 type="radio"
                 name="role"
@@ -91,14 +104,14 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
                 onChange={() => setRole('sponsor')}
                 disabled={regLoading}
               />
-              <span className="auth-role-card">
-                <strong>Sponsor</strong>
-                <span>
+              <Box component="span" className="auth-role-card">
+                <Box component="strong">Sponsor</Box>
+                <Box component="span">
                   Sponsorships, proposals, and agreements with organizers.
-                </span>
-              </span>
-            </label>
-            <label className="auth-role-option">
+                </Box>
+              </Box>
+            </Box>
+            <Box component="label" className="auth-role-option">
               <input
                 type="radio"
                 name="role"
@@ -107,17 +120,20 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
                 onChange={() => setRole('creator')}
                 disabled={regLoading}
               />
-              <span className="auth-role-card">
-                <strong>Creator</strong>
-                <span>Create and manage your events and find sponsors.</span>
-              </span>
-            </label>
-          </div>
-        </fieldset>
+              <Box component="span" className="auth-role-card">
+                <Box component="strong">Creator</Box>
+                <Box component="span">Create and manage your events and find sponsors.</Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
 
-        <div className="auth-field">
-          <label htmlFor="landing-reg-name">Full name</label>
-          <input
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-reg-name">
+            Full name
+          </Typography>
+          <InputBase
+            className="auth-mui-field-root"
             id="landing-reg-name"
             name="fullName"
             type="text"
@@ -128,16 +144,25 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
             disabled={regLoading}
             aria-invalid={Boolean(errors.fullName)}
             aria-describedby={errors.fullName ? 'landing-reg-name-error' : undefined}
+            fullWidth
           />
           {errors.fullName ? (
-            <p id="landing-reg-name-error" className="auth-field-error" role="alert">
+            <Typography
+              component="p"
+              id="landing-reg-name-error"
+              className="auth-field-error"
+              role="alert"
+            >
               {errors.fullName}
-            </p>
+            </Typography>
           ) : null}
-        </div>
-        <div className="auth-field">
-          <label htmlFor="landing-reg-email">Email</label>
-          <input
+        </Box>
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-reg-email">
+            Email
+          </Typography>
+          <InputBase
+            className="auth-mui-field-root"
             id="landing-reg-email"
             name="email"
             type="email"
@@ -148,19 +173,27 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
             disabled={regLoading}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'landing-reg-email-error' : undefined}
+            fullWidth
           />
           {errors.email ? (
-            <p id="landing-reg-email-error" className="auth-field-error" role="alert">
+            <Typography
+              component="p"
+              id="landing-reg-email-error"
+              className="auth-field-error"
+              role="alert"
+            >
               {errors.email}
-            </p>
+            </Typography>
           ) : null}
-        </div>
-        <div className="auth-field">
-          <label htmlFor="landing-reg-password">Password</label>
-          <p className="auth-password-policy-msg" id="landing-reg-password-hint">
+        </Box>
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-reg-password">
+            Password
+          </Typography>
+          <Typography component="p" className="auth-password-policy-msg" id="landing-reg-password-hint">
             Must be at least 8 characters and include uppercase, lowercase, and at
             least one symbol (e.g. !@#$%).
-          </p>
+          </Typography>
           <PasswordInputWithToggle
             id="landing-reg-password"
             name="password"
@@ -172,15 +205,17 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
             aria-describedby={`landing-reg-password-hint landing-reg-password-checks${errors.password ? ' landing-reg-password-error' : ''}`}
           />
           {errors.password ? (
-            <p
+            <Typography
+              component="p"
               id="landing-reg-password-error"
               className="auth-field-error"
               role="alert"
             >
               {errors.password}
-            </p>
+            </Typography>
           ) : null}
-          <ul
+          <Box
+            component="ul"
             className="auth-password-checks"
             id="landing-reg-password-checks"
             aria-live="polite"
@@ -233,10 +268,12 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
               </span>
               One symbol (punctuation or special)
             </li>
-          </ul>
-        </div>
-        <div className="auth-field">
-          <label htmlFor="landing-reg-confirm">Confirm password</label>
+          </Box>
+        </Box>
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-reg-confirm">
+            Confirm password
+          </Typography>
           <PasswordInputWithToggle
             id="landing-reg-confirm"
             name="confirmPassword"
@@ -248,38 +285,41 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
             aria-describedby={errors.confirm ? 'landing-reg-confirm-error' : undefined}
           />
           {errors.confirm ? (
-            <p
+            <Typography
+              component="p"
               id="landing-reg-confirm-error"
               className="auth-field-error"
               role="alert"
             >
               {errors.confirm}
-            </p>
+            </Typography>
           ) : null}
-        </div>
+        </Box>
 
-        <label className="auth-checkbox">
-          <input
-            type="checkbox"
-            checked={acceptTerms}
-            onChange={(e) => setAcceptTerms(e.target.checked)}
-            disabled={regLoading}
-            aria-invalid={Boolean(errors.acceptTerms)}
-            aria-describedby={
-              errors.acceptTerms ? 'landing-reg-terms-error' : undefined
-            }
-          />
-          I accept the terms and privacy policy (mock)
-        </label>
+        <FormControlLabel
+          className="auth-checkbox"
+          control={
+            <Checkbox
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              disabled={regLoading}
+              aria-invalid={Boolean(errors.acceptTerms)}
+              aria-describedby={errors.acceptTerms ? 'landing-reg-terms-error' : undefined}
+            />
+          }
+          label="I accept the terms and privacy policy (mock)"
+        />
         {errors.acceptTerms ? (
-          <p id="landing-reg-terms-error" className="auth-field-error" role="alert">
+          <Typography component="p" id="landing-reg-terms-error" className="auth-field-error" role="alert">
             {errors.acceptTerms}
-          </p>
+          </Typography>
         ) : null}
 
-        <button
+        <Button
           type="submit"
           className="auth-submit"
+          variant="contained"
+          disableElevation
           disabled={regLoading || !passwordOk}
           title={
             !passwordOk
@@ -288,8 +328,8 @@ export default function LandingRegisterForm({ onRegistered }: Props) {
           }
         >
           {regLoading ? 'Creating account…' : 'Register'}
-        </button>
-      </form>
+        </Button>
+      </Box>
     </>
   );
 }
