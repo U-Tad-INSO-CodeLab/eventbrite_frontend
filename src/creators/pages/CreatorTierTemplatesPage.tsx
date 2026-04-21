@@ -1,5 +1,17 @@
 import { useCallback, useState, type FormEvent } from 'react';
 import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  InputBase,
+  Typography,
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CloseIcon from '@mui/icons-material/Close';
+import {
   addCreatorTierTemplate,
   deleteCreatorTierTemplate,
   listCreatorTierTemplates,
@@ -106,107 +118,109 @@ export default function CreatorTierTemplatesPage() {
   };
 
   return (
-    <main className="dash-main tier-templates-page">
-      <div className="tier-templates-header">
-        <div>
-          <h1>My Tiers</h1>
-          <p className="tier-templates-lead">
+    <Box component="main" className="dash-main tier-templates-page">
+      <Box className="tier-templates-header">
+        <Box>
+          <Typography component="h1">My Tiers</Typography>
+          <Typography component="p" className="tier-templates-lead">
             Save default sponsorship packages and reuse them across events.
-          </p>
-        </div>
-        <button type="button" className="tier-templates-new-btn" onClick={openCreateModal}>
-          <span className="material-symbols-outlined" aria-hidden="true">
-            add
-          </span>
+          </Typography>
+        </Box>
+        <Button
+          type="button"
+          className="tier-templates-new-btn"
+          onClick={openCreateModal}
+          variant="contained"
+          disableElevation
+        >
+          <AddIcon fontSize="inherit" aria-hidden="true" />
           New Tier
-        </button>
-      </div>
+        </Button>
+      </Box>
 
       {banner ? (
-        <div
+        <Alert
           className={`create-alert tier-templates-toast ${banner.tone === 'error' ? 'create-alert-error' : 'create-alert-success'
             }`}
         >
           {banner.text}
-        </div>
+        </Alert>
       ) : null}
 
-      <section className="tier-templates-list-section">
+      <Box component="section" className="tier-templates-list-section">
         {templates.length === 0 ? (
-          <div className="tier-templates-empty">
-            <p className="dash-events-empty">
+          <Box className="tier-templates-empty">
+            <Typography component="p" className="dash-events-empty">
               No tiers yet. Create your first default tier to reuse it in future events.
-            </p>
-          </div>
+            </Typography>
+          </Box>
         ) : (
-          <ul className="tier-templates-list">
+          <Box component="ul" className="tier-templates-list">
             {templates.map((t) => (
               <li key={t.id} className="tier-templates-row">
-                <div className="tier-templates-row-actions">
-                  <button
+                <Box className="tier-templates-row-actions">
+                  <IconButton
                     type="button"
                     className="tier-templates-icon-btn"
                     onClick={() => startEdit(t)}
                     aria-label={`Edit ${t.name}`}
                     title="Edit tier"
                   >
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                      edit
-                    </span>
-                  </button>
-                  <button
+                    <EditIcon fontSize="inherit" aria-hidden="true" />
+                  </IconButton>
+                  <IconButton
                     type="button"
                     className="tier-templates-icon-btn tier-templates-icon-btn-danger"
                     onClick={() => handleDelete(t.id)}
                     aria-label={`Delete ${t.name}`}
                     title="Delete tier"
                   >
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                      delete
-                    </span>
-                  </button>
-                </div>
-                <h3 className="tier-templates-row-title">{t.name}</h3>
-                <span className="tier-templates-row-price">{formatUsdCompact(t.priceUsd)}</span>
-                <p className="tier-templates-row-benefits">
+                    <DeleteIcon fontSize="inherit" aria-hidden="true" />
+                  </IconButton>
+                </Box>
+                <Typography component="h3" className="tier-templates-row-title">
+                  {t.name}
+                </Typography>
+                <Box component="span" className="tier-templates-row-price">
+                  {formatUsdCompact(t.priceUsd)}
+                </Box>
+                <Typography component="p" className="tier-templates-row-benefits">
                   {t.benefits.length > 0 ? t.benefits.join(', ') : 'No benefits added'}
-                </p>
+                </Typography>
               </li>
             ))}
-          </ul>
+          </Box>
         )}
-      </section>
+      </Box>
 
       {modalOpen ? (
-        <div className="tier-templates-modal-backdrop" role="presentation">
-          <div
+        <Box className="tier-templates-modal-backdrop" role="presentation">
+          <Box
             className="tier-templates-modal"
             role="dialog"
             aria-modal="true"
             aria-labelledby="tier-template-modal-title"
           >
-            <div className="tier-templates-modal-head">
-              <h2 id="tier-template-modal-title">
+            <Box className="tier-templates-modal-head">
+              <Typography component="h2" id="tier-template-modal-title">
                 {editingId ? 'Edit Default Tier' : 'New Default Tier'}
-              </h2>
-              <button
+              </Typography>
+              <IconButton
                 type="button"
                 className="tier-templates-modal-close"
                 onClick={closeModal}
                 aria-label="Close tier modal"
               >
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  close
-                </span>
-              </button>
-            </div>
+                <CloseIcon fontSize="inherit" aria-hidden="true" />
+              </IconButton>
+            </Box>
 
-            <form className="tier-templates-modal-form" onSubmit={submitForm}>
-              <div className="create-field">
-                <label className="create-field-label" htmlFor="tpl-name">
+            <Box component="form" className="tier-templates-modal-form" onSubmit={submitForm}>
+              <Box className="create-field">
+                <Typography component="label" className="create-field-label" htmlFor="tpl-name">
                   Tier Name
-                </label>
-                <input
+                </Typography>
+                <InputBase
                   id="tpl-name"
                   type="text"
                   placeholder="e.g. Platinum"
@@ -214,15 +228,15 @@ export default function CreatorTierTemplatesPage() {
                   onChange={(e) => setForm((current) => ({ ...current, name: e.target.value }))}
                   autoFocus
                 />
-              </div>
+              </Box>
 
-              <div className="create-field">
-                <label className="create-field-label" htmlFor="tpl-price">
+              <Box className="create-field">
+                <Typography component="label" className="create-field-label" htmlFor="tpl-price">
                   Price ($)
-                </label>
-                <div className="tier-templates-price-wrap">
-                  <span>$</span>
-                  <input
+                </Typography>
+                <Box className="tier-templates-price-wrap">
+                  <Box component="span">$</Box>
+                  <InputBase
                     id="tpl-price"
                     type="text"
                     inputMode="numeric"
@@ -232,14 +246,14 @@ export default function CreatorTierTemplatesPage() {
                       setForm((current) => ({ ...current, priceUsd: e.target.value }))
                     }
                   />
-                </div>
-              </div>
+                </Box>
+              </Box>
 
-              <div className="create-field">
-                <label className="create-field-label" htmlFor="tpl-benefits">
+              <Box className="create-field">
+                <Typography component="label" className="create-field-label" htmlFor="tpl-benefits">
                   Benefits (comma-separated)
-                </label>
-                <input
+                </Typography>
+                <InputBase
                   id="tpl-benefits"
                   type="text"
                   placeholder="Keynote slot, Premium booth, Logo..."
@@ -248,20 +262,20 @@ export default function CreatorTierTemplatesPage() {
                     setForm((current) => ({ ...current, benefits: e.target.value }))
                   }
                 />
-              </div>
+              </Box>
 
-              <div className="tier-templates-modal-actions">
-                <button type="button" className="tier-templates-modal-cancel" onClick={closeModal}>
+              <Box className="tier-templates-modal-actions">
+                <Button type="button" className="tier-templates-modal-cancel" onClick={closeModal}>
                   Cancel
-                </button>
-                <button type="submit" className="tier-templates-primary-btn">
+                </Button>
+                <Button type="submit" className="tier-templates-primary-btn" variant="contained" disableElevation>
                   {editingId ? 'Save changes' : 'Create tier'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       ) : null}
-    </main>
+    </Box>
   );
 }
