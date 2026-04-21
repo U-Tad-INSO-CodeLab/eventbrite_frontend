@@ -483,22 +483,41 @@ span.create-field-label {
 }
 
 .create-tier-add-btn {
-  border: 0;
-  background: transparent;
-  color: #ea580c;
+  border: 1px solid #ff7a00;
+  border-radius: 10px;
+  background: #ff7a00;
+  color: #fff;
   font: inherit;
+  font-size: 14px;
   font-weight: 700;
+  padding: 10px 18px;
   cursor: pointer;
   white-space: nowrap;
 }
 
 .create-tier-add-btn.MuiButton-root {
   min-width: 0 !important;
-  padding: 0 !important;
+  padding: 10px 18px !important;
   text-transform: none !important;
   font: inherit !important;
   font-weight: 700 !important;
-  color: #ea580c !important;
+  font-size: 14px !important;
+  color: #fff !important;
+  border: 1px solid #ff7a00 !important;
+  border-radius: 10px !important;
+  background: #ff7a00 !important;
+  box-shadow: none !important;
+}
+
+.create-tier-add-btn:hover:not(:disabled) {
+  background: #ea580c;
+  border-color: #ea580c;
+}
+
+.create-tier-add-btn.MuiButton-root:hover:not(:disabled) {
+  background: #ea580c !important;
+  border-color: #ea580c !important;
+  box-shadow: none !important;
 }
 
 .create-tier-add-btn:disabled {

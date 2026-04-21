@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
 import './CreatorMyEventsPage.css';
 import EventCard from '@/events/components/EventCard';
 import { getMockSession } from '@/auth/lib/mockAuth';
@@ -18,31 +19,40 @@ export default function CreatorMyEventsPage() {
   const activeCount = activeEvents.length;
 
   return (
-    <div className="my-events-page">
-      <header className="my-events-header">
-        <div>
-          <h1>My Events</h1>
-          <p className="my-events-subtitle">
+    <Box className="my-events-page">
+      <Box component="header" className="my-events-header">
+        <Box>
+          <Typography component="h1">My Events</Typography>
+          <Typography component="p" className="my-events-subtitle">
             {events.length} event{events.length === 1 ? '' : 's'} ·{' '}
             {activeCount} active
-          </p>
-        </div>
-        <Link to="/creator/create-event" className="my-events-create-btn">
+          </Typography>
+        </Box>
+        <Button
+          component={RouterLink}
+          to="/creator/create-event"
+          className="my-events-create-btn"
+          variant="contained"
+          disableElevation
+        >
           + Create Event
-        </Link>
-      </header>
+        </Button>
+      </Box>
 
-      <section
+      <Box
+        component="section"
         className="my-events-section"
         aria-labelledby="active-events-heading"
       >
-        <h2 id="active-events-heading" className="my-events-section-title">
+        <Typography component="h2" id="active-events-heading" className="my-events-section-title">
           Active events
-        </h2>
+        </Typography>
         {activeEvents.length === 0 ? (
-          <p className="my-events-empty">No active events.</p>
+          <Typography component="p" className="my-events-empty">
+            No active events.
+          </Typography>
         ) : (
-          <div className="my-events-grid">
+          <Box className="my-events-grid">
             {activeEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -50,18 +60,20 @@ export default function CreatorMyEventsPage() {
                 onStatusChange={refresh}
               />
             ))}
-          </div>
+          </Box>
         )}
-      </section>
+      </Box>
 
-      <section className="my-events-section" aria-labelledby="drafts-heading">
-        <h2 id="drafts-heading" className="my-events-section-title">
+      <Box component="section" className="my-events-section" aria-labelledby="drafts-heading">
+        <Typography component="h2" id="drafts-heading" className="my-events-section-title">
           Drafts
-        </h2>
+        </Typography>
         {draftEvents.length === 0 ? (
-          <p className="my-events-empty">No drafts.</p>
+          <Typography component="p" className="my-events-empty">
+            No drafts.
+          </Typography>
         ) : (
-          <div className="my-events-grid">
+          <Box className="my-events-grid">
             {draftEvents.map((event) => (
               <EventCard
                 key={event.id}
@@ -69,9 +81,9 @@ export default function CreatorMyEventsPage() {
                 onStatusChange={refresh}
               />
             ))}
-          </div>
+          </Box>
         )}
-      </section>
-    </div>
+      </Box>
+    </Box>
   );
 }
