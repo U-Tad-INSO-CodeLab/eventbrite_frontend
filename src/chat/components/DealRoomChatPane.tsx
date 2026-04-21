@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
+import { Box, Button, IconButton, InputBase } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
 import type { MockSessionUser } from '@/auth/lib/mockAuth';
 import { MOCK_CHAT_MESSAGE_EVENT, dealRoomChannelName } from '@/chat/constants';
 import { useMockAblyChannel } from '@/chat/hooks/useMockAblyChannel';
@@ -75,33 +77,35 @@ export default function DealRoomChatPane({
         prevDayKey = dayKey;
         const label = formatDaySeparatorLabel(msg.timestamp);
         nodes.push(
-          <div
+          <Box
             key={`day-sep-${dayKey}`}
             className="deal-room-day-sep"
             role="separator"
             aria-label={label}
           >
-            <span className="deal-room-day-sep-line" aria-hidden="true" />
+            <Box component="span" className="deal-room-day-sep-line" aria-hidden="true" />
             <time className="deal-room-day-sep-label" dateTime={dayKey}>
               {label}
             </time>
-            <span className="deal-room-day-sep-line" aria-hidden="true" />
-          </div>
+            <Box component="span" className="deal-room-day-sep-line" aria-hidden="true" />
+          </Box>
         );
       }
       const mine = parsed.senderId === session.id;
       nodes.push(
-        <div
+        <Box
           key={msg.id}
           className={`deal-room-bubble-row${mine ? ' deal-room-bubble-row--mine' : ''}`}
         >
-          <div className={`deal-room-bubble${mine ? ' deal-room-bubble--mine' : ''}`}>
-            <p className="deal-room-bubble-text">{parsed.body}</p>
+          <Box className={`deal-room-bubble${mine ? ' deal-room-bubble--mine' : ''}`}>
+            <Box component="p" className="deal-room-bubble-text">
+              {parsed.body}
+            </Box>
             <time className="deal-room-bubble-time" dateTime={new Date(msg.timestamp).toISOString()}>
               {formatClock(msg.timestamp)}
             </time>
-          </div>
-        </div>
+          </Box>
+        </Box>
       );
     }
     return nodes;
@@ -109,44 +113,49 @@ export default function DealRoomChatPane({
 
   return (
     <>
-      <header className="deal-room-chat-head">
-        <div className="deal-room-chat-peer">
-          <span className="deal-room-avatar deal-room-avatar--lg" aria-hidden="true">
+      <Box component="header" className="deal-room-chat-head">
+        <Box className="deal-room-chat-peer">
+          <Box component="span" className="deal-room-avatar deal-room-avatar--lg" aria-hidden="true">
             {initials(peerName)}
-          </span>
-          <div>
-            <div className="deal-room-chat-name">{peerName}</div>
-            <div className="deal-room-chat-event">{thread.eventTitle}</div>
-          </div>
-        </div>
-      </header>
+          </Box>
+          <Box>
+            <Box className="deal-room-chat-name">{peerName}</Box>
+            <Box className="deal-room-chat-event">{thread.eventTitle}</Box>
+          </Box>
+        </Box>
+      </Box>
 
-      <div className="deal-room-chat-tab" role="heading" aria-level={2}>
+      <Box className="deal-room-chat-tab" role="heading" aria-level={2}>
         Chat
-      </div>
+      </Box>
 
-      <div className="deal-room-messages">
+      <Box className="deal-room-messages">
         {messageBlocks}
-        <div ref={listEndRef} />
-      </div>
+        <Box ref={listEndRef} />
+      </Box>
 
-      <div className="deal-room-compose">
-        <div className="deal-room-quick" aria-label="Suggested replies">
+      <Box className="deal-room-compose">
+        <Box className="deal-room-quick" aria-label="Suggested replies">
           {QUICK_REPLIES.map((q) => (
-            <button
+            <Button
               key={q}
               type="button"
               className="deal-room-quick-btn"
               onClick={() => sendMessage(q)}
+              variant="text"
+              disableElevation
+              disableRipple
             >
               {q}
-            </button>
+            </Button>
           ))}
-        </div>
-        <div className="deal-room-input-row">
-          <label className="deal-room-input-label" htmlFor="deal-room-message-input">
-            <span className="deal-room-sr-only">Message</span>
-            <input
+        </Box>
+        <Box className="deal-room-input-row">
+          <Box component="label" className="deal-room-input-label" htmlFor="deal-room-message-input">
+            <Box component="span" className="deal-room-sr-only">
+              Message
+            </Box>
+            <InputBase
               id="deal-room-message-input"
               type="text"
               className="deal-room-input"
@@ -160,14 +169,12 @@ export default function DealRoomChatPane({
                 }
               }}
             />
-          </label>
-          <button type="button" className="deal-room-send" onClick={sendDraft} aria-label="Send message">
-            <span className="material-symbols-outlined" aria-hidden="true">
-              send
-            </span>
-          </button>
-        </div>
-      </div>
+          </Box>
+          <IconButton type="button" className="deal-room-send" onClick={sendDraft} aria-label="Send message">
+            <SendIcon fontSize="inherit" aria-hidden="true" />
+          </IconButton>
+        </Box>
+      </Box>
     </>
   );
 }

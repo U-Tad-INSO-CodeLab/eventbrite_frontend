@@ -101,6 +101,14 @@
   box-sizing: border-box;
 }
 
+.deal-room-thread-card.MuiButton-root {
+  min-width: 0 !important;
+  justify-content: flex-start !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  color: inherit !important;
+}
+
 .deal-room-thread-card:hover {
   background: #f3f0f9;
 }
@@ -357,6 +365,16 @@
   cursor: pointer;
 }
 
+.deal-room-quick-btn.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  color: #4b3d66 !important;
+  border: 1px solid #e4dcef !important;
+  background: #faf9fc !important;
+  padding: 6px 10px !important;
+}
+
 .deal-room-quick-btn:hover {
   border-color: #cfc6e0;
   background: #f3f0f9;
@@ -385,11 +403,32 @@
   color: #2f2542;
 }
 
+.deal-room-input.MuiInputBase-root {
+  width: 100% !important;
+}
+
+.deal-room-input .MuiInputBase-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  border: 0 !important;
+  border-radius: inherit !important;
+  padding: 12px 14px !important;
+  font: inherit !important;
+  font-size: 14px !important;
+  background: transparent !important;
+  color: #2f2542 !important;
+}
+
 .deal-room-input:focus {
   outline: none;
   border-color: #cfc6e0;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(116, 96, 153, 0.08);
+}
+
+.deal-room-input .MuiInputBase-input:focus {
+  outline: none !important;
+  border-color: transparent !important;
 }
 
 .deal-room-send {
@@ -406,11 +445,26 @@
   justify-content: center;
 }
 
+.deal-room-send.MuiIconButton-root {
+  flex-shrink: 0;
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 12px !important;
+  border: 0 !important;
+  background: #ff6c1c !important;
+  color: #fff !important;
+  padding: 0 !important;
+}
+
 .deal-room-send:hover {
   filter: brightness(1.03);
 }
 
 .deal-room-send .material-symbols-outlined {
+  font-size: 22px;
+}
+
+.deal-room-send .MuiSvgIcon-root {
   font-size: 22px;
 }
 

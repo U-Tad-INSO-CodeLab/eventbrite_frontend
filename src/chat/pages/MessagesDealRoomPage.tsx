@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Box, Typography } from '@mui/material';
 import { getMockSession } from '@/auth/lib/mockAuth';
 import DealRoomChatPane from '@/chat/components/DealRoomChatPane';
 import DealRoomEmptyState from '@/chat/components/DealRoomEmptyState';
@@ -97,15 +98,15 @@ export default function MessagesDealRoomPage() {
   const peerName = selectedThread ? peerNameForThread(selectedThread, session.role) : '';
 
   return (
-    <div className="deal-room-page-wrap">
-      <div className="deal-room">
+    <Box className="deal-room-page-wrap">
+      <Box className="deal-room">
         <DealRoomThreadList
           threads={threads}
           selectedThreadId={selectedThreadId}
           role={session.role}
           onSelectThread={selectThread}
         />
-        <section className="deal-room-main" aria-label="Conversation">
+        <Box component="section" className="deal-room-main" aria-label="Conversation">
           {selectedThread ? (
             <DealRoomChatPane
               key={selectedThread.id}
@@ -115,10 +116,12 @@ export default function MessagesDealRoomPage() {
               onAfterSend={refreshThreads}
             />
           ) : (
-            <p className="deal-room-empty-msg">Select a conversation.</p>
+            <Typography component="p" className="deal-room-empty-msg">
+              Select a conversation.
+            </Typography>
           )}
-        </section>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 }
