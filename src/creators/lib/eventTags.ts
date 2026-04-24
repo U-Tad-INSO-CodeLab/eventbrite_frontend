@@ -1,0 +1,17 @@
+export const PREDEFINED_TAGS = [
+    'AI',
+    'SaaS',
+    'Networking',
+    'Technology',
+    'Startup',
+    'Marketing',
+    'Finance',
+    'Healthcare',
+    'Design',
+    'Developer',
+    'Education',
+    'Sustainability',
+    'E-commerce',
+    'Web3',
+    'Leadership',
+];
