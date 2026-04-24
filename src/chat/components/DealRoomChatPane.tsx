@@ -24,6 +24,7 @@ type DealRoomChatPaneProps = {
   session: MockSessionUser;
   thread: MockDealThread;
   peerName: string;
+  initialDraft?: string;
   onAfterSend: () => void;
 };
 
@@ -31,11 +32,12 @@ export default function DealRoomChatPane({
   session,
   thread,
   peerName,
+  initialDraft = '',
   onAfterSend,
 }: DealRoomChatPaneProps) {
   const channelName = dealRoomChannelName(thread.id);
   const { messages, publish } = useMockAblyChannel(channelName, MOCK_CHAT_MESSAGE_EVENT);
-  const [draft, setDraft] = useState('');
+  const [draft, setDraft] = useState(initialDraft);
   const listEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
