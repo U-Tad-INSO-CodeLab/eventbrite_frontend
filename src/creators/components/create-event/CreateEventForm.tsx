@@ -3,6 +3,7 @@ import CreateEventTiersSection from '@/creators/components/create-event/CreateEv
 import type { CreatorTierTemplate } from '@/creators/lib/creatorTierTemplates';
 import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject, FormEventHandler } from 'react';
 import { Alert, Box, Button, IconButton, InputBase, Typography } from '@mui/material';
+import { PREDEFINED_TAGS } from '@/creators/lib/eventTags';
 import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
@@ -31,7 +32,7 @@ type Props = {
   onLocationChange: ChangeEventHandler<HTMLInputElement>;
   onIndustryChange: ChangeEventHandler<HTMLInputElement>;
   onExpectedAttendanceChange: ChangeEventHandler<HTMLInputElement>;
-  onTagsChange: ChangeEventHandler<HTMLInputElement>;
+  onTagsChange: (tags: string) => void;
   onTierNameChange: (tierId: string, value: string) => void;
   onTierPriceChange: (tierId: string, value: string) => void;
   onTierBenefitsChange: (tierId: string, value: string) => void;
@@ -252,18 +253,49 @@ export default function CreateEventForm({
           </Box>
 
           <Box className="create-field">
-            <Typography component="label" className="create-field-label" htmlFor="create-tags">
-              Tags (comma-separated)
+            <Typography component="span" className="create-field-label">
+              Tags
             </Typography>
-            <InputBase
-              id="create-tags"
-              name="tags"
-              type="text"
-              placeholder="AI, SaaS, Networking"
-              value={tags}
-              onChange={onTagsChange}
-              disabled={loading}
-            />
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px', pt: '2px' }}>
+              {PREDEFINED_TAGS.map((tag) => {
+                const selected = tags.split(',').map((t) => t.trim()).filter(Boolean).includes(tag);
+                return (
+                  <Button
+                    key={tag}
+                    type="button"
+                    disabled={loading}
+                    onClick={() => {
+                      const current = tags.split(',').map((t) => t.trim()).filter(Boolean);
+                      const next = selected
+                        ? current.filter((t) => t !== tag)
+                        : [...current, tag];
+                      onTagsChange(next.join(', '));
+                    }}
+                    sx={{
+                      borderRadius: '999px',
+                      padding: '5px 14px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      textTransform: 'none',
+                      minWidth: 0,
+                      boxShadow: 'none',
+                      border: '1px solid',
+                      borderColor: selected ? '#ff7a00' : '#e5e7eb',
+                      background: selected ? '#fff1e6' : '#fff',
+                      color: selected ? '#f97316' : '#374151',
+                      '&:hover': {
+                        boxShadow: 'none',
+                        borderColor: '#fdba74',
+                        background: '#fff7ed',
+                        color: '#c2410c',
+                      },
+                    }}
+                  >
+                    {tag}
+                  </Button>
+                );
+              })}
+            </Box>
           </Box>
 
           <CreateEventTiersSection
