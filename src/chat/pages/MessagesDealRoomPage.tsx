@@ -24,6 +24,7 @@ export default function MessagesDealRoomPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   /** Primitive for deps (avoid mutable `searchParams` in memo lists). */
   const threadKey = searchParams.get('thread') ?? '';
+  const initialDraft = searchParams.get('draft') ?? '';
   const [threads, setThreads] = useState<MockDealThread[]>([]);
 
   const refreshThreads = useCallback(() => {
@@ -113,6 +114,7 @@ export default function MessagesDealRoomPage() {
               session={session}
               thread={selectedThread}
               peerName={peerName}
+              initialDraft={initialDraft}
               onAfterSend={refreshThreads}
             />
           ) : (

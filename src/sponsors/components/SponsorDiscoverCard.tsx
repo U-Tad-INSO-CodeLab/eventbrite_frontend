@@ -105,7 +105,9 @@ export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps)
             const session = getMockSession();
             if (!session || session.role !== 'sponsor') return;
             const thread = ensureDealThreadForSponsorEvent(session, event);
-            navigate(`/sponsor/messages?thread=${encodeURIComponent(thread.id)}`);
+            const firstName = event.creatorName?.split(' ')[0];
+            const draft = `Hola${firstName ? `, ${firstName}` : ''}! He visto tu evento ${event.title} y me interesaría que charlemos sobre la posibilidad de colaborar. ¿Qué te parece?`;
+            navigate(`/sponsor/messages?thread=${encodeURIComponent(thread.id)}&draft=${encodeURIComponent(draft)}`);
           }}
         >
           Sponsor Now
