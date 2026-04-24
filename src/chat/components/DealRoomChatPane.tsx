@@ -37,7 +37,7 @@ export default function DealRoomChatPane({
 }: DealRoomChatPaneProps) {
   const channelName = dealRoomChannelName(thread.id);
   const { messages, publish } = useMockAblyChannel(channelName, MOCK_CHAT_MESSAGE_EVENT);
-  const [draft, setDraft] = useState(initialDraft);
+  const [draft, setDraft] = useState(() => messages.length === 0 ? initialDraft : '');
   const listEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
