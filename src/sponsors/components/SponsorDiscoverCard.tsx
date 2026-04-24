@@ -106,7 +106,7 @@ export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps)
             if (!session || session.role !== 'sponsor') return;
             const thread = ensureDealThreadForSponsorEvent(session, event);
             const firstName = event.creatorName?.split(' ')[0];
-            const draft = `Hola${firstName ? `, ${firstName}` : ''}! He visto tu evento ${event.title} y me interesaría que charlemos sobre la posibilidad de colaborar. ¿Qué te parece?`;
+            const draft = `Hi${firstName ? `, ${firstName}` : ''}! I came across your event ${event.title} and would be interested in discussing a potential collaboration. What do you think?`;
             navigate(`/sponsor/messages?thread=${encodeURIComponent(thread.id)}&draft=${encodeURIComponent(draft)}`);
           }}
         >
