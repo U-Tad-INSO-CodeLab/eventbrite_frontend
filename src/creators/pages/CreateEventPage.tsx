@@ -106,7 +106,7 @@ function CreateEventContent({ session }: { session: MockSessionUser }) {
         onExpectedAttendanceChange={(e) =>
           form.setExpectedAttendance(e.target.value)
         }
-        onTagsChange={(e) => form.setTags(e.target.value)}
+        onTagsChange={(tags) => form.setTags(tags)}
         savedTemplates={savedTemplates}
         isTierAlreadySaved={(tierId) => {
           const tier = tiers.find((currentTier) => currentTier.id === tierId);
