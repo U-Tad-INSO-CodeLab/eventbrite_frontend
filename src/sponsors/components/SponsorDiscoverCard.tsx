@@ -1,4 +1,9 @@
 import { useNavigate } from 'react-router-dom';
+import { Box, Button, Typography } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import GroupsIcon from '@mui/icons-material/Groups';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { formatIsoDate } from '@/shared/lib/formatIsoDate';
 import { formatUsdCompact } from '@/shared/lib/formatUsdCompact';
 import type { MockEvent } from '@/events/lib/mockEvents';
@@ -23,77 +28,79 @@ export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps)
     : event.sponsorshipMaxPriceUsd;
 
   return (
-    <article className="discover-card">
-      <div className="discover-card-media">
+    <Box component="article" className="discover-card">
+      <Box className="discover-card-media">
         <img src={event.coverImageDataUrl} alt="" loading="lazy" />
-        <span className="discover-card-category">{event.industry || 'Event'}</span>
-      </div>
-      <div className="discover-card-body">
-        <h3 className="discover-card-title">{event.title}</h3>
-        <p className="discover-card-desc">{event.description}</p>
-        <ul className="discover-card-meta">
+        <Box component="span" className="discover-card-category">
+          {event.industry || 'Event'}
+        </Box>
+      </Box>
+      <Box className="discover-card-body">
+        <Typography component="h3" className="discover-card-title">
+          {event.title}
+        </Typography>
+        <Typography component="p" className="discover-card-desc">
+          {event.description}
+        </Typography>
+        <Box component="ul" className="discover-card-meta">
           <li>
-            <span className="material-symbols-outlined" aria-hidden="true">
-              calendar_today
-            </span>
+            <CalendarTodayIcon className="discover-card-meta-icon" aria-hidden="true" />
             {formatIsoDate(event.date, '—')}
           </li>
           <li>
-            <span className="material-symbols-outlined" aria-hidden="true">
-              location_on
-            </span>
+            <LocationOnIcon className="discover-card-meta-icon" aria-hidden="true" />
             {event.location.trim() || '—'}
           </li>
           <li>
-            <span className="material-symbols-outlined" aria-hidden="true">
-              groups
-            </span>
+            <GroupsIcon className="discover-card-meta-icon" aria-hidden="true" />
             {event.expectedAttendance > 0
               ? event.expectedAttendance.toLocaleString()
               : '—'}
           </li>
-        </ul>
+        </Box>
         {event.tags.length > 0 ? (
-          <div className="discover-card-tags discover-card-tags--chips">
+          <Box className="discover-card-tags discover-card-tags--chips">
             {event.tags.map((tag) => (
-              <span key={tag} className="discover-card-tag-chip">
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  local_offer
-                </span>
+              <Box component="span" key={tag} className="discover-card-tag-chip">
+                <LocalOfferIcon className="discover-card-tag-icon" aria-hidden="true" />
                 {tag}
-              </span>
+              </Box>
             ))}
-          </div>
+          </Box>
         ) : null}
         {tierCount > 0 ? (
-          <div className="discover-card-tier-summary">
-            <span>
-              <strong>{tierCount}</strong> tier{tierCount === 1 ? '' : 's'}
-            </span>
-            <span>·</span>
-            <span>
+          <Box className="discover-card-tier-summary">
+            <Box component="span">
+              <Box component="strong">{tierCount}</Box> tier{tierCount === 1 ? '' : 's'}
+            </Box>
+            <Box component="span">·</Box>
+            <Box component="span">
               up to{' '}
-              <strong className="discover-card-tier-price">
+              <Box component="strong" className="discover-card-tier-price">
                 {formatUsdCompact(maxTierPrice)}
-              </strong>
-            </span>
-          </div>
+              </Box>
+            </Box>
+          </Box>
         ) : (
-          <div className="discover-card-tier-summary discover-card-tier-summary--empty">
+          <Box className="discover-card-tier-summary discover-card-tier-summary--empty">
             No sponsorship tiers yet
-          </div>
+          </Box>
         )}
-      </div>
-      <footer className="discover-card-footer">
-        <div className="discover-card-organizer">
-          <span className="discover-card-avatar" aria-hidden="true">
+      </Box>
+      <Box component="footer" className="discover-card-footer">
+        <Box className="discover-card-organizer">
+          <Box component="span" className="discover-card-avatar" aria-hidden="true">
             {organizerInitials(event.creatorName)}
-          </span>
-          <span className="discover-card-organizer-name">{event.creatorName}</span>
-        </div>
-        <button
+          </Box>
+          <Box component="span" className="discover-card-organizer-name">
+            {event.creatorName}
+          </Box>
+        </Box>
+        <Button
           type="button"
           className="discover-card-cta"
+          variant="contained"
+          disableElevation
           onClick={() => {
             const session = getMockSession();
             if (!session || session.role !== 'sponsor') return;
@@ -102,8 +109,8 @@ export default function SponsorDiscoverCard({ event }: SponsorDiscoverCardProps)
           }}
         >
           Sponsor Now
-        </button>
-      </footer>
-    </article>
+        </Button>
+      </Box>
+    </Box>
   );
 }

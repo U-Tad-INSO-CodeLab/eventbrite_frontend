@@ -1,4 +1,5 @@
 import type { MockUserRole } from '@/auth/lib/mockAuth';
+import { Box, Button, Typography } from '@mui/material';
 import { formatRelativeTime, initials } from '@/chat/lib/dealRoomMessageUtils';
 import { peerNameForThread, type MockDealThread } from '@/chat/lib/mockDealThreads';
 
@@ -19,50 +20,62 @@ export default function DealRoomThreadList({
     role === 'sponsor' ? t.unreadForSponsor : t.unreadForCreator;
 
   return (
-    <aside className="deal-room-sidebar">
-      <header className="deal-room-sidebar-head">
-        <h1 className="deal-room-title">Deal Room</h1>
-        <p className="deal-room-lead">Manage your sponsorship negotiations.</p>
-      </header>
-      <ul className="deal-room-thread-list">
+    <Box component="aside" className="deal-room-sidebar">
+      <Box component="header" className="deal-room-sidebar-head">
+        <Typography component="h1" className="deal-room-title">
+          Deal Room
+        </Typography>
+        <Typography component="p" className="deal-room-lead">
+          Manage your sponsorship negotiations.
+        </Typography>
+      </Box>
+      <Box component="ul" className="deal-room-thread-list">
         {threads.map((t) => {
           const peer = peerNameForThread(t, role);
           const active = t.id === selectedThreadId;
           const unread = unreadForRole(t);
           return (
             <li key={t.id}>
-              <button
+              <Button
                 type="button"
                 className={`deal-room-thread-card${active ? ' is-active' : ''}`}
                 onClick={() => onSelectThread(t.id)}
+                variant="text"
+                disableElevation
+                disableRipple
               >
-                <span className="deal-room-avatar" aria-hidden="true">
+                <Box component="span" className="deal-room-avatar" aria-hidden="true">
                   {initials(peer)}
-                </span>
-                <div className="deal-room-thread-main">
-                  <div className="deal-room-thread-top">
-                    <span className="deal-room-thread-name">{peer}</span>
-                    <div className="deal-room-thread-meta">
-                      <span className="deal-room-thread-time">{formatRelativeTime(t.lastAt)}</span>
+                </Box>
+                <Box className="deal-room-thread-main">
+                  <Box className="deal-room-thread-top">
+                    <Box component="span" className="deal-room-thread-name">
+                      {peer}
+                    </Box>
+                    <Box className="deal-room-thread-meta">
+                      <Box component="span" className="deal-room-thread-time">
+                        {formatRelativeTime(t.lastAt)}
+                      </Box>
                       {unread > 0 ? (
-                        <span
+                        <Box
+                          component="span"
                           className="deal-room-unread"
                           aria-label={`${unread} unread`}
                           data-wide={unread > 9 ? 'true' : undefined}
                         >
                           {unread > 9 ? '9+' : String(unread)}
-                        </span>
+                        </Box>
                       ) : null}
-                    </div>
-                  </div>
-                  <div className="deal-room-thread-event">{t.eventTitle}</div>
-                  <div className="deal-room-thread-preview">{t.lastPreview}</div>
-                </div>
-              </button>
+                    </Box>
+                  </Box>
+                  <Box className="deal-room-thread-event">{t.eventTitle}</Box>
+                  <Box className="deal-room-thread-preview">{t.lastPreview}</Box>
+                </Box>
+              </Button>
             </li>
           );
         })}
-      </ul>
-    </aside>
+      </Box>
+    </Box>
   );
 }

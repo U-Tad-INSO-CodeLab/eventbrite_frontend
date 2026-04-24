@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
 import {
   getHomePathForRole,
   getMockSession,
@@ -31,27 +32,29 @@ export default function LandingAuthPanel({ mode, onModeChange }: Props) {
   }, [navigate]);
 
   return (
-    <div className="landing-auth-panel">
-      <div className="landing-auth-tabs" role="tablist" aria-label="Account">
-        <button
+    <Box className="landing-auth-panel">
+      <Box className="landing-auth-tabs" role="tablist" aria-label="Account">
+        <Button
           type="button"
           role="tab"
           aria-selected={mode === 'login'}
           className={mode === 'login' ? 'is-active' : ''}
           onClick={() => onModeChange('login')}
+          disableRipple
         >
           Log In
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           role="tab"
           aria-selected={mode === 'register'}
           className={mode === 'register' ? 'is-active' : ''}
           onClick={() => onModeChange('register')}
+          disableRipple
         >
           Register
-        </button>
-      </div>
+        </Button>
+      </Box>
 
       {mode === 'login' ? (
         <LandingLoginForm banner={banner} clearBanner={() => setBanner('')} />
@@ -66,6 +69,6 @@ export default function LandingAuthPanel({ mode, onModeChange }: Props) {
           }}
         />
       )}
-    </div>
+    </Box>
   );
 }

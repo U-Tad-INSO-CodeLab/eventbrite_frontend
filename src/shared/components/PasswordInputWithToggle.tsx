@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
+import { Box, IconButton, InputBase } from '@mui/material'
 
 type Props = {
   id: string
@@ -73,8 +74,9 @@ export default function PasswordInputWithToggle({
   }
 
   return (
-    <div className="auth-input-password-wrap">
-      <input
+    <Box className="auth-input-password-wrap">
+      <InputBase
+        className="auth-mui-field-root auth-mui-password-field"
         id={id}
         name={name}
         type={visible ? 'text' : 'password'}
@@ -84,8 +86,9 @@ export default function PasswordInputWithToggle({
         onChange={handleChange}
         disabled={disabled}
         aria-describedby={ariaDescribedBy}
+        fullWidth
       />
-      <button
+      <IconButton
         type="button"
         className="auth-password-toggle"
         onClick={() => setVisible((v) => !v)}
@@ -99,7 +102,7 @@ export default function PasswordInputWithToggle({
         }
       >
         {visible ? <IconEyeOff /> : <IconEye />}
-      </button>
-    </div>
+      </IconButton>
+    </Box>
   )
 }

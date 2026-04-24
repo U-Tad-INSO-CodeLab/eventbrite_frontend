@@ -1,3 +1,10 @@
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
+import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
+import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import { Box, Button, Typography } from '@mui/material';
 import EventLinkLogo from '@/events/components/EventLinkLogo';
 import DashboardNavLink from '@/shared/components/DashboardNavLink';
 import '@/creators/components/CreatorSideMenu.css';
@@ -8,46 +15,62 @@ type CreatorSideMenuProps = {
 
 export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
   return (
-    <aside className="creator-sidebar">
-      <div className="creator-brand">
+    <Box component="aside" className="creator-sidebar">
+      <Box component="div" className="creator-brand">
         <EventLinkLogo variant="header" />
-        <span>EventLink</span>
-      </div>
-      <nav className="creator-nav">
-        <DashboardNavLink to="/creator" end icon="dashboard" iconClassName="creator-nav-icon">
+        <Box component="span">EventLink</Box>
+      </Box>
+      <Typography component="p" className="creator-sidebar-label">
+        Creator
+      </Typography>
+      <Box component="nav" className="creator-nav">
+        <DashboardNavLink
+          to="/creator"
+          end
+          icon={<DashboardOutlinedIcon />}
+          iconClassName="creator-nav-icon"
+        >
           Dashboard
         </DashboardNavLink>
         <DashboardNavLink
           to="/creator/my-events"
-          icon="calendar_month"
+          icon={<CalendarMonthOutlinedIcon />}
           iconClassName="creator-nav-icon"
         >
           My Events
         </DashboardNavLink>
         <DashboardNavLink
           to="/creator/tier-templates"
-          icon="layers"
+          icon={<LayersOutlinedIcon />}
           iconClassName="creator-nav-icon"
         >
           My Tiers
         </DashboardNavLink>
-        <DashboardNavLink to="/creator/messages" icon="chat" iconClassName="creator-nav-icon">
+        <DashboardNavLink
+          to="/creator/messages"
+          icon={<ChatOutlinedIcon />}
+          iconClassName="creator-nav-icon"
+        >
           Messages
         </DashboardNavLink>
         <DashboardNavLink
           to="/creator/create-event"
-          icon="add_circle"
+          icon={<AddCircleOutlinedIcon />}
           iconClassName="creator-nav-icon"
         >
           Create Event
         </DashboardNavLink>
-      </nav>
-      <button type="button" className="creator-logout-btn" onClick={onLogout}>
-        <span className="creator-nav-icon material-symbols-outlined" aria-hidden="true">
-          logout
-        </span>
+      </Box>
+      <Button
+        type="button"
+        className="creator-logout-btn"
+        onClick={onLogout}
+        disableElevation
+        disableRipple
+      >
+        <LogoutOutlinedIcon className="creator-nav-icon" aria-hidden="true" />
         Logout
-      </button>
-    </aside>
+      </Button>
+    </Box>
   );
 }

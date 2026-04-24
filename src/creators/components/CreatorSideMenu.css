@@ -16,7 +16,17 @@
   align-items: center;
   gap: 8px;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+}
+
+.creator-sidebar-label.MuiTypography-root {
+  margin: 0 0 12px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: #9ca3af !important;
 }
 
 .creator-nav {
@@ -34,6 +44,27 @@
   border-radius: 10px;
   padding: 10px 12px;
   cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.creator-nav a:not(.is-active):hover {
+  background: #f3f3f5;
+  color: #2d2d32;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  transform: translateX(2px);
+}
+
+.creator-nav a:not(.is-active):hover .creator-nav-icon {
+  color: #6b6b72;
+}
+
+.creator-nav a.is-active:hover {
+  background: #ffe8d2;
+  box-shadow: 0 1px 4px rgba(180, 83, 9, 0.12);
 }
 
 .creator-nav-icon {
@@ -52,6 +83,11 @@
     'opsz' 24;
 }
 
+.creator-nav-icon .MuiSvgIcon-root,
+.creator-nav-icon.MuiSvgIcon-root {
+  font-size: 18px;
+}
+
 .creator-nav a.is-active {
   color: #b45309;
   background: #fff1e5;
@@ -62,25 +98,40 @@
   color: #b45309;
 }
 
-.creator-logout-btn {
-  margin-top: 16px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: 1px solid #e6e6ea;
-  background: #f1f1f2;
-  color: #55555b;
-  border-radius: 10px;
-  padding: 10px 12px;
-  font: inherit;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
+.creator-logout-btn.MuiButton-root {
+  margin-top: auto !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  align-self: stretch !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  padding: 10px 12px !important;
+  border: 1px solid #e6e6ea !important;
+  border-radius: 10px !important;
+  background: #f1f1f2 !important;
+  color: #55555b !important;
+  text-transform: none !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  box-shadow: none !important;
 }
 
-.creator-logout-btn:hover {
-  background: #e8e8ec;
+.creator-logout-btn.MuiButton-root:hover {
+  background: #e8e8ec !important;
+  box-shadow: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creator-nav a {
+    transition: none;
+  }
+
+  .creator-nav a:not(.is-active):hover {
+    transform: none;
+  }
 }
 
 @media (max-width: 780px) {

@@ -1,5 +1,14 @@
 import { useState, type SubmitEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {
+  Alert,
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  InputBase,
+  Typography,
+} from '@mui/material';
 import PasswordInputWithToggle from '@/shared/components/PasswordInputWithToggle';
 import { getHomePathForRole, mockLogin } from '@/auth/lib/mockAuth';
 
@@ -50,24 +59,31 @@ export default function LandingLoginForm({ banner, clearBanner }: Props) {
 
   return (
     <>
-      <h2 className="landing-auth-title">Welcome back</h2>
-      <p className="landing-auth-subtitle">Sign in to your account</p>
+      <Typography component="h2" className="landing-auth-title">
+        Welcome back
+      </Typography>
+      <Typography component="p" className="landing-auth-subtitle">
+        Sign in to your account
+      </Typography>
 
       {banner ? (
-        <div className="auth-alert auth-alert-success" role="status">
+        <Alert className="auth-alert auth-alert-success" severity="success" role="status">
           {banner}
-        </div>
+        </Alert>
       ) : null}
       {errors.form ? (
-        <div className="auth-alert auth-alert-error" role="alert">
+        <Alert className="auth-alert auth-alert-error" severity="error" role="alert">
           {errors.form}
-        </div>
+        </Alert>
       ) : null}
 
-      <form className="auth-form" onSubmit={handleLogin} noValidate>
-        <div className="auth-field">
-          <label htmlFor="landing-login-email">Email</label>
-          <input
+      <Box component="form" className="auth-form" onSubmit={handleLogin} noValidate>
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-login-email">
+            Email
+          </Typography>
+          <InputBase
+            className="auth-mui-field-root"
             id="landing-login-email"
             name="email"
             type="email"
@@ -78,15 +94,23 @@ export default function LandingLoginForm({ banner, clearBanner }: Props) {
             disabled={loginLoading}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'landing-login-email-error' : undefined}
+            fullWidth
           />
           {errors.email ? (
-            <p id="landing-login-email-error" className="auth-field-error" role="alert">
+            <Typography
+              component="p"
+              id="landing-login-email-error"
+              className="auth-field-error"
+              role="alert"
+            >
               {errors.email}
-            </p>
+            </Typography>
           ) : null}
-        </div>
-        <div className="auth-field">
-          <label htmlFor="landing-login-password">Password</label>
+        </Box>
+        <Box className="auth-field">
+          <Typography component="label" htmlFor="landing-login-password">
+            Password
+          </Typography>
           <PasswordInputWithToggle
             id="landing-login-password"
             name="password"
@@ -100,39 +124,50 @@ export default function LandingLoginForm({ banner, clearBanner }: Props) {
             }
           />
           {errors.password ? (
-            <p
+            <Typography
+              component="p"
               id="landing-login-password-error"
               className="auth-field-error"
               role="alert"
             >
               {errors.password}
-            </p>
+            </Typography>
           ) : null}
-        </div>
+        </Box>
 
-        <div className="auth-row-inline">
-          <label className="auth-checkbox">
-            <input
-              type="checkbox"
-              checked={remember}
-              onChange={(e) => setRemember(e.target.checked)}
-              disabled={loginLoading}
-            />
-            Remember me
-          </label>
-          <button
+        <Box className="auth-row-inline">
+          <FormControlLabel
+            className="auth-checkbox"
+            control={
+              <Checkbox
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                disabled={loginLoading}
+              />
+            }
+            label="Remember me"
+          />
+          <Button
             type="button"
             className="auth-link"
+            variant="text"
+            disableElevation
             onClick={() => alert('On development.')}
           >
             Forgot your password?
-          </button>
-        </div>
+          </Button>
+        </Box>
 
-        <button type="submit" className="auth-submit" disabled={loginLoading}>
+        <Button
+          type="submit"
+          className="auth-submit"
+          disabled={loginLoading}
+          variant="contained"
+          disableElevation
+        >
           {loginLoading ? 'Signing in…' : 'Log In'}
-        </button>
-      </form>
+        </Button>
+      </Box>
     </>
   );
 }

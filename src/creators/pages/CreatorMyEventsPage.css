@@ -1,7 +1,7 @@
 .my-events-page {
   min-height: 100svh;
   background: #f7f7f8;
-  padding: 28px 32px 48px;
+  padding: 24px 24px 40px;
   box-sizing: border-box;
 }
 
@@ -21,25 +21,39 @@
   color: #111827;
 }
 
+.my-events-header h1.MuiTypography-root {
+  margin: 0 0 6px !important;
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  color: #111827 !important;
+}
+
 .my-events-subtitle {
   margin: 0;
-  font-size: 15px;
+  font-size: 13px;
+  line-height: 1.35;
   color: #6b7280;
 }
 
-.my-events-create-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 18px;
-  border-radius: 10px;
-  background: #ff7a00;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid #ff7a00;
-  white-space: nowrap;
+.my-events-subtitle.MuiTypography-root {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  color: #6b7280 !important;
+}
+
+.my-events-create-btn.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  padding: 10px 18px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  border: 1px solid #ff7a00 !important;
+  background: #ff7a00 !important;
+  color: #fff !important;
 }
 
 .my-events-create-btn:hover {
@@ -47,17 +61,27 @@
   border-color: #ea580c;
 }
 
+.my-events-create-btn.MuiButton-root:hover {
+  background: #ea580c !important;
+  border-color: #ea580c !important;
+  box-shadow: none !important;
+}
+
 .my-events-section {
   margin-bottom: 32px;
 }
 
 .my-events-section-title {
-  margin: 0 0 14px;
+  margin: 0 0 20px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: #9ca3af;
+}
+
+.my-events-section-title.MuiTypography-root {
+  margin: 0 0 20px !important;
 }
 
 .my-events-grid {
@@ -153,6 +177,13 @@
   overflow: hidden;
 }
 
+.my-events-card-desc.MuiTypography-root {
+  margin: 0 0 12px !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  color: #6b7280 !important;
+}
+
 .my-events-meta {
   list-style: none;
   margin: 0 0 12px;
@@ -169,7 +200,7 @@
   gap: 8px;
 }
 
-.my-events-meta .material-symbols-outlined {
+.my-events-meta-icon {
   font-size: 18px;
   color: #9ca3af;
 }
@@ -219,16 +250,33 @@
   background: none;
   padding: 0;
   font: inherit;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: #ff7a00;
   cursor: pointer;
   flex-shrink: 0;
 }
 
+.my-events-footer-action.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  color: #ff7a00 !important;
+  padding: 0 !important;
+}
+
 .my-events-footer-action:hover {
   color: #ea580c;
   text-decoration: underline;
+}
+
+.my-events-footer-action.MuiButton-root:hover {
+  color: #ea580c !important;
+  text-decoration: underline;
+  background: none !important;
+  box-shadow: none !important;
 }
 
 @media (max-width: 640px) {

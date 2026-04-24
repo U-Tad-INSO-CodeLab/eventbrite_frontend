@@ -2,6 +2,8 @@ import EventDatePicker from '@/events/components/EventDatePicker';
 import CreateEventTiersSection from '@/creators/components/create-event/CreateEventTiersSection';
 import type { CreatorTierTemplate } from '@/creators/lib/creatorTierTemplates';
 import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject, FormEventHandler } from 'react';
+import { Alert, Box, Button, IconButton, InputBase, Typography } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 type Props = {
   title: string;
@@ -24,7 +26,7 @@ type Props = {
   success: string;
   loading: boolean;
   onTitleChange: ChangeEventHandler<HTMLInputElement>;
-  onDescriptionChange: ChangeEventHandler<HTMLTextAreaElement>;
+  onDescriptionChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
   onDateChange: (value: string) => void;
   onLocationChange: ChangeEventHandler<HTMLInputElement>;
   onIndustryChange: ChangeEventHandler<HTMLInputElement>;
@@ -90,22 +92,23 @@ export default function CreateEventForm({
   onSubmit,
 }: Props) {
   return (
-    <main className="create-layout">
-      <section>
-        <h1>Create Event</h1>
-        <p>Set up your event and attract sponsors.</p>
+    <Box component="main" className="create-layout">
+      <Box component="section">
+        <Typography component="h1">Create Event</Typography>
+        <Typography component="p">Set up your event and attract sponsors.</Typography>
 
-        {error ? <div className="create-alert create-alert-error">{error}</div> : null}
+        {error ? <Alert className="create-alert create-alert-error">{error}</Alert> : null}
         {success ? (
-          <div className="create-alert create-alert-success">{success}</div>
+          <Alert className="create-alert create-alert-success">{success}</Alert>
         ) : null}
 
-        <form className="create-form" onSubmit={onSubmit}>
-          <div className="create-field">
-            <span className="create-field-label" id="create-cover-label">
+        <Box component="form" className="create-form" onSubmit={onSubmit}>
+          <Box className="create-field">
+            <Typography component="span" className="create-field-label" id="create-cover-label">
               Cover Image
-            </span>
-            <label
+            </Typography>
+            <Box
+              component="label"
               className={`create-upload${coverDragging ? ' is-dragging' : ''}`}
               htmlFor="create-cover-input"
               aria-labelledby="create-cover-label"
@@ -123,31 +126,31 @@ export default function CreateEventForm({
                 hidden
               />
               {coverImageDataUrl ? (
-                <div className="create-upload-preview">
+                <Box className="create-upload-preview">
                   <img src={coverImageDataUrl} alt="Cover preview" />
-                  <button
+                  <IconButton
                     type="button"
                     className="create-upload-clear"
                     onClick={onClearCover}
                     disabled={loading}
                     aria-label="Remove cover image"
                   >
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                      close
-                    </span>
-                  </button>
-                </div>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </Box>
               ) : (
-                <span>Click to upload or drag and drop a cover image</span>
+                <Typography component="span">
+                  Click to upload or drag and drop a cover image
+                </Typography>
               )}
-            </label>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="create-field">
-            <label className="create-field-label" htmlFor="create-title">
+          <Box className="create-field">
+            <Typography component="label" className="create-field-label" htmlFor="create-title">
               Event Title
-            </label>
-            <input
+            </Typography>
+            <InputBase
               id="create-title"
               name="title"
               type="text"
@@ -157,13 +160,18 @@ export default function CreateEventForm({
               onChange={onTitleChange}
               disabled={loading}
             />
-          </div>
+          </Box>
 
-          <div className="create-field">
-            <label className="create-field-label" htmlFor="create-description">
+          <Box className="create-field">
+            <Typography
+              component="label"
+              className="create-field-label"
+              htmlFor="create-description"
+            >
               Description
-            </label>
-            <textarea
+            </Typography>
+            <InputBase
+              multiline
               id="create-description"
               name="description"
               placeholder="Describe your event..."
@@ -171,25 +179,29 @@ export default function CreateEventForm({
               onChange={onDescriptionChange}
               disabled={loading}
             />
-          </div>
+          </Box>
 
-          <div className="create-grid">
-            <div className="create-field">
-              <label className="create-field-label" htmlFor="create-date">
+          <Box className="create-grid">
+            <Box className="create-field">
+              <Typography component="label" className="create-field-label" htmlFor="create-date">
                 Date
-              </label>
+              </Typography>
               <EventDatePicker
                 id="create-date"
                 value={date}
                 onChange={onDateChange}
                 disabled={loading}
               />
-            </div>
-            <div className="create-field">
-              <label className="create-field-label" htmlFor="create-location">
+            </Box>
+            <Box className="create-field">
+              <Typography
+                component="label"
+                className="create-field-label"
+                htmlFor="create-location"
+              >
                 Location
-              </label>
-              <input
+              </Typography>
+              <InputBase
                 id="create-location"
                 name="location"
                 type="text"
@@ -199,12 +211,16 @@ export default function CreateEventForm({
                 onChange={onLocationChange}
                 disabled={loading}
               />
-            </div>
-            <div className="create-field">
-              <label className="create-field-label" htmlFor="create-industry">
+            </Box>
+            <Box className="create-field">
+              <Typography
+                component="label"
+                className="create-field-label"
+                htmlFor="create-industry"
+              >
                 Industry
-              </label>
-              <input
+              </Typography>
+              <InputBase
                 id="create-industry"
                 name="industry"
                 type="text"
@@ -213,12 +229,16 @@ export default function CreateEventForm({
                 onChange={onIndustryChange}
                 disabled={loading}
               />
-            </div>
-            <div className="create-field">
-              <label className="create-field-label" htmlFor="create-attendance">
+            </Box>
+            <Box className="create-field">
+              <Typography
+                component="label"
+                className="create-field-label"
+                htmlFor="create-attendance"
+              >
                 Expected Attendance
-              </label>
-              <input
+              </Typography>
+              <InputBase
                 id="create-attendance"
                 name="expectedAttendance"
                 type="text"
@@ -228,14 +248,14 @@ export default function CreateEventForm({
                 onChange={onExpectedAttendanceChange}
                 disabled={loading}
               />
-            </div>
-          </div>
+            </Box>
+          </Box>
 
-          <div className="create-field">
-            <label className="create-field-label" htmlFor="create-tags">
+          <Box className="create-field">
+            <Typography component="label" className="create-field-label" htmlFor="create-tags">
               Tags (comma-separated)
-            </label>
-            <input
+            </Typography>
+            <InputBase
               id="create-tags"
               name="tags"
               type="text"
@@ -244,7 +264,7 @@ export default function CreateEventForm({
               onChange={onTagsChange}
               disabled={loading}
             />
-          </div>
+          </Box>
 
           <CreateEventTiersSection
             tiers={tiers}
@@ -261,11 +281,11 @@ export default function CreateEventForm({
             onTierBenefitsChange={onTierBenefitsChange}
           />
 
-          <button type="submit" className="create-submit" disabled={loading}>
+          <Button type="submit" className="create-submit" disabled={loading} variant="contained">
             {loading ? 'Publishing...' : 'Publish Event'}
-          </button>
-        </form>
-      </section>
-    </main>
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 }

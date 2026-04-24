@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom';
+import { Box, Button, InputBase, Typography } from '@mui/material';
+import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
+import BookmarkIcon from '@mui/icons-material/Bookmark';
+import DeleteIcon from '@mui/icons-material/Delete';
 import type { CreatorTierTemplate } from '@/creators/lib/creatorTierTemplates';
 
 type TierDraft = {
@@ -45,16 +49,18 @@ export default function CreateEventTiersSection({
   onTierBenefitsChange,
 }: Props) {
   return (
-    <div className="create-field">
-      <div className="create-tier-head">
-        <div>
-          <label className="create-field-label">Sponsorship Tiers</label>
-          <p className="create-tier-subtitle">
+    <Box className="create-field">
+      <Box className="create-tier-head">
+        <Box>
+          <Typography component="label" className="create-field-label">
+            Sponsorship Tiers
+          </Typography>
+          <Typography component="p" className="create-tier-subtitle">
             Define the packages sponsors can choose from. Reuse your saved library or edit
             fields for this event only.
-          </p>
-        </div>
-        <button
+          </Typography>
+        </Box>
+        <Button
           type="button"
           className="create-tier-add-btn"
           onClick={onAddTier}
@@ -66,21 +72,23 @@ export default function CreateEventTiersSection({
           }
         >
           + Add Tier
-        </button>
-      </div>
+        </Button>
+      </Box>
 
-      <div className="create-tier-saved" aria-label="Saved tier templates">
-        <p className="create-tier-saved-label">From your library</p>
+      <Box className="create-tier-saved" aria-label="Saved tier templates">
+        <Typography component="p" className="create-tier-saved-label">
+          From your library
+        </Typography>
         {savedTemplates.length === 0 ? (
-          <p className="create-tier-saved-hint">
+          <Typography component="p" className="create-tier-saved-hint">
             No saved tiers yet.{' '}
             <Link to="/creator/tier-templates">Manage your tier library</Link> or fill rows
             below and use &quot;Save to library&quot; on a tier.
-          </p>
+          </Typography>
         ) : (
-          <div className="create-tier-saved-chips">
+          <Box className="create-tier-saved-chips">
             {savedTemplates.map((template) => (
-              <button
+              <Button
                 key={template.id}
                 type="button"
                 className="create-tier-saved-chip"
@@ -88,17 +96,15 @@ export default function CreateEventTiersSection({
                 onClick={() => onApplySavedTemplate(template)}
                 title={`Add a copy of ${template.name} to this event`}
               >
-                <span className="material-symbols-outlined" aria-hidden="true">
-                  bookmark_add
-                </span>
+                <BookmarkAddIcon fontSize="inherit" />
                 {template.name}
-              </button>
+              </Button>
             ))}
-          </div>
+          </Box>
         )}
-      </div>
+      </Box>
 
-      <div className="create-tier-list">
+      <Box className="create-tier-list">
         {tiers.map((tier, index) => {
           const tierComplete = tierRowComplete(tier);
           const tierAlreadySaved = isTierAlreadySaved(tier.id);
@@ -110,46 +116,47 @@ export default function CreateEventTiersSection({
               : 'Save this tier to your reusable library';
 
           return (
-            <article key={tier.id} className="create-tier-card">
-              <div className="create-tier-card-head">
-                <h3 className="create-tier-title">Tier {index + 1}</h3>
-                <div className="create-tier-card-actions">
-                  <button
+            <Box component="article" key={tier.id} className="create-tier-card">
+              <Box className="create-tier-card-head">
+                <Typography component="h3" className="create-tier-title">
+                  Tier {index + 1}
+                </Typography>
+                <Box className="create-tier-card-actions">
+                  <Button
                     type="button"
                     className="create-tier-save-lib-btn"
                     onClick={() => onSaveTierAsTemplate(tier.id)}
                     disabled={saveDisabled}
                     title={saveTitle}
                   >
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                      bookmark
-                    </span>
+                    <BookmarkIcon fontSize="inherit" />
                     Save to library
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
                     className="create-tier-delete-btn"
                     onClick={() => onRemoveTier(tier.id)}
                     disabled={loading || tiers.length === 1}
                     aria-label={`Delete tier ${index + 1}`}
                   >
-                    <span className="material-symbols-outlined" aria-hidden="true">
-                      delete
-                    </span>
-                  </button>
-                </div>
-              </div>
+                    <DeleteIcon fontSize="inherit" />
+                  </Button>
+                </Box>
+              </Box>
               {tierAlreadySaved ? (
-                <p className="create-tier-saved-note">Already saved in your library</p>
+                <Typography component="p" className="create-tier-saved-note">
+                  Already saved in your library
+                </Typography>
               ) : null}
-              <div className="create-field">
-                <label
+              <Box className="create-field">
+                <Typography
+                  component="label"
                   className="create-field-label"
                   htmlFor={`create-tier-name-${tier.id}`}
                 >
                   Tier Name
-                </label>
-                <input
+                </Typography>
+                <InputBase
                   id={`create-tier-name-${tier.id}`}
                   type="text"
                   placeholder="e.g. Platinum, Gold..."
@@ -157,15 +164,16 @@ export default function CreateEventTiersSection({
                   onChange={(e) => onTierNameChange(tier.id, e.target.value)}
                   disabled={loading}
                 />
-              </div>
-              <div className="create-field">
-                <label
+              </Box>
+              <Box className="create-field">
+                <Typography
+                  component="label"
                   className="create-field-label"
                   htmlFor={`create-tier-price-${tier.id}`}
                 >
                   Price ($)
-                </label>
-                <input
+                </Typography>
+                <InputBase
                   id={`create-tier-price-${tier.id}`}
                   type="text"
                   inputMode="numeric"
@@ -174,15 +182,16 @@ export default function CreateEventTiersSection({
                   onChange={(e) => onTierPriceChange(tier.id, e.target.value)}
                   disabled={loading}
                 />
-              </div>
-              <div className="create-field">
-                <label
+              </Box>
+              <Box className="create-field">
+                <Typography
+                  component="label"
                   className="create-field-label"
                   htmlFor={`create-tier-benefits-${tier.id}`}
                 >
                   Benefits (comma-separated)
-                </label>
-                <input
+                </Typography>
+                <InputBase
                   id={`create-tier-benefits-${tier.id}`}
                   type="text"
                   placeholder="Keynote slot, Premium booth, Logo on materials..."
@@ -190,11 +199,11 @@ export default function CreateEventTiersSection({
                   onChange={(e) => onTierBenefitsChange(tier.id, e.target.value)}
                   disabled={loading}
                 />
-              </div>
-            </article>
+              </Box>
+            </Box>
           );
         })}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

@@ -10,15 +10,34 @@
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  min-height: 44px;
   padding: 10px 12px;
   border: 1px solid #dadade;
   border-radius: 10px;
-  background: #f7f7f8;
+  background: #fff;
   color: #1b1b1f;
   font: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+.event-date-picker-trigger.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  padding: 11px 12px !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: #fff !important;
+  border: 1px solid #dadade !important;
+  border-radius: 10px !important;
+  color: #1b1b1f !important;
+  font: inherit !important;
+  line-height: 1.25 !important;
+}
+
+.event-date-picker-trigger.MuiButton-root:hover {
+  box-shadow: none !important;
+  background: #fff !important;
 }
 
 .event-date-picker-trigger:disabled {
@@ -28,6 +47,11 @@
 
 .event-date-picker-placeholder {
   color: #8a8a92;
+}
+
+.event-date-picker-trigger > span {
+  display: block;
+  line-height: 1.25;
 }
 
 .event-date-picker-icon {
@@ -79,11 +103,19 @@
   padding: 0;
 }
 
+.event-date-picker-nav.MuiIconButton-root {
+  padding: 0 !important;
+  border: 1px solid #e6e6ea !important;
+  background: #f7f7f8 !important;
+  color: #374151 !important;
+  border-radius: 8px !important;
+}
+
 .event-date-picker-nav:hover {
   background: #ececf1;
 }
 
-.event-date-picker-nav .material-symbols-outlined {
+.event-date-picker-nav .MuiSvgIcon-root {
   font-size: 20px;
 }
 
@@ -115,6 +147,27 @@
   height: 34px;
   cursor: pointer;
   padding: 0;
+}
+
+.event-date-picker-day.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  font: inherit !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #1f2937 !important;
+  background: transparent !important;
+}
+
+.event-date-picker-day.MuiButton-root.is-muted {
+  color: #c4c4cc !important;
+  font-weight: 400 !important;
+}
+
+.event-date-picker-day.MuiButton-root:not(.is-muted):not(.is-selected) {
+  color: #1f2937 !important;
 }
 
 .event-date-picker-day:hover:not(.is-selected) {
