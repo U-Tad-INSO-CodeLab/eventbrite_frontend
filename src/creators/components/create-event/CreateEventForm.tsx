@@ -5,6 +5,8 @@ import type { ChangeEventHandler, DragEventHandler, MouseEventHandler, RefObject
 import { Alert, Box, Button, IconButton, InputBase, Typography } from '@mui/material';
 import { PREDEFINED_TAGS } from '@/creators/lib/eventTags';
 import CloseIcon from '@mui/icons-material/Close';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+
 
 type Props = {
   title: string;
@@ -95,8 +97,21 @@ export default function CreateEventForm({
   return (
     <Box component="main" className="create-layout">
       <Box component="section">
-        <Typography component="h1">Create Event</Typography>
-        <Typography component="p">Set up your event and attract sponsors.</Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between'}}>
+          <Box>
+            <Typography component="h1">Create Event</Typography>
+            <Typography component="p">Set up your event and attract sponsors.</Typography>
+          </Box>
+
+          <Button
+            type="button"
+            className="import-from-eventbrite-btn"
+            onClick={() => alert("This should enter the importing events flow")}
+          >
+            <FileDownloadOutlinedIcon />
+            Import event from EventBrite
+          </Button>
+        </Box>
 
         {error ? <Alert className="create-alert create-alert-error">{error}</Alert> : null}
         {success ? (
