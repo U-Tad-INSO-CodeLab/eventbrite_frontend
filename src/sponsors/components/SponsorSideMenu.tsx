@@ -1,7 +1,10 @@
 import ChatOutlinedIcon from '@mui/icons-material/ChatOutlined';
 import ExploreOutlinedIcon from '@mui/icons-material/ExploreOutlined';
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Box, Button, Typography } from '@mui/material';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import { useMessagesNavUnreadThreadCount } from '@/chat/hooks/useMessagesNavUnreadThreadCount';
 import EventLinkLogo from '@/events/components/EventLinkLogo';
 import DashboardNavLink from '@/shared/components/DashboardNavLink';
 import '@/sponsors/components/SponsorSideMenu.css';
@@ -11,6 +14,12 @@ type SponsorSideMenuProps = {
 };
 
 export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
+  const session = getMockSession();
+  const messagesUnreadThreads = useMessagesNavUnreadThreadCount(
+    session?.id,
+    session?.role === 'sponsor' ? 'sponsor' : undefined
+  );
+
   return (
     <Box component="aside" className="sponsor-sidebar">
       <Box component="div" className="sponsor-brand">
@@ -30,9 +39,17 @@ export default function SponsorSideMenu({ onLogout }: SponsorSideMenuProps) {
           Discover
         </DashboardNavLink>
         <DashboardNavLink
+          to="/sponsor/deals"
+          icon={<HandshakeOutlinedIcon />}
+          iconClassName="sponsor-nav-icon"
+        >
+          My Deals
+        </DashboardNavLink>
+        <DashboardNavLink
           to="/sponsor/messages"
           icon={<ChatOutlinedIcon />}
           iconClassName="sponsor-nav-icon"
+          badgeCount={messagesUnreadThreads}
         >
           Messages
         </DashboardNavLink>

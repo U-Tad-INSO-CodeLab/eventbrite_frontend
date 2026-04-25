@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Navigate, Outlet, useLocation } from 'react-router-dom';
 import SponsorSideMenu from '@/sponsors/components/SponsorSideMenu';
 import '@/sponsors/layouts/SponsorLayout.css';
 import { getHomePathForRole, getMockSession } from '@/auth/lib/mockAuth';

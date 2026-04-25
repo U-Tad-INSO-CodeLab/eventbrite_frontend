@@ -5,6 +5,8 @@ import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import LayersOutlinedIcon from '@mui/icons-material/LayersOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import { Box, Button, Typography } from '@mui/material';
+import { getMockSession } from '@/auth/lib/mockAuth';
+import { useMessagesNavUnreadThreadCount } from '@/chat/hooks/useMessagesNavUnreadThreadCount';
 import EventLinkLogo from '@/events/components/EventLinkLogo';
 import DashboardNavLink from '@/shared/components/DashboardNavLink';
 import '@/creators/components/CreatorSideMenu.css';
@@ -14,6 +16,12 @@ type CreatorSideMenuProps = {
 };
 
 export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
+  const session = getMockSession();
+  const messagesUnreadThreads = useMessagesNavUnreadThreadCount(
+    session?.id,
+    session?.role === 'creator' ? 'creator' : undefined
+  );
+
   return (
     <Box component="aside" className="creator-sidebar">
       <Box component="div" className="creator-brand">
@@ -50,6 +58,7 @@ export default function CreatorSideMenu({ onLogout }: CreatorSideMenuProps) {
           to="/creator/messages"
           icon={<ChatOutlinedIcon />}
           iconClassName="creator-nav-icon"
+          badgeCount={messagesUnreadThreads}
         >
           Messages
         </DashboardNavLink>

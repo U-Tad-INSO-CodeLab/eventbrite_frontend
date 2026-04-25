@@ -58,6 +58,81 @@ function delay(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/** Default sponsorship packages for seeded catalog events (also used to migrate old localStorage). */
+export function blueprintTiersForSeedEvent(
+  eventId: string
+): Array<{ name: string; priceUsd: number; benefits: string[] }> {
+  const blueprints: Record<
+    string,
+    Array<{ name: string; priceUsd: number; benefits: string[] }>
+  > = {
+    'seed-techconnect': [
+      {
+        name: 'Platinum',
+        priceUsd: 50_000,
+        benefits: [
+          'Keynote speaking slot',
+          'Premium booth location',
+          'Logo on all materials',
+          'VIP dinner access',
+        ],
+      },
+      {
+        name: 'Gold',
+        priceUsd: 25_000,
+        benefits: [
+          'Workshop hosting slot',
+          'Standard booth',
+          'Logo on website',
+          'Networking passes',
+        ],
+      },
+      {
+        name: 'Silver',
+        priceUsd: 10_000,
+        benefits: ['Logo on website', 'Two conference passes', 'Social mention'],
+      },
+    ],
+    'seed-finance-forum': [
+      {
+        name: 'Title',
+        priceUsd: 75_000,
+        benefits: ['Opening keynote', 'Private investor dinner', 'Brand on main stage'],
+      },
+      {
+        name: 'Partner',
+        priceUsd: 35_000,
+        benefits: ['Panel slot', 'Exhibit table', 'Lead scan'],
+      },
+    ],
+    'seed-green-expo': [
+      {
+        name: 'Platinum',
+        priceUsd: 40_000,
+        benefits: ['Main hall booth', 'Speaking slot', 'Report feature', 'Lead capture'],
+      },
+      {
+        name: 'Gold',
+        priceUsd: 18_000,
+        benefits: ['Standard booth', 'Logo in program', '4 passes'],
+      },
+    ],
+    'seed-wellness': [
+      {
+        name: 'Presenting',
+        priceUsd: 30_000,
+        benefits: ['Stage naming', 'Workshop block', 'VIP lounge'],
+      },
+      {
+        name: 'Supporting',
+        priceUsd: 12_000,
+        benefits: ['Booth', 'Newsletter inclusion', '2 passes'],
+      },
+    ],
+  };
+  return blueprints[eventId] ?? [];
+}
+
 function withEventDefaults(partial: MockEvent): MockEvent {
   const id = String(partial.id ?? '');
   const rawCover = partial.coverImageDataUrl;
@@ -113,6 +188,30 @@ function withEventDefaults(partial: MockEvent): MockEvent {
   };
 }
 
+function buildSeedTiersForEvent(eventId: string): MockSponsorshipTier[] {
+  return blueprintTiersForSeedEvent(eventId).map((t, index) => ({
+    id: `${eventId}-tier-${index + 1}`,
+    eventId,
+    name: t.name,
+    priceUsd: t.priceUsd,
+    benefits: [...t.benefits],
+  }));
+}
+
+/** Fills empty tier lists on known seed event ids (older mock localStorage). */
+function migrateSeedTiersIfNeeded(events: MockEvent[]): MockEvent[] {
+  let changed = false;
+  const next = events.map((e) => {
+    if (e.sponsorshipTiers.length > 0) return e;
+    const tiers = buildSeedTiersForEvent(e.id);
+    if (tiers.length === 0) return e;
+    changed = true;
+    return withEventDefaults({ ...e, sponsorshipTiers: tiers });
+  });
+  if (changed) writeEvents(next);
+  return next;
+}
+
 /** Demo events so Discover is populated before any creator publishes. */
 function seedEvents(): MockEvent[] {
   const now = new Date().toISOString();
@@ -132,9 +231,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
-      sponsorshipTiers: [],
-      sponsorshipTierCount: 0,
-      sponsorshipMaxPriceUsd: 0,
+      sponsorshipTiers: buildSeedTiersForEvent('seed-techconnect'),
     }),
     withEventDefaults({
       id: 'seed-finance-forum',
@@ -151,9 +248,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
-      sponsorshipTiers: [],
-      sponsorshipTierCount: 0,
-      sponsorshipMaxPriceUsd: 0,
+      sponsorshipTiers: buildSeedTiersForEvent('seed-finance-forum'),
     }),
     withEventDefaults({
       id: 'seed-green-expo',
@@ -170,9 +265,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
-      sponsorshipTiers: [],
-      sponsorshipTierCount: 0,
-      sponsorshipMaxPriceUsd: 0,
+      sponsorshipTiers: buildSeedTiersForEvent('seed-green-expo'),
     }),
     withEventDefaults({
       id: 'seed-wellness',
@@ -189,9 +282,7 @@ function seedEvents(): MockEvent[] {
       coverImageDataUrl: '',
       createdAt: now,
       status: 'active',
-      sponsorshipTiers: [],
-      sponsorshipTierCount: 0,
-      sponsorshipMaxPriceUsd: 0,
+      sponsorshipTiers: buildSeedTiersForEvent('seed-wellness'),
     }),
   ];
 }
@@ -210,7 +301,7 @@ function readEvents(): MockEvent[] {
       writeEvents(seeded);
       return seeded;
     }
-    return parsed.map((e) => withEventDefaults(e as MockEvent));
+    return migrateSeedTiersIfNeeded(parsed.map((e) => withEventDefaults(e as MockEvent)));
   } catch {
     const seeded = seedEvents();
     writeEvents(seeded);
@@ -230,6 +321,26 @@ export function getDiscoverMockEvents(): MockEvent[] {
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
+}
+
+export function getMockEventById(eventId: string): MockEvent | undefined {
+  return readEvents().find((e) => e.id === eventId);
+}
+
+/** Resolve catalog event for a deal thread (by id or title + creator). */
+export function getMockEventForDealThread(thread: {
+  eventId?: string;
+  eventTitle: string;
+  creatorId: string;
+}): MockEvent | undefined {
+  const events = readEvents();
+  if (thread.eventId) {
+    const byId = events.find((e) => e.id === thread.eventId);
+    if (byId) return byId;
+  }
+  return events.find(
+    (e) => e.title === thread.eventTitle && e.creatorId === thread.creatorId
+  );
 }
 export async function createMockEvent(
   creator: MockSessionUser,

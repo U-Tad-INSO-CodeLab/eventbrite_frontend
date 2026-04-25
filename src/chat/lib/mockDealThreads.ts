@@ -4,10 +4,13 @@ import {
   createMockAblyRealtime,
   listMessagesForEvent,
 } from '@/chat/lib/mockAblyChat';
+import { clearDealProposalsForThread } from '@/chat/lib/mockDealProposals';
 import { MOCK_CHAT_MESSAGE_EVENT, dealRoomChannelName } from '@/chat/constants';
 import type { MockEvent } from '@/events/lib/mockEvents';
 
 const STORAGE_THREADS = 'eventlink_mock_deal_threads';
+
+export const DEAL_THREADS_CHANGED_EVENT = 'eventlink-deal-threads-changed';
 
 export type MockDealThread = {
   id: string;
@@ -22,9 +25,46 @@ export type MockDealThread = {
   peerNameForCreator: string;
   lastPreview: string;
   lastAt: string;
-  unreadForSponsor: number;
-  unreadForCreator: number;
+  unreadChatForSponsor: number;
+  unreadChatForCreator: number;
+  unreadProposalForSponsor: number;
+  unreadProposalForCreator: number;
+  /** @deprecated migrated to unreadChat* */
+  unreadForSponsor?: number;
+  /** @deprecated migrated to unreadChat* */
+  unreadForCreator?: number;
 };
+
+function dispatchThreadsChanged() {
+  if (typeof window === 'undefined') return;
+  window.dispatchEvent(new Event(DEAL_THREADS_CHANGED_EVENT));
+}
+
+export function normalizeDealThread(t: MockDealThread): MockDealThread {
+  const legacyS = t.unreadForSponsor ?? 0;
+  const legacyC = t.unreadForCreator ?? 0;
+  return {
+    ...t,
+    unreadChatForSponsor: t.unreadChatForSponsor ?? legacyS,
+    unreadChatForCreator: t.unreadChatForCreator ?? legacyC,
+    unreadProposalForSponsor: t.unreadProposalForSponsor ?? 0,
+    unreadProposalForCreator: t.unreadProposalForCreator ?? 0,
+  };
+}
+
+export function threadUnreadChat(t: MockDealThread, role: MockUserRole): number {
+  const n = normalizeDealThread(t);
+  return role === 'sponsor' ? n.unreadChatForSponsor : n.unreadChatForCreator;
+}
+
+export function threadUnreadProposal(t: MockDealThread, role: MockUserRole): number {
+  const n = normalizeDealThread(t);
+  return role === 'sponsor' ? n.unreadProposalForSponsor : n.unreadProposalForCreator;
+}
+
+export function threadUnreadTotal(t: MockDealThread, role: MockUserRole): number {
+  return threadUnreadChat(t, role) + threadUnreadProposal(t, role);
+}
 
 function readThreads(): MockDealThread[] {
   try {
@@ -33,15 +73,18 @@ function readThreads(): MockDealThread[] {
     const parsed = JSON.parse(raw) as MockDealThread[];
     const list = Array.isArray(parsed) ? parsed : [];
     if (list.length === 0) return seedIfEmpty();
-    seedInitialMessagesForThreads(list);
-    return list;
+    const normalized = list.map((t) => normalizeDealThread(t));
+    seedInitialMessagesForThreads(normalized);
+    return normalized;
   } catch {
     return seedIfEmpty();
   }
 }
 
 function writeThreads(threads: MockDealThread[]) {
-  localStorage.setItem(STORAGE_THREADS, JSON.stringify(threads));
+  const normalized = threads.map(normalizeDealThread);
+  localStorage.setItem(STORAGE_THREADS, JSON.stringify(normalized));
+  dispatchThreadsChanged();
 }
 
 /** Marca local en un día concreto (para sembrar chat con separadores por día). */
@@ -64,32 +107,40 @@ function seedIfEmpty(): MockDealThread[] {
       peerNameForCreator: 'Sponsor demo',
       lastPreview: 'Thanks for the context — can we align on deliverables?',
       lastAt: new Date(Date.now() - 2 * 60 * 1000).toISOString(),
-      unreadForSponsor: 2,
-      unreadForCreator: 0,
+      unreadChatForSponsor: 2,
+      unreadChatForCreator: 0,
+      unreadProposalForSponsor: 0,
+      unreadProposalForCreator: 0,
     },
     {
       id: 'thread-2',
-      eventTitle: 'GreenBuild Expo',
+      eventId: 'seed-green-expo',
+      eventTitle: 'Green Energy Expo',
       sponsorId: 'seed-sponsor',
-      creatorId: 'seed-creator',
-      peerNameForSponsor: 'Aisha Patel',
+      creatorId: 'seed-creator-2',
+      peerNameForSponsor: 'Elena Vasquez',
       peerNameForCreator: 'Sponsor demo',
       lastPreview: 'Let’s pick this up next week.',
       lastAt: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-      unreadForSponsor: 0,
-      unreadForCreator: 1,
+      unreadChatForSponsor: 0,
+      unreadChatForCreator: 1,
+      unreadProposalForSponsor: 0,
+      unreadProposalForCreator: 0,
     },
     {
       id: 'thread-3',
-      eventTitle: 'City Arts Night',
+      eventId: 'seed-wellness',
+      eventTitle: 'Wellness & Longevity Week',
       sponsorId: 'seed-sponsor',
-      creatorId: 'seed-creator',
-      peerNameForSponsor: 'Emma Watson',
+      creatorId: 'seed-creator-2',
+      peerNameForSponsor: 'Maya Patel',
       peerNameForCreator: 'Sponsor demo',
       lastPreview: 'Sounds good — I’ll send a short recap.',
       lastAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
-      unreadForSponsor: 0,
-      unreadForCreator: 0,
+      unreadChatForSponsor: 0,
+      unreadChatForCreator: 0,
+      unreadProposalForSponsor: 0,
+      unreadProposalForCreator: 0,
     },
   ];
   writeThreads(seed);
@@ -144,7 +195,7 @@ function seedInitialMessagesForThreads(threads: MockDealThread[]) {
             senderId: t.sponsorId,
             senderName: t.peerNameForCreator,
             senderRole: 'sponsor',
-            body: 'Following up on GreenBuild — do you have a deck?',
+            body: 'Following up on Green Energy Expo — do you have a deck?',
           },
         },
         {
@@ -165,7 +216,7 @@ function seedInitialMessagesForThreads(threads: MockDealThread[]) {
             senderId: t.creatorId,
             senderName: t.peerNameForSponsor,
             senderRole: 'creator',
-            body: 'Thanks for reaching out about City Arts Night.',
+            body: 'Thanks for reaching out about Wellness & Longevity Week.',
           },
         },
         {
@@ -246,8 +297,10 @@ export function ensureDealThreadForSponsorEvent(
     peerNameForCreator: sponsor.fullName,
     lastPreview: `Interested in sponsoring "${event.title}".`,
     lastAt: now,
-    unreadForSponsor: 0,
-    unreadForCreator: 0,
+    unreadChatForSponsor: 0,
+    unreadChatForCreator: 0,
+    unreadProposalForSponsor: 0,
+    unreadProposalForCreator: 0,
   };
   const all = readThreads();
   writeThreads([thread, ...all]);
@@ -256,7 +309,7 @@ export function ensureDealThreadForSponsorEvent(
 
 /**
  * Removes deal threads owned by this sponsor that have no chat messages yet
- * (e.g. opened from Discover and left without sending).
+ * (e.g. opened from Discover and left without sending). Proposal activity posts chat lines, so this stays consistent.
  */
 export function removeEmptyDealThreadsForSponsor(sponsorId: string): void {
   const all = readThreads();
@@ -270,6 +323,7 @@ export function removeEmptyDealThreadsForSponsor(sponsorId: string): void {
   writeThreads(all.filter((t) => !removeIds.has(t.id)));
   for (const t of toRemove) {
     clearMockChannelStorage(dealRoomChannelName(t.id));
+    clearDealProposalsForThread(t.id);
   }
 }
 
@@ -277,15 +331,46 @@ export function peerNameForThread(thread: MockDealThread, role: MockUserRole): s
   return role === 'sponsor' ? thread.peerNameForSponsor : thread.peerNameForCreator;
 }
 
+/** Clears all unread counters for this user on the thread (sidebar + tabs). */
 export function markThreadRead(threadId: string, role: MockUserRole): void {
   const all = readThreads();
   const next = all.map((t) => {
     if (t.id !== threadId) return t;
+    const n = normalizeDealThread(t);
+    if (role === 'sponsor') {
+      return {
+        ...n,
+        unreadChatForSponsor: 0,
+        unreadProposalForSponsor: 0,
+      };
+    }
     return {
-      ...t,
-      unreadForSponsor: role === 'sponsor' ? 0 : t.unreadForSponsor,
-      unreadForCreator: role === 'creator' ? 0 : t.unreadForCreator,
+      ...n,
+      unreadChatForCreator: 0,
+      unreadProposalForCreator: 0,
     };
+  });
+  writeThreads(next);
+}
+
+export function markThreadChatCleared(threadId: string, role: MockUserRole): void {
+  const all = readThreads();
+  const next = all.map((t) => {
+    if (t.id !== threadId) return t;
+    const n = normalizeDealThread(t);
+    if (role === 'sponsor') return { ...n, unreadChatForSponsor: 0 };
+    return { ...n, unreadChatForCreator: 0 };
+  });
+  writeThreads(next);
+}
+
+export function markThreadProposalCleared(threadId: string, role: MockUserRole): void {
+  const all = readThreads();
+  const next = all.map((t) => {
+    if (t.id !== threadId) return t;
+    const n = normalizeDealThread(t);
+    if (role === 'sponsor') return { ...n, unreadProposalForSponsor: 0 };
+    return { ...n, unreadProposalForCreator: 0 };
   });
   writeThreads(next);
 }
@@ -299,5 +384,31 @@ export function updateThreadPreview(
   const next = all.map((t) =>
     t.id === threadId ? { ...t, lastPreview: preview, lastAt: new Date(atMs).toISOString() } : t
   );
+  writeThreads(next);
+}
+
+export function bumpUnreadChatForPeerOf(threadId: string, actorRole: MockUserRole): void {
+  const all = readThreads();
+  const next = all.map((t) => {
+    if (t.id !== threadId) return t;
+    const n = normalizeDealThread(t);
+    if (actorRole === 'sponsor') {
+      return { ...n, unreadChatForCreator: n.unreadChatForCreator + 1 };
+    }
+    return { ...n, unreadChatForSponsor: n.unreadChatForSponsor + 1 };
+  });
+  writeThreads(next);
+}
+
+export function bumpUnreadProposalForPeerOf(threadId: string, actorRole: MockUserRole): void {
+  const all = readThreads();
+  const next = all.map((t) => {
+    if (t.id !== threadId) return t;
+    const n = normalizeDealThread(t);
+    if (actorRole === 'sponsor') {
+      return { ...n, unreadProposalForCreator: n.unreadProposalForCreator + 1 };
+    }
+    return { ...n, unreadProposalForSponsor: n.unreadProposalForSponsor + 1 };
+  });
   writeThreads(next);
 }
