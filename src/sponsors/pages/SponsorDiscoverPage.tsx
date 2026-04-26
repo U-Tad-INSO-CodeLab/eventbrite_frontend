@@ -29,7 +29,6 @@ export default function SponsorDiscoverPage() {
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const session = getMockSession();
-  if (!session || session.role !== 'sponsor') return null;
 
   const events = getDiscoverMockEvents();
   const locationOptions = useMemo(() => discoverLocationOptions(events), [events]);
@@ -38,6 +37,7 @@ export default function SponsorDiscoverPage() {
     () => filterDiscoverEvents(events, search, industry, advancedFilters),
     [events, search, industry, advancedFilters]
   );
+  if (!session || session.role !== 'sponsor') return null;
 
   return (
     <Box className="discover-page">
