@@ -66,7 +66,10 @@ export default function DealRoomProposalTab({
   }, [onMutate]);
 
   const proposals = useMemo(
-    () => listProposalsForThread(thread.id),
+    () => {
+      void version;
+      return listProposalsForThread(thread.id);
+    },
     [thread.id, version]
   );
 
@@ -116,9 +119,9 @@ export default function DealRoomProposalTab({
 
   const event = useMemo(
     () => getMockEventForDealThread(thread),
-    [thread.eventId, thread.eventTitle, thread.creatorId]
+    [thread]
   );
-  const tiers: MockSponsorshipTier[] = event?.sponsorshipTiers ?? [];
+  const tiers: MockSponsorshipTier[] = useMemo(() => event?.sponsorshipTiers ?? [], [event]);
 
   const [counterForId, setCounterForId] = useState<string | null>(null);
   const [counterAmount, setCounterAmount] = useState('');

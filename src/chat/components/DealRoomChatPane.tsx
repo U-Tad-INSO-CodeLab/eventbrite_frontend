@@ -80,7 +80,7 @@ export default function DealRoomChatPane({
     void proposalUiTick;
     void threadStoreTick;
     return getDealThreadById(thread.id) ?? thread;
-  }, [thread, thread.id, proposalUiTick, threadStoreTick]);
+  }, [thread, proposalUiTick, threadStoreTick]);
 
   const chatTabUnread = useMemo(
     () => threadUnreadChat(liveThread, session.role),
