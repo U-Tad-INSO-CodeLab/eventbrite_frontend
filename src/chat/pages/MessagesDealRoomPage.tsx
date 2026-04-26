@@ -5,12 +5,7 @@ import { getMockSession } from '@/auth/lib/mockAuth';
 import DealRoomChatPane from '@/chat/components/DealRoomChatPane';
 import DealRoomEmptyState from '@/chat/components/DealRoomEmptyState';
 import DealRoomThreadList from '@/chat/components/DealRoomThreadList';
-import {
-  listDealThreadsForUser,
-  markThreadRead,
-  peerNameForThread,
-  type MockDealThread,
-} from '@/chat/lib/mockDealThreads';
+import { listDealThreadsForUser, peerNameForThread, type MockDealThread } from '@/chat/lib/mockDealThreads';
 import '@/chat/styles/deal-room.css';
 
 function isDealSession(
@@ -33,6 +28,16 @@ export default function MessagesDealRoomPage() {
     setThreads(listDealThreadsForUser(s.id, s.role));
   }, []);
 
+  /* Reload threads when returning to the tab (e.g. sponsor sent a proposal in another tab). */
+  useEffect(() => {
+    const onVisible = () => {
+      if (document.visibilityState !== 'visible') return;
+      refreshThreads();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  }, [refreshThreads]);
+
   /* Bootstrap list + URL from localStorage (mock external store). */
   /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
@@ -48,7 +53,6 @@ export default function MessagesDealRoomPage() {
     }
     const id =
       threadKey && list.some((t) => t.id === threadKey) ? threadKey : list[0].id;
-    markThreadRead(id, s.role);
     setThreads(listDealThreadsForUser(s.id, s.role));
     if (threadKey !== id) {
       setSearchParams(

@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactElement } from 'react';
 import { Box, Button, IconButton, InputBase } from '@mui/material';
+import ChatBubbleOutlinedIcon from '@mui/icons-material/ChatBubbleOutlined';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
 import SendIcon from '@mui/icons-material/Send';
 import type { MockSessionUser } from '@/auth/lib/mockAuth';
 import { MOCK_CHAT_MESSAGE_EVENT, dealRoomChannelName } from '@/chat/constants';
+import DealRoomProposalTab from '@/chat/components/DealRoomProposalTab';
 import { useMockAblyChannel } from '@/chat/hooks/useMockAblyChannel';
 import {
   calendarDayKey,
@@ -11,7 +14,21 @@ import {
   initials,
   parseChatMessage,
 } from '@/chat/lib/dealRoomMessageUtils';
-import { updateThreadPreview, type MockDealThread } from '@/chat/lib/mockDealThreads';
+import {
+  dealNegotiationStatusForThread,
+  dealNegotiationStatusLabel,
+} from '@/chat/lib/mockDealProposals';
+import {
+  DEAL_THREADS_CHANGED_EVENT,
+  bumpUnreadChatForPeerOf,
+  getDealThreadById,
+  markThreadChatCleared,
+  markThreadProposalCleared,
+  threadUnreadChat,
+  threadUnreadProposal,
+  updateThreadPreview,
+  type MockDealThread,
+} from '@/chat/lib/mockDealThreads';
 
 const QUICK_REPLIES = [
   'Can you share the sponsorship overview?',
@@ -35,14 +52,57 @@ export default function DealRoomChatPane({
   initialDraft = '',
   onAfterSend,
 }: DealRoomChatPaneProps) {
+  const [mainTab, setMainTab] = useState<'chat' | 'proposal'>('chat');
+  const [proposalUiTick, setProposalUiTick] = useState(0);
+  const [threadStoreTick, setThreadStoreTick] = useState(0);
   const channelName = dealRoomChannelName(thread.id);
   const { messages, publish } = useMockAblyChannel(channelName, MOCK_CHAT_MESSAGE_EVENT);
   const [draft, setDraft] = useState(() => messages.length === 0 ? initialDraft : '');
   const listEndRef = useRef<HTMLDivElement>(null);
 
+  const negotiationState = useMemo(() => {
+    void proposalUiTick;
+    return dealNegotiationStatusForThread(thread.id);
+  }, [proposalUiTick, thread.id]);
+
+  const bumpProposalUi = useCallback(() => {
+    setProposalUiTick((n) => n + 1);
+    onAfterSend();
+  }, [onAfterSend]);
+
   useEffect(() => {
+    const bump = () => setThreadStoreTick((n) => n + 1);
+    window.addEventListener(DEAL_THREADS_CHANGED_EVENT, bump);
+    return () => window.removeEventListener(DEAL_THREADS_CHANGED_EVENT, bump);
+  }, []);
+
+  const liveThread = useMemo(() => {
+    void proposalUiTick;
+    void threadStoreTick;
+    return getDealThreadById(thread.id) ?? thread;
+  }, [thread, proposalUiTick, threadStoreTick]);
+
+  const chatTabUnread = useMemo(
+    () => threadUnreadChat(liveThread, session.role),
+    [liveThread, session.role]
+  );
+  const proposalTabUnread = useMemo(
+    () => threadUnreadProposal(liveThread, session.role),
+    [liveThread, session.role]
+  );
+
+  useEffect(() => {
+    if (mainTab === 'chat') {
+      markThreadChatCleared(thread.id, session.role);
+    } else {
+      markThreadProposalCleared(thread.id, session.role);
+    }
+  }, [mainTab, thread.id, session.role]);
+
+  useEffect(() => {
+    if (mainTab !== 'chat') return;
     listEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [mainTab, messages]);
 
   const sendMessage = useCallback(
     (body: string) => {
@@ -55,6 +115,7 @@ export default function DealRoomChatPane({
         body: trimmed,
       });
       updateThreadPreview(thread.id, trimmed, Date.now());
+      bumpUnreadChatForPeerOf(thread.id, session.role);
       onAfterSend();
     },
     [onAfterSend, publish, session, thread.id]
@@ -125,58 +186,117 @@ export default function DealRoomChatPane({
             <Box className="deal-room-chat-event">{thread.eventTitle}</Box>
           </Box>
         </Box>
-      </Box>
-
-      <Box className="deal-room-chat-tab" role="heading" aria-level={2}>
-        Chat
-      </Box>
-
-      <Box className="deal-room-messages">
-        {messageBlocks}
-        <Box ref={listEndRef} />
-      </Box>
-
-      <Box className="deal-room-compose">
-        <Box className="deal-room-quick" aria-label="Suggested replies">
-          {QUICK_REPLIES.map((q) => (
-            <Button
-              key={q}
-              type="button"
-              className="deal-room-quick-btn"
-              onClick={() => sendMessage(q)}
-              variant="text"
-              disableElevation
-              disableRipple
-            >
-              {q}
-            </Button>
-          ))}
+        <Box
+          component="span"
+          className={`deal-room-negotiation-badge deal-room-negotiation-badge--${negotiationState}`}
+        >
+          {dealNegotiationStatusLabel(negotiationState)}
         </Box>
-        <Box className="deal-room-input-row">
-          <Box component="label" className="deal-room-input-label" htmlFor="deal-room-message-input">
-            <Box component="span" className="deal-room-sr-only">
-              Message
+      </Box>
+
+      <Box className="deal-room-main-tabs" role="tablist" aria-label="Deal room">
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mainTab === 'chat'}
+          className={`deal-room-main-tab${mainTab === 'chat' ? ' is-active' : ''}`}
+          onClick={() => setMainTab('chat')}
+        >
+          <ChatBubbleOutlinedIcon className="deal-room-main-tab-icon" fontSize="small" aria-hidden />
+          Chat
+          {chatTabUnread > 0 ? (
+            <Box component="span" className="deal-room-main-tab-badge" aria-label={`${chatTabUnread} unread in chat`}>
+              {chatTabUnread > 9 ? '9+' : chatTabUnread}
             </Box>
-            <InputBase
-              id="deal-room-message-input"
-              type="text"
-              className="deal-room-input"
-              placeholder="Type a message..."
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  sendDraft();
-                }
-              }}
-            />
-          </Box>
-          <IconButton type="button" className="deal-room-send" onClick={sendDraft} aria-label="Send message">
-            <SendIcon fontSize="inherit" aria-hidden="true" />
-          </IconButton>
-        </Box>
+          ) : null}
+        </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={mainTab === 'proposal'}
+          className={`deal-room-main-tab${mainTab === 'proposal' ? ' is-active' : ''}`}
+          onClick={() => setMainTab('proposal')}
+        >
+          <SendOutlinedIcon className="deal-room-main-tab-icon" fontSize="small" aria-hidden />
+          Proposal
+          {proposalTabUnread > 0 ? (
+            <Box
+              component="span"
+              className="deal-room-main-tab-badge"
+              aria-label={`${proposalTabUnread} unread in proposals`}
+            >
+              {proposalTabUnread > 9 ? '9+' : proposalTabUnread}
+            </Box>
+          ) : null}
+        </button>
       </Box>
+
+      {mainTab === 'chat' ? (
+        <>
+          <Box className="deal-room-messages">
+            {messageBlocks}
+            <Box ref={listEndRef} />
+          </Box>
+
+          <Box className="deal-room-compose">
+            <Box className="deal-room-quick" aria-label="Suggested replies">
+              {QUICK_REPLIES.map((q) => (
+                <Button
+                  key={q}
+                  type="button"
+                  className="deal-room-quick-btn"
+                  onClick={() => sendMessage(q)}
+                  variant="text"
+                  disableElevation
+                  disableRipple
+                >
+                  {q}
+                </Button>
+              ))}
+            </Box>
+            <Box className="deal-room-input-row">
+              <Box
+                component="label"
+                className="deal-room-input-label"
+                htmlFor="deal-room-message-input"
+              >
+                <Box component="span" className="deal-room-sr-only">
+                  Message
+                </Box>
+                <InputBase
+                  id="deal-room-message-input"
+                  type="text"
+                  className="deal-room-input"
+                  placeholder="Type a message..."
+                  value={draft}
+                  onChange={(e) => setDraft(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      sendDraft();
+                    }
+                  }}
+                />
+              </Box>
+              <IconButton
+                type="button"
+                className="deal-room-send"
+                onClick={sendDraft}
+                aria-label="Send message"
+              >
+                <SendIcon fontSize="inherit" aria-hidden="true" />
+              </IconButton>
+            </Box>
+          </Box>
+        </>
+      ) : (
+        <DealRoomProposalTab
+          session={session}
+          thread={thread}
+          peerName={peerName}
+          onMutate={bumpProposalUi}
+        />
+      )}
     </>
   );
 }

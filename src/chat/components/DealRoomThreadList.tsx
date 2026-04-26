@@ -1,7 +1,11 @@
 import type { MockUserRole } from '@/auth/lib/mockAuth';
 import { Box, Button, Typography } from '@mui/material';
 import { formatRelativeTime, initials } from '@/chat/lib/dealRoomMessageUtils';
-import { peerNameForThread, type MockDealThread } from '@/chat/lib/mockDealThreads';
+import {
+  peerNameForThread,
+  threadUnreadTotal,
+  type MockDealThread,
+} from '@/chat/lib/mockDealThreads';
 
 type DealRoomThreadListProps = {
   threads: MockDealThread[];
@@ -16,8 +20,7 @@ export default function DealRoomThreadList({
   role,
   onSelectThread,
 }: DealRoomThreadListProps) {
-  const unreadForRole = (t: MockDealThread) =>
-    role === 'sponsor' ? t.unreadForSponsor : t.unreadForCreator;
+  const unreadForRole = (t: MockDealThread) => threadUnreadTotal(t, role);
 
   return (
     <Box component="aside" className="deal-room-sidebar">

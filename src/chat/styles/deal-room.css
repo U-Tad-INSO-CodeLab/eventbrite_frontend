@@ -268,14 +268,87 @@
   margin-top: 2px;
 }
 
-.deal-room-chat-tab {
-  padding: 12px 20px 0;
+.deal-room-main-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 20px;
+  border-bottom: 1px solid #ece9f2;
+  flex-shrink: 0;
+}
+
+.deal-room-main-tab {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  font: inherit;
   font-size: 14px;
   font-weight: 700;
-  color: #2f2542;
-  border-bottom: 2px solid #ff6c1c;
-  align-self: flex-start;
-  margin-left: 20px;
+  color: #8b8799;
+  padding: 12px 14px 10px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deal-room-main-tab-icon.MuiSvgIcon-root {
+  font-size: 20px !important;
+  color: currentColor;
+}
+
+.deal-room-main-tab:hover {
+  color: #4b3d66;
+}
+
+.deal-room-main-tab.is-active {
+  color: #ff6c1c;
+  border-bottom-color: #ff6c1c;
+}
+
+.deal-room-main-tab-badge {
+  margin-left: 4px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ef4444;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.deal-room-negotiation-badge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  flex-shrink: 0;
+  line-height: 1.2;
+}
+
+.deal-room-negotiation-badge--not_started {
+  background: #ececf0;
+  color: #6b6578;
+}
+
+.deal-room-negotiation-badge--negotiating {
+  background: #fff3e8;
+  color: #c24d0a;
+}
+
+.deal-room-negotiation-badge--accepted {
+  background: #e8f7ee;
+  color: #1d6b3a;
+}
+
+.deal-room-negotiation-badge--declined {
+  background: #fdeaea;
+  color: #b42318;
 }
 
 .deal-room-messages {
@@ -504,4 +577,655 @@
     flex: 1;
     min-height: 0;
   }
+}
+
+/* —— Proposal tab —— */
+.deal-room-proposal-root {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 24px 20px 28px;
+  background: #faf9fc;
+}
+
+.deal-room-proposal-section {
+  margin-top: 32px;
+}
+
+.deal-room-proposal-root > .deal-room-proposal-section:first-child {
+  margin-top: 0;
+}
+
+.deal-room-proposal-section-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f1630;
+}
+
+.deal-room-proposal-section-title.MuiTypography-root {
+  margin: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #1f1630 !important;
+}
+
+.deal-room-proposal-section-lead {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #6b6578;
+}
+
+.deal-room-proposal-section-lead.MuiTypography-root {
+  margin: 6px 0 0 !important;
+  font-size: 13px !important;
+  color: #6b6578 !important;
+}
+
+.deal-room-proposal-empty {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #8b8799;
+}
+
+.deal-room-proposal-empty.MuiTypography-root {
+  margin: 12px 0 0 !important;
+}
+
+.deal-room-proposal-empty--solo,
+.deal-room-proposal-empty--solo.MuiTypography-root {
+  margin: 0 !important;
+}
+
+.deal-room-proposal-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.deal-room-proposal-card {
+  border: 1px solid #ffd6bf;
+  border-radius: 12px;
+  padding: 14px 16px 16px;
+  background: #fff9f4;
+}
+
+.deal-room-proposal-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.deal-room-proposal-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.deal-room-proposal-card-icon {
+  color: #ff6c1c;
+  font-size: 22px !important;
+  flex-shrink: 0;
+}
+
+.deal-room-proposal-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1f1630;
+}
+
+.deal-room-proposal-card-sender {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ff6c1c;
+  flex-shrink: 0;
+}
+
+.deal-room-proposal-card-sender--you {
+  color: #6b6578;
+}
+
+.deal-room-proposal-card-desc {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 1.45;
+  color: #4b3d66;
+}
+
+.deal-room-proposal-card-desc.MuiTypography-root {
+  margin: 10px 0 0 !important;
+}
+
+.deal-room-proposal-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.deal-room-proposal-status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+.deal-room-proposal-status--pending {
+  background: #fff3e8;
+  color: #c24d0a;
+}
+
+.deal-room-proposal-status--accepted {
+  background: #e8f7ee;
+  color: #1d6b3a;
+}
+
+.deal-room-proposal-status--declined {
+  background: #fdeaea;
+  color: #b42318;
+}
+
+.deal-room-proposal-status--superseded,
+.deal-room-proposal-status--countered {
+  background: #ececf0;
+  color: #6b6578;
+}
+
+.deal-room-proposal-kind {
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b8799;
+}
+
+.deal-room-proposal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.deal-room-proposal-btn-primary.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  background: #ff6c1c !important;
+  color: #fff !important;
+}
+
+.deal-room-proposal-btn-primary.MuiButton-root:hover {
+  background: #e85f15 !important;
+}
+
+.deal-room-proposal-btn-counter.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  border-color: #ff6c1c !important;
+  color: #ff6c1c !important;
+}
+
+.deal-room-proposal-btn-counter.MuiButton-root:hover {
+  border-color: #e85f15 !important;
+  background: rgba(255, 108, 28, 0.06) !important;
+}
+
+.deal-room-proposal-btn-decline.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  border-color: #ded8ec !important;
+  color: #4b3d66 !important;
+}
+
+.deal-room-proposal-btn-cancel.MuiButton-root {
+  min-width: 0 !important;
+  text-transform: none !important;
+  box-shadow: none !important;
+  border-radius: 10px !important;
+  font-weight: 700 !important;
+  border: 1px solid #dadade !important;
+  color: #4b3d66 !important;
+  background: #fff !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+.deal-room-proposal-btn-cancel.MuiButton-root:hover {
+  border-color: #cfc6e0 !important;
+  background: #faf9fc !important;
+}
+
+.deal-room-proposal-waiting {
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: #8b8799;
+}
+
+.deal-room-proposal-waiting.MuiTypography-root {
+  margin: 12px 0 0 !important;
+}
+
+.deal-room-proposal-counter {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #f0c4a8;
+}
+
+.deal-room-proposal-counter-title {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #c24d0a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.deal-room-proposal-counter-title.MuiTypography-root {
+  margin: 0 0 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #c24d0a !important;
+}
+
+.deal-room-proposal-field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #8b8799;
+  margin-bottom: 6px;
+}
+
+.deal-room-proposal-field-label.MuiTypography-root {
+  margin-bottom: 6px !important;
+}
+
+/* Proposal form fields: borders/typography like CreateEventPage; placeholders unified (#8a8a92). */
+.deal-room-proposal-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #dadade;
+  border-radius: 10px;
+  padding: 11px 12px;
+  font: inherit;
+  font-size: 14px;
+  background: #fff;
+  color: #1b1b1f;
+  margin-bottom: 10px;
+}
+
+.deal-room-proposal-input.MuiInputBase-root {
+  width: 100% !important;
+  margin-bottom: 10px !important;
+}
+
+.deal-room-proposal-input:not(.MuiInputBase-multiline) .MuiInputBase-input {
+  padding: 0 !important;
+  line-height: 1.25 !important;
+  font-size: 14px !important;
+  color: #1b1b1f !important;
+}
+
+.deal-room-proposal-input:not(.MuiInputBase-multiline).MuiInputBase-root {
+  display: flex !important;
+  align-items: center !important;
+  min-height: 48px !important;
+}
+
+.deal-room-proposal-input:not(.MuiInputBase-multiline) .MuiInputBase-input::placeholder {
+  color: #8a8a92 !important;
+  opacity: 1 !important;
+}
+
+/* Multiline: border + padding on textarea only (Create Event pattern). */
+.deal-room-proposal-input.MuiInputBase-root.MuiInputBase-multiline {
+  display: block !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.deal-room-proposal-input.MuiInputBase-multiline .MuiInputBase-input,
+.deal-room-proposal-input.MuiInputBase-multiline textarea.MuiInputBase-input {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding: 11px 12px !important;
+  line-height: 1.25 !important;
+  min-height: 88px !important;
+  margin: 0 !important;
+  border: 1px solid #dadade !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  color: #1b1b1f !important;
+  font: inherit !important;
+  font-size: 14px !important;
+  resize: vertical !important;
+}
+
+.deal-room-proposal-input.MuiInputBase-multiline .MuiInputBase-input::placeholder,
+.deal-room-proposal-input.MuiInputBase-multiline textarea.MuiInputBase-input::placeholder {
+  color: #8a8a92 !important;
+  opacity: 1 !important;
+}
+
+.deal-room-proposal-counter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Full-width stacked tier rows (Discover / Deal Room mock style). */
+.deal-room-proposal-tier-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.deal-room-proposal-tier-card {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #e8e4ef;
+  border-radius: 12px;
+  padding: 18px 22px 16px;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(36, 23, 58, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 0;
+}
+
+.deal-room-proposal-tier-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+.deal-room-proposal-tier-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.deal-room-proposal-tier-star {
+  color: #ff6c1c;
+  font-size: 26px !important;
+  flex-shrink: 0;
+}
+
+.deal-room-proposal-tier-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #2f2542;
+  letter-spacing: -0.01em;
+}
+
+.deal-room-proposal-tier-price {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1f1630;
+  flex-shrink: 0;
+  letter-spacing: -0.02em;
+}
+
+.deal-room-proposal-tier-benefits {
+  margin: 14px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid #f0ecf5;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #6b6578;
+  width: 100%;
+}
+
+.deal-room-proposal-tier-benefits.MuiTypography-root {
+  margin: 14px 0 0 !important;
+  padding-top: 14px !important;
+}
+
+.deal-room-proposal-tier-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 14px;
+  padding-top: 4px;
+}
+
+.deal-room-proposal-tier-btn.MuiButton-root {
+  width: auto;
+  min-width: 168px !important;
+  text-transform: none !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  border-color: #e4dcef !important;
+  color: #ff6c1c !important;
+  padding-left: 18px !important;
+  padding-right: 18px !important;
+}
+
+.deal-room-proposal-custom {
+  margin-top: 12px;
+  max-width: 520px;
+}
+
+.deal-room-proposal-custom-send {
+  margin-top: 4px !important;
+}
+
+.deal-room-proposal-input--tier-match.MuiInputBase-root:not(.MuiInputBase-multiline) {
+  border-color: #c4b8dc !important;
+  box-shadow: 0 0 0 3px rgba(124, 107, 181, 0.14);
+}
+
+.deal-room-proposal-tier-match {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  padding: 14px 16px 14px 14px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #f7f5fc 0%, #fffaf7 100%);
+  border: 1px solid #e8e2f2;
+  border-left: 4px solid #7c6bb5;
+  max-width: 520px;
+}
+
+.deal-room-proposal-tier-match-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.deal-room-proposal-tier-match-icon.MuiSvgIcon-root {
+  color: #6b5b9e !important;
+  font-size: 22px !important;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.deal-room-proposal-tier-match-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #2f2542;
+  line-height: 1.35;
+}
+
+.deal-room-proposal-tier-match-title.MuiTypography-root {
+  margin: 0 0 8px !important;
+}
+
+.deal-room-proposal-tier-match-text {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: #4b3d66;
+}
+
+.deal-room-proposal-tier-match-text.MuiTypography-root {
+  margin: 0 0 10px !important;
+}
+
+.deal-room-proposal-tier-match-text:last-child,
+.deal-room-proposal-tier-match-text:last-child.MuiTypography-root {
+  margin-bottom: 0 !important;
+}
+
+.deal-room-proposal-tier-match-strong {
+  font-weight: 700;
+  color: #1f1630;
+}
+
+.deal-room-proposal-tier-match-tip em {
+  font-style: italic;
+  font-weight: 600;
+  color: #3d3358;
+}
+
+/* Accepted deal summary (proposal tab) */
+.deal-room-proposal-accepted-hero {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8f7ee 0%, #f2faf5 50%, #fff 100%);
+  border: 1px solid #c5e8d4;
+  margin-bottom: 20px;
+}
+
+.deal-room-proposal-accepted-hero-icon.MuiSvgIcon-root {
+  font-size: 40px !important;
+  color: #1d6b3a !important;
+  flex-shrink: 0;
+}
+
+.deal-room-proposal-accepted-title {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #134a28;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.deal-room-proposal-accepted-title.MuiTypography-root {
+  margin: 0 0 8px !important;
+}
+
+.deal-room-proposal-accepted-lead {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #2f4a38;
+}
+
+.deal-room-proposal-accepted-lead.MuiTypography-root {
+  margin: 0 !important;
+}
+
+.deal-room-proposal-accepted-event {
+  font-weight: 700;
+  color: #1f1630;
+}
+
+.deal-room-proposal-accepted-card {
+  padding: 18px 20px;
+  border-radius: 12px;
+  border: 1px solid #ece9f2;
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(31, 22, 48, 0.04);
+}
+
+.deal-room-proposal-accepted-card-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.deal-room-proposal-accepted-package {
+  font-size: 17px;
+  font-weight: 800;
+  color: #1f1630;
+  letter-spacing: -0.02em;
+}
+
+.deal-room-proposal-accepted-package.MuiTypography-root {
+  font-size: 17px !important;
+}
+
+.deal-room-proposal-accepted-desc {
+  margin: 0 0 12px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #4b3d66;
+}
+
+.deal-room-proposal-accepted-desc.MuiTypography-root {
+  margin: 0 0 12px !important;
+}
+
+.deal-room-proposal-accepted-meta {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #6b6578;
+}
+
+.deal-room-proposal-accepted-meta.MuiTypography-root {
+  margin: 0 !important;
+}
+
+.deal-room-proposal-accepted-strong {
+  font-weight: 700;
+  color: #2f2542;
+}
+
+.deal-room-proposal-accepted-actions {
+  margin-top: 22px;
+  padding-top: 4px;
+}
+
+.deal-room-proposal-btn-cancel-deal.MuiButton-root {
+  text-transform: none !important;
+  font-weight: 700 !important;
+  border-radius: 10px !important;
+  border-color: #e4d4d4 !important;
+  color: #8b2e2e !important;
+}
+
+.deal-room-proposal-accepted-footnote {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: #8b8799;
+  max-width: 480px;
+}
+
+.deal-room-proposal-accepted-footnote.MuiTypography-root {
+  margin: 12px 0 0 !important;
 }
